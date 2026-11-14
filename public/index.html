@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StudyPrep — Fanlar va Imtihon Testlari Portali</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="apple-touch-icon" href="/logo.png">
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script>
     tailwind.config = { darkMode: 'class' };
@@ -21,7 +23,7 @@
     <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
       <div class="flex items-center gap-3 min-w-0">
         <button id="btn-home" type="button" class="flex items-center gap-2.5 text-left group focus:outline-none">
-          <span class="w-9 h-9 rounded-xl bg-violet-600 text-white flex items-center justify-center font-extrabold text-sm shadow-sm group-hover:bg-violet-700 transition">SP</span>
+          <img src="/logo.png" alt="StudyPrep" class="w-9 h-9 rounded-xl object-cover shadow-sm" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span style="display:none" class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 text-white items-center justify-center font-extrabold text-sm shadow-sm">SP</span>
           <span class="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white truncate">StudyPrep</span>
         </button>
         <button id="btn-back" type="button" class="hidden items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
@@ -521,7 +523,7 @@
     import {
       getAuth, onAuthStateChanged, signInWithEmailAndPassword,
       createUserWithEmailAndPassword, signOut, updateProfile,
-      GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail
+      GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, sendPasswordResetEmail
     } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
     import {
       getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs
@@ -531,7 +533,7 @@
 
     const firebaseConfig = {
       apiKey: "AIzaSyApfhXLHTw2XRm_kBHRxoOO2ppuVcZ_KwI",
-      authDomain: "study-prep-b9f71.firebaseapp.com",
+      authDomain: "study-prep-b9f71.web.app",
       projectId: "study-prep-b9f71",
       storageBucket: "study-prep-b9f71.firebasestorage.app",
       messagingSenderId: "978878439355",
@@ -1620,6 +1622,18 @@
       }
     });
 
+    getRedirectResult(auth).then(async (res) => {
+      if (res?.user) {
+        await setDoc(doc(db, 'users', res.user.uid), { name: res.user.displayName || res.user.email, email: res.user.email, theme: state.theme }, { merge: true });
+        authModal.classList.add('hidden');
+      }
+    }).catch((err) => {
+      if (err?.code) {
+        authErr.textContent = err.message || 'Google orqali kirishda xatolik.';
+        authErr.classList.remove('hidden');
+      }
+    });
+
     document.getElementById('btn-google-signin').addEventListener('click', async () => {
       authErr.classList.add('hidden');
       authErr.className = 'text-xs font-medium text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 rounded-lg px-3 py-2';
@@ -1628,11 +1642,11 @@
         await setDoc(doc(db, 'users', res.user.uid), { name: res.user.displayName || res.user.email, email: res.user.email, theme: state.theme }, { merge: true });
         authModal.classList.add('hidden');
       } catch (err) {
-        if (err.code === 'auth/popup-blocked' || err.code === 'auth/operation-not-supported-in-this-environment' || err.code === 'auth/unauthorized-domain') {
-          authErr.innerHTML = 'Telegram yoki ichki oyna ichida Google orqali kirish brauzer tomonidan bloklanadi. <b>Email + Parol</b> bilan kiring (Google akkauntingizga parol qo‘yish uchun «Parolni tiklash / o‘rnatish» ni bosing) yoki <a href="https://study-prep-b9f71.web.app" target="_blank" rel="noopener noreferrer" class="underline font-bold">tashqi brauzerda oching →</a>';
-        } else {
-          authErr.textContent = err.message || 'Google orqali kirishda xatolik.';
+        if (err.code === 'auth/popup-blocked' || err.code === 'auth/operation-not-supported-in-this-environment') {
+          await signInWithRedirect(auth, googleProvider);
+          return;
         }
+        authErr.textContent = err.message || 'Google orqali kirishda xatolik.';
         authErr.classList.remove('hidden');
       }
     });
