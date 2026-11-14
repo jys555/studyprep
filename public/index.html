@@ -129,10 +129,15 @@
 
     <!-- VIEW 2: TOPICS OF SELECTED SUBJECT -->
     <section id="view-topics" class="hidden fade-in">
-      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 mb-5">
-        <span id="subj-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-2"></span>
-        <h1 id="subj-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white"></h1>
-        <p id="subj-desc" class="text-sm text-slate-600 dark:text-slate-400 mt-1"></p>
+      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 mb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <span id="subj-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-2"></span>
+          <h1 id="subj-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white"></h1>
+          <p id="subj-desc" class="text-sm text-slate-600 dark:text-slate-400 mt-1"></p>
+        </div>
+        <button id="btn-open-mix" type="button" class="hidden shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition">
+          Mavzularni aralashtirish
+        </button>
       </div>
       <div id="topics-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </section>
@@ -407,8 +412,17 @@
           <input id="auth-email" type="email" required placeholder="student@example.com" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Parol (kamida 6 belgi)</label>
-          <input id="auth-password" type="password" required minlength="6" placeholder="••••••" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400">Parol (kamida 6 belgi)</label>
+            <button id="btn-forgot-pass" type="button" class="text-[11px] font-semibold text-violet-600 dark:text-violet-400 hover:underline">Parolni tiklash / o‘rnatish</button>
+          </div>
+          <div class="relative">
+            <input id="auth-password" type="password" required minlength="6" placeholder="••••••" class="w-full pl-3.5 pr-10 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+            <button id="btn-toggle-pass" type="button" aria-label="Parolni ko‘rsatish" class="absolute inset-y-0 right-0 px-3 flex items-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
+              <svg id="eye-open" class="w-4.5 h-4.5 w-5 h-5 block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              <svg id="eye-closed" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
+            </button>
+          </div>
         </div>
         <p id="auth-error" class="hidden text-xs font-medium text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 rounded-lg px-3 py-2"></p>
         <button id="btn-auth-submit" type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
@@ -472,6 +486,25 @@
     </div>
   </div>
 
+  <!-- Mix Topics Modal -->
+  <div id="mix-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-xl fade-in">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Mavzularni aralashtirish</h3>
+        <button id="btn-close-mix" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-3">Aralash imtihon uchun kerakli mavzu raqamlarini tanlang:</p>
+      <div id="mix-topics-list" class="space-y-2 max-h-64 overflow-y-auto mb-4"></div>
+      <div class="flex items-center justify-between text-xs font-semibold text-slate-600 dark:text-slate-400 mb-4 px-1">
+        <span id="mix-summary">0 ta savol · 0 daqiqa</span>
+        <button id="btn-mix-toggle-all" type="button" class="text-violet-600 dark:text-violet-400 hover:underline">Barchasini belgilash</button>
+      </div>
+      <button id="btn-start-mix" type="button" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+        Aralash testni boshlash
+      </button>
+    </div>
+  </div>
+
   <!-- Glossary Modal -->
   <div id="glossary-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-xl">
@@ -488,7 +521,7 @@
     import {
       getAuth, onAuthStateChanged, signInWithEmailAndPassword,
       createUserWithEmailAndPassword, signOut, updateProfile,
-      GoogleAuthProvider, signInWithPopup
+      GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail
     } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
     import {
       getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs
@@ -822,6 +855,9 @@
       return state.subjects.find((s) => s.id === state.activeSubjectId) || state.subjects[0];
     }
     function getActiveTopicMeta() {
+      if (state.activeTopicId && state.activeTopicId.startsWith('mix_') && state.mixMeta) {
+        return state.mixMeta;
+      }
       return state.topicMetas.find((t) => t.id === state.activeTopicId) || state.topicMetas[0];
     }
 
@@ -833,6 +869,9 @@
       document.getElementById('subj-desc').textContent = subj.desc || '';
 
       const subjMetas = state.topicMetas.filter((t) => t.subjectId === subj.id);
+      const mixBtn = document.getElementById('btn-open-mix');
+      if (subjMetas.length >= 2) mixBtn.classList.remove('hidden');
+      else mixBtn.classList.add('hidden');
       const grid = document.getElementById('topics-grid');
       if (subjMetas.length === 0) {
         grid.innerHTML = `<div class="col-span-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 text-center text-sm text-slate-500">Bu fanga hali mavzular qo‘shilmagan.</div>`;
@@ -953,10 +992,10 @@
 
       const container = document.getElementById('questions-list');
       const emptyState = document.getElementById('empty-wrong');
-      const qMap = new Map(qs.map((q) => [q.id, q]));
+      const qMap = new Map(qs.map((q) => [String(q.id), q]));
 
       const visibleIds = state.order.filter((id) => {
-        const q = qMap.get(id);
+        const q = qMap.get(String(id));
         if (!q) return false;
         if (state.activeCat === 'all') return true;
         if (state.activeCat === 'wrong') {
@@ -975,8 +1014,8 @@
 
       const letters = ['A', 'B', 'C', 'D'];
       container.innerHTML = visibleIds.map((id, idx) => {
-        const q = qMap.get(id);
-        const st = prog.answers[id];
+        const q = qMap.get(String(id));
+        const st = prog.answers[String(id)];
         const isAnswered = Boolean(st);
 
         const optsHtml = q.opts.map((optText, oIdx) => {
@@ -1460,10 +1499,10 @@
     document.getElementById('questions-list').addEventListener('click', async (e) => {
       const btn = e.target.closest('.opt-btn');
       if (!btn || btn.disabled) return;
-      const qid = Number(btn.dataset.qid);
+      const qidRaw = btn.dataset.qid; const qid = isNaN(Number(qidRaw)) ? qidRaw : Number(qidRaw);
       const oidx = Number(btn.dataset.oidx);
       const data = state.topicDataCache[state.activeTopicId];
-      const q = (data.questions || []).find((item) => item.id === qid);
+      const q = (data.questions || []).find((item) => String(item.id) === String(qid));
       if (!q) return;
       const prog = getTopicProgress(state.activeTopicId);
       if (prog.answers[qid]) return;
@@ -1553,14 +1592,47 @@
     document.getElementById('tab-register').addEventListener('click', () => setAuthMode('register'));
     document.getElementById('btn-guest-mode').addEventListener('click', () => authModal.classList.add('hidden'));
 
+    document.getElementById('btn-toggle-pass').addEventListener('click', () => {
+      const inp = document.getElementById('auth-password');
+      const isHidden = inp.type === 'password';
+      inp.type = isHidden ? 'text' : 'password';
+      document.getElementById('eye-open').classList.toggle('hidden', isHidden);
+      document.getElementById('eye-closed').classList.toggle('hidden', !isHidden);
+    });
+
+    document.getElementById('btn-forgot-pass').addEventListener('click', async () => {
+      authErr.classList.add('hidden');
+      const email = document.getElementById('auth-email').value.trim();
+      if (!email) {
+        authErr.textContent = 'Avval yuqoridagi maydonga emailingizni kiriting.';
+        authErr.classList.remove('hidden');
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        authErr.className = 'text-xs font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 rounded-lg px-3 py-2';
+        authErr.textContent = `Parol o‘rnatish/tiklash havolasi ${email} pochtasiga yuborildi (Spam papkasini ham tekshiring).`;
+        authErr.classList.remove('hidden');
+      } catch (err) {
+        authErr.className = 'text-xs font-medium text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 rounded-lg px-3 py-2';
+        authErr.textContent = err.message || 'Xatolik yuz berdi.';
+        authErr.classList.remove('hidden');
+      }
+    });
+
     document.getElementById('btn-google-signin').addEventListener('click', async () => {
       authErr.classList.add('hidden');
+      authErr.className = 'text-xs font-medium text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 rounded-lg px-3 py-2';
       try {
         const res = await signInWithPopup(auth, googleProvider);
         await setDoc(doc(db, 'users', res.user.uid), { name: res.user.displayName || res.user.email, email: res.user.email, theme: state.theme }, { merge: true });
         authModal.classList.add('hidden');
       } catch (err) {
-        authErr.textContent = err.message || 'Google orqali kirishda xatolik.';
+        if (err.code === 'auth/popup-blocked' || err.code === 'auth/operation-not-supported-in-this-environment' || err.code === 'auth/unauthorized-domain') {
+          authErr.innerHTML = 'Telegram yoki ichki oyna ichida Google orqali kirish brauzer tomonidan bloklanadi. <b>Email + Parol</b> bilan kiring (Google akkauntingizga parol qo‘yish uchun «Parolni tiklash / o‘rnatish» ni bosing) yoki <a href="https://study-prep-b9f71.web.app" target="_blank" rel="noopener noreferrer" class="underline font-bold">tashqi brauzerda oching →</a>';
+        } else {
+          authErr.textContent = err.message || 'Google orqali kirishda xatolik.';
+        }
         authErr.classList.remove('hidden');
       }
     });
@@ -1627,6 +1699,104 @@
       } catch (err) {}
       document.getElementById('edit-profile-modal').classList.add('hidden');
       updateNavbar();
+    });
+
+    // Mix Topics Modal
+    function updateMixSummary() {
+      const checked = [...document.querySelectorAll('.mix-topic-cb:checked')];
+      const totalQ = checked.reduce((sum, cb) => sum + Number(cb.dataset.qcount || 0), 0);
+      document.getElementById('mix-summary').textContent = `${totalQ} ta savol · ${totalQ * 2} daqiqa`;
+      const startBtn = document.getElementById('btn-start-mix');
+      startBtn.disabled = totalQ === 0;
+      startBtn.classList.toggle('opacity-50', totalQ === 0);
+    }
+
+    document.getElementById('btn-open-mix').addEventListener('click', () => {
+      const subj = getActiveSubject();
+      const subjMetas = state.topicMetas.filter((t) => t.subjectId === subj.id);
+      document.getElementById('mix-topics-list').innerHTML = subjMetas.map((t, idx) => `
+        <label class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-violet-400 transition">
+          <div class="flex items-center gap-3 min-w-0">
+            <input type="checkbox" checked value="${t.id}" data-num="${t.order || idx + 1}" data-qcount="${t.questionCount || 0}" class="mix-topic-cb w-4 h-4 accent-violet-600 rounded">
+            <span class="w-7 h-7 rounded-lg bg-violet-100 dark:bg-violet-950 text-violet-700 dark:text-violet-300 font-extrabold text-xs flex items-center justify-center shrink-0">${t.order || idx + 1}</span>
+            <span class="text-sm font-bold text-slate-900 dark:text-white truncate">${t.title}</span>
+          </div>
+          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 shrink-0">${t.questionCount || 0} savol</span>
+        </label>
+      `).join('');
+      updateMixSummary();
+      document.getElementById('mix-modal').classList.remove('hidden');
+    });
+
+    document.getElementById('mix-topics-list').addEventListener('change', updateMixSummary);
+    document.getElementById('btn-close-mix').addEventListener('click', () => {
+      document.getElementById('mix-modal').classList.add('hidden');
+    });
+    document.getElementById('btn-mix-toggle-all').addEventListener('click', () => {
+      const cbs = [...document.querySelectorAll('.mix-topic-cb')];
+      const allChecked = cbs.every((c) => c.checked);
+      cbs.forEach((c) => { c.checked = !allChecked; });
+      updateMixSummary();
+    });
+
+    document.getElementById('btn-start-mix').addEventListener('click', async () => {
+      const checked = [...document.querySelectorAll('.mix-topic-cb:checked')];
+      if (!checked.length) return;
+      const btn = document.getElementById('btn-start-mix');
+      btn.disabled = true;
+      btn.textContent = 'Savollar yuklanmoqda...';
+      try {
+        const subj = getActiveSubject();
+        const topicIds = checked.map((c) => c.value);
+        const nums = checked.map((c) => c.dataset.num).join(', ');
+        const datas = await Promise.all(topicIds.map((id) => loadTopicData(id)));
+        const combinedQs = [];
+        const combinedGloss = [];
+        const mixCats = [{ id: 'all', label: 'Barchasi' }];
+
+        topicIds.forEach((tid, idx) => {
+          const meta = state.topicMetas.find((m) => m.id === tid);
+          const num = checked[idx].dataset.num;
+          const catId = 't_' + tid;
+          mixCats.push({ id: catId, label: `${num}-mavzu` });
+          (datas[idx].questions || []).forEach((q) => {
+            combinedQs.push({
+              ...q,
+              id: `${tid}__${q.id}`,
+              cat: catId,
+              catLabel: `${num}-mavzu · ${q.catLabel || ''}`
+            });
+          });
+          (datas[idx].glossary || []).forEach((g) => combinedGloss.push(g));
+        });
+
+        for (let i = combinedQs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [combinedQs[i], combinedQs[j]] = [combinedQs[j], combinedQs[i]];
+        }
+
+        const mixId = 'mix_' + subj.id;
+        state.mixMeta = {
+          id: mixId,
+          badge: 'Aralash imtihon',
+          title: `${subj.title} (${nums}-mavzular)`,
+          categories: mixCats,
+          questionCount: combinedQs.length
+        };
+        state.topicDataCache[mixId] = { questions: combinedQs, glossary: combinedGloss };
+        state.progressByTopic[mixId] = { answers: {}, wrongIds: [], bestScore: 0 };
+        state.activeTopicId = mixId;
+        state.activeCat = 'all';
+        state.order = combinedQs.map((q) => q.id);
+        state.view = 'quiz';
+        document.getElementById('mix-modal').classList.add('hidden');
+        renderAll();
+        startTimer(combinedQs.length);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Aralash testni boshlash';
+      }
     });
 
     applyTheme(lsGet('studyprep_theme') || 'light');
