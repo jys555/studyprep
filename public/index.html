@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyHub — Fanlar va Imtihon Testlari Portali</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    .fade-in { animation: fadeIn 0.22s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200">
+  <!-- Top Navbar -->
+  <nav class="sticky top-0 z-30 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <button id="btn-home" type="button" class="flex items-center gap-2.5 text-left group focus:outline-none">
+          <span class="w-9 h-9 rounded-xl bg-violet-600 text-white flex items-center justify-center font-extrabold text-sm shadow-sm group-hover:bg-violet-700 transition">SH</span>
+          <span class="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white truncate">StudyHub</span>
+        </button>
+        <button id="btn-back" type="button" class="hidden items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          <span id="btn-back-label">Orqaga</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2.5 shrink-0">
+        <!-- Demo badge (hidden automatically when Firebase is configured) -->
+        <button id="btn-fb-status" type="button" title="Firebase holati" class="hidden items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition">
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+          <span>Demo rejim</span>
+        </button>
+
+        <!-- Icon-only Night Mode button -->
+        <button id="btn-theme" type="button" aria-label="Tungi va kunduzgi rejim" title="Tungi / Kunduzgi rejim" class="w-9 h-9 rounded-full flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700 transition">
+          <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314L7.05 7.05m9.9 9.9l1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+        </button>
+
+        <!-- Circular Google-style Profile Avatar + Dropdown -->
+        <div id="profile-wrapper" class="hidden relative">
+          <button id="btn-profile-avatar" type="button" aria-label="Profil" class="w-9 h-9 rounded-full bg-violet-600 text-white font-bold text-sm flex items-center justify-center overflow-hidden ring-2 ring-violet-200 dark:ring-violet-800 hover:ring-violet-400 transition focus:outline-none">
+            <img id="profile-img" class="hidden w-full h-full object-cover" alt="Avatar">
+            <span id="profile-initials">U</span>
+          </button>
+          <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-4 z-50 fade-in">
+            <div class="flex items-center gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div class="w-10 h-10 rounded-full bg-violet-600 text-white font-bold text-sm flex items-center justify-center overflow-hidden shrink-0">
+                <img id="menu-img" class="hidden w-full h-full object-cover" alt="Avatar">
+                <span id="menu-initials">U</span>
+              </div>
+              <div class="min-w-0">
+                <div id="menu-name" class="text-sm font-bold text-slate-900 dark:text-white truncate">Talaba</div>
+                <div id="menu-email" class="text-xs text-slate-500 dark:text-slate-400 truncate"></div>
+              </div>
+            </div>
+            <div id="menu-group-row" class="hidden pt-2.5 text-xs text-slate-600 dark:text-slate-400">
+              Guruh: <span id="menu-group" class="font-semibold text-slate-800 dark:text-slate-200"></span>
+            </div>
+            <button id="btn-logout" type="button" class="mt-3 w-full py-2 rounded-xl text-xs font-bold bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition">
+              Akkauntdan chiqish
+            </button>
+          </div>
+        </div>
+
+        <button id="btn-open-auth" type="button" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+          Kirish
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="max-w-5xl mx-auto px-4 py-6 sm:py-8">
+    <!-- VIEW 1: SUBJECTS HOME -->
+    <section id="view-subjects" class="fade-in">
+      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-2">
+              Shaxsiy imtihon portali
+            </span>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">
+              Fanlar katalogi
+            </h1>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+              Kerakli fanni tanlang — ichidagi mavzular va imtihon testlari natijalaringiz bilan saqlanadi.
+            </p>
+          </div>
+          <div class="grid grid-cols-3 gap-2.5 shrink-0 text-center">
+            <div class="px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
+              <div id="hub-stat-subjects" class="text-lg font-extrabold text-slate-900 dark:text-white">1</div>
+              <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Fan</div>
+            </div>
+            <div class="px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
+              <div id="hub-stat-questions" class="text-lg font-extrabold text-slate-900 dark:text-white">64</div>
+              <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Savol</div>
+            </div>
+            <div class="px-3 py-2.5 rounded-xl bg-violet-50 dark:bg-violet-950/50 border border-violet-200 dark:border-violet-800">
+              <div id="hub-stat-mastery" class="text-lg font-extrabold text-violet-700 dark:text-violet-300">0%</div>
+              <div class="text-[11px] font-medium text-violet-600 dark:text-violet-400">O‘zlashtirish</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="subjects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </section>
+
+    <!-- VIEW 2: TOPICS OF SELECTED SUBJECT -->
+    <section id="view-topics" class="hidden fade-in">
+      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 mb-5">
+        <span id="subj-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-2"></span>
+        <h1 id="subj-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white"></h1>
+        <p id="subj-desc" class="text-sm text-slate-600 dark:text-slate-400 mt-1"></p>
+      </div>
+      <div id="topics-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </section>
+
+    <!-- VIEW 3: QUIZ RUNNER WITH TIMER -->
+    <section id="view-quiz" class="hidden fade-in">
+      <header class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 mb-5 transition-colors">
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <div>
+            <span id="quiz-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-2"></span>
+            <h1 id="quiz-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-tight"></h1>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+              Har bir savol uchun 2 daqiqa ajratilgan. Javobni belgilashingiz bilan izoh ochiladi va natija saqlanadi.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <!-- Countdown Timer -->
+            <div id="timer-box" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 tabular-nums">
+              <svg class="w-4 h-4 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span id="timer-display">64:00</span>
+            </div>
+            <button id="btn-glossary" type="button" class="px-3.5 py-2 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition">
+              Tezkor konspekt
+            </button>
+            <button id="btn-reset" type="button" class="px-3.5 py-2 rounded-xl text-sm font-semibold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+              Qayta boshlash
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div class="flex flex-wrap items-center justify-between gap-3 text-sm mb-2">
+            <div class="flex items-center gap-4">
+              <span class="font-semibold text-slate-700 dark:text-slate-300">Yechilgan: <span id="stat-answered" class="text-slate-900 dark:text-white">0</span> / <span id="stat-total">0</span></span>
+              <span class="font-semibold text-emerald-700 dark:text-emerald-400">To‘g‘ri: <span id="stat-correct">0</span></span>
+              <span class="font-semibold text-rose-600 dark:text-rose-400">Xato: <span id="stat-wrong">0</span></span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="sync-status" class="text-xs text-slate-400 dark:text-slate-500"></span>
+              <span id="stat-pct" class="font-bold text-violet-700 dark:text-violet-400">0% natija</span>
+            </div>
+          </div>
+          <div class="w-full h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+            <div id="progress-bar" class="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-2">
+          <div id="filter-tabs" class="flex flex-wrap gap-1.5"></div>
+          <button id="btn-shuffle" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition">
+            Savollarni aralashtirish
+          </button>
+        </div>
+      </header>
+
+      <main id="questions-list" class="space-y-4"></main>
+
+      <div id="empty-wrong" class="hidden bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 text-center">
+        <p class="text-base font-bold text-slate-800 dark:text-slate-200">Hozircha xato javoblar yo‘q!</p>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Barcha savollar ro‘yxatiga qaytib testni davom ettirishingiz mumkin.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Time Up Modal -->
+  <div id="timeup-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl text-center fade-in">
+      <div class="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto mb-3">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Ajratilgan vaqt tugadi!</h3>
+      <p id="timeup-summary" class="text-sm text-slate-600 dark:text-slate-400 mt-2"></p>
+      <div class="mt-5 flex gap-2">
+        <button id="btn-timeup-close" type="button" class="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition">Natijani ko‘rish</button>
+        <button id="btn-timeup-retry" type="button" class="flex-1 py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition">Qayta boshlash</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal (Google + Email/Password) -->
+  <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="auth-modal-title" class="text-lg font-extrabold text-slate-900 dark:text-white">Akkauntga kirish</h3>
+        <button id="btn-close-auth" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
+      </div>
+
+      <!-- Google Sign-In Button -->
+      <button id="btn-google-signin" type="button" class="w-full py-2.5 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-sm font-semibold text-slate-800 dark:text-slate-100 flex items-center justify-center gap-2.5 transition shadow-sm mb-4">
+        <svg class="w-4.5 h-4.5 w-5 h-5" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.99-3.14z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.99 3.14c.95-2.85 3.6-4.96 6.72-4.96z"/>
+        </svg>
+        Google orqali kirish
+      </button>
+
+      <div class="relative flex py-2 items-center mb-3">
+        <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+        <span class="flex-shrink mx-3 text-xs text-slate-400">yoki email bilan</span>
+        <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+      </div>
+
+      <div class="flex gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl mb-4">
+        <button id="tab-login" type="button" class="flex-1 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm">Kirish</button>
+        <button id="tab-register" type="button" class="flex-1 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400">Ro‘yxatdan o‘tish</button>
+      </div>
+
+      <form id="auth-form" class="space-y-3">
+        <div id="register-fields" class="hidden space-y-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Ism va familiya</label>
+            <input id="auth-name" type="text" placeholder="Masalan: Yashnarbek Jumanov" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Guruh</label>
+            <input id="auth-group" type="text" placeholder="Masalan: KI-26" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Email</label>
+          <input id="auth-email" type="email" required placeholder="student@example.com" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Parol (kamida 6 belgi)</label>
+          <input id="auth-password" type="password" required minlength="6" placeholder="••••••" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+        </div>
+        <p id="auth-error" class="hidden text-xs font-medium text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 rounded-lg px-3 py-2"></p>
+        <button id="btn-auth-submit" type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+          Kirish
+        </button>
+      </form>
+
+      <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
+        <button id="btn-guest-mode" type="button" class="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+          Mehmon sifatida davom etish
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Glossary Modal -->
+  <div id="glossary-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-xl">
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <h2 id="glossary-title" class="text-lg font-extrabold text-slate-900 dark:text-white">Tezkor konspekt</h2>
+        <button id="btn-close-glossary" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
+      </div>
+      <div id="glossary-body" class="p-6 overflow-y-auto space-y-3 text-sm"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js';
+    import {
+      getAuth, onAuthStateChanged, signInWithEmailAndPassword,
+      createUserWithEmailAndPassword, signOut, updateProfile,
+      GoogleAuthProvider, signInWithPopup
+    } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
+    import {
+      getFirestore, doc, getDoc, setDoc, collection, getDocs
+    } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js';
+
+    // =========================================================================
+    // 1. FIREBASE SOZLAMALARI
+    // =========================================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyApfhXLHTw2XRm_kBHRxoOO2ppuVcZ_KwI",
+      authDomain: "study-prep-b9f71.firebaseapp.com",
+      projectId: "study-prep-b9f71",
+      storageBucket: "study-prep-b9f71.firebasestorage.app",
+      messagingSenderId: "978878439355",
+      appId: "1:978878439355:web:34cece534be031017c2e9e",
+      measurementId: "G-ZFQPV8PNRQ"
+    };
+
+    const isFirebaseConfigured = Boolean(
+      firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('YOUR_')
+    );
+
+    let auth = null;
+    let db = null;
+    let googleProvider = null;
+    if (isFirebaseConfigured) {
+      const app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      googleProvider = new GoogleAuthProvider();
+    }
+
+    // =========================================================================
+    // 2. FANLAR VA MAVZULAR KATALOGI
+    // =========================================================================
+    const Q_MAVZU_1 = [
+      // ==================== 1. ONA PLATA (8) ====================
+      {
+        id: 1,
+        cat: 'mobo',
+        catLabel: 'Ona plata',
+        q: 'Ona plata (Motherboard) kompyuterda qanday asosiy vazifani bajaradi?',
+        opts: [
+          'Barcha komponentlarni elektr va ma’lumot liniyalari orqali o‘zaro bog‘laydi hamda qaysi CPU, RAM va disk mos kelishini belgilaydi',
+          'Faqat operatsion tizim fayllarini doimiy saqlaydi',
+          'O‘zgaruvchan 220 V tokni to‘g‘ridan-to‘g‘ri 12 V ga aylantiradi',
+          'Faqat monitor va klaviaturani quvvat bilan ta’minlaydi'
+        ],
+        ans: 0,
+        exp: 'Ona plata kompyuterning «skeleti va asab tizimi» (shahar yo‘llari) bo‘lib, barcha qismlarni izlar/shinalar orqali ulaydi va komponentlar mosligini (soket, DDR avlodi, slotlar) belgilaydi.'
+      },
+      {
+        id: 2,
+        cat: 'mobo',
+        catLabel: 'Ona plata',
+        q: 'Ona platadagi qaysi quvvat ulagichi ulanmasa, kompyuter umuman yonmaydi (protsessorga alohida 12 V liniya kelmaydi)?',
+        opts: [
+          '8-pin EPS (CPU quvvati)',
+          'SATA ma’lumot porti',
+          'Front panel LED ulagichi',
+          'PCIe x1 sloti'
+        ],
+        ans: 0,
+        exp: '24-pin ATX plataga asosiy quvvatni (3,3 V, 5 V, 12 V) bersa, 8-pin EPS (CPU_PWR) protsessor uchun alohida 12 V liniyani ta’minlaydi — u ulanmasa kompyuter yonmaydi.'
+      },
+      {
+        id: 3,
+        cat: 'mobo',
+        catLabel: 'Ona plata',
+        q: 'Kompyuter har safar o‘chib-yonganda tizim soati orqaga qaytib qolsa va BIOS sozlamalari tiklanib (reset) ketsa, qaysi elementni almashtirish kerak?',
+        opts: [
+          'CMOS batareyasi (CR2032)',
+          'Chipset (PCH) radiatori',
+          'VRM drossellari',
+          'M.2 NVMe SSD'
+        ],
+        ans: 0,
+        exp: 'CMOS batareyasi (CR2032) kompyuter tokdan uzilganda ham BIOS/UEFI sozlamalari va tizim soatini saqlab turadi. U tugaganda soat va sozlamalar tiklanib ketadi.'
+      },
+      {
+        id: 4,
+        cat: 'mobo',
+        catLabel: 'Ona plata',
+        q: 'ATX (30,5 × 24,4 sm) va Mini-ITX (17 × 17 sm) form-faktorlarini yuzasi bo‘yicha taqqoslang:',
+        opts: [
+          'ATX yuzasi (~744 sm²) Mini-ITX yuzasidan (289 sm²) taxminan 2,6 marta katta',
+          'Mini-ITX ATX dan 2 marta katta',
+          'Ikkalasining yuzasi bir xil, faqat qalinligi farq qiladi',
+          'Micro-ATX (24,4 × 24,4 sm) ATX dan kattaroq'
+        ],
+        ans: 0,
+        exp: 'Geometriya formulasiga ko‘ra S = a × b: ATX = 30,5 × 24,4 ≈ 744 sm², Mini-ITX = 17 × 17 = 289 sm². 744 / 289 ≈ 2,6 marta katta. E-ATX esa 30,5 × 33 sm bilan eng kattasi.'
+      },
+      {
+        id: 5,
+        cat: 'mobo',
+        catLabel: 'Ona plata',
+        q: 'LGA va PGA soket turlari orasidagi asosiy jismoniy farq nimada?',
+        opts: [
+          'LGA da prujinali ignalar ona plata soketida bo‘ladi, PGA da esa oyoqchalar protsessorning o‘zida bo‘ladi',
+          'LGA faqat noutbuklarda, PGA faqat serverlarda ishlatiladi',
+          'PGA da protsessor yopishtirib qo‘yiladi, LGA da esa payvandlanadi',
+          'LGA faqat AMD ga, PGA faqat Intel ga tegishli'
+        ],
+        ans: 0,
+        exp: 'Intel (LGA1700, LGA1851) va AMD AM5 (LGA1718) soketlarida nozik ignalar ona platada joylashadi. AMD AM4 esa PGA bo‘lib, oyoqchalar protsessorning ostida joylashgan.'
+      },
+      {
+        id: 6,
+        cat: 'mobo',
+        catLabel: 'Ona plata',
+        q: 'Quyidagi qurilmalardan qaysi biri ona platada Chipset (PCH) orqali emas, balki ko‘pincha bevosita protsessorga (CPU) ulanadi?',
+        opts: [
+          'RAM, asosiy videokarta (PCIe x16) va asosiy M.2 NVMe SSD',
+          'USB portlar, SATA disklar va audio kodek',
+          'LAN (RJ-45) va PCIe x1 kengaytirish kartalari',
+          'Front panel tugmalari va PS/2 porti'
+        ],
+        ans: 0,
+        exp: 'CPU eng tezkor qismlarni (RAM, GPU x16, asosiy M.2 NVMe) o‘zi boshqaradi. Chipset (PCH) esa USB, SATA, LAN, audio va qo‘shimcha PCIe x1 liniyalarini boshqarib, CPU ga DMI link orqali ulaydi.'
+      },
+      {
+        id: 7,
+        cat: 'mobo',
+        catLabel: 'Ona plata',
+        q: 'Agar protsessor 125 W quvvat iste’mol qilsa va VRM unga 1,25 V kuchlanish bersa, VRM dan qancha tok kuchi o‘tadi (P = U × I) va nega VRM qiziydi?',
+        opts: [
+          'I = 125 / 1,25 = 100 A; past kuchlanishda juda katta tok oqqani uchun VRM qiziydi va ko‘p faza + radiator kerak bo‘ladi',
+          'I = 125 × 1,25 = 156 A; kuchlanish yuqori bo‘lgani uchun qiziydi',
+          'I = 125 / 12 = 10,4 A; VRM umuman qizimaydi',
+          'I = 1,25 / 125 = 0,01 A; tok juda kichik'
+        ],
+        ans: 0,
+        exp: 'P = U × I formulasidan I = P / U = 125 W / 1,25 V = 100 A chiqadi (uydagi choynak ~9 A oladi). VRM da fazalar (MOSFET + drossel) qancha ko‘p bo‘lsa, yuk taqsimlanadi, qizish kamayadi va throttling oldi olinadi.'
+      },
+      {
+        id: 8,
+        cat: 'mobo',
+        catLabel: 'Ona plata',
+        q: 'PCIe interfeysi haqida qaysi fikr to‘g‘ri?',
+        opts: [
+          'Ketma-ket, nuqtadan-nuqtaga ulanish; har yangi avlod (3.0 → 4.0 → 5.0) 1 liniya tezligini ~2 marta oshiradi (1 → 2 → 4 GB/s)',
+          'Parallel interfeys bo‘lib, barcha qurilmalar bitta umumiy tezlikni bo‘lishadi',
+          'Videokarta odatda PCIe x1 slotiga, tarmoq kartasi esa x16 ga o‘rnatiladi',
+          'M.2 NVMe SSD SATA dan sekinroq ishlaydi'
+        ],
+        ans: 0,
+        exp: 'PCIe — ketma-ket (serial) magistral. Videokarta x16, NVMe SSD x4 liniyadan foydalanadi. 1 ta liniya tezligi: PCIe 3.0 ≈ 1 GB/s, PCIe 4.0 ≈ 2 GB/s, PCIe 5.0 ≈ 4 GB/s.'
+      },
+
+      // ==================== 2. PROTSESSOR CPU (8) ====================
+      {
+        id: 9,
+        cat: 'cpu',
+        catLabel: 'Protsessor (CPU)',
+        q: 'Protsessorning ko‘rsatma sikli (Instruction Cycle) qaysi to‘g‘ri ketma-ketlikda bajariladi?',
+        opts: [
+          'Fetch (olib kelish) → Decode (tushunish) → Execute (bajarish) → Store (saqlash)',
+          'Execute → Fetch → Store → Decode',
+          'Decode → Store → Fetch → Execute',
+          'Store → Execute → Decode → Fetch'
+        ],
+        ans: 0,
+        exp: 'CPU avval RAM dan buyruqni oladi (Fetch), uni tahlil qiladi (Decode), ALU da hisoblaydi (Execute) va natijani registr yoki xotiraga yozadi (Store).'
+      },
+      {
+        id: 10,
+        cat: 'cpu',
+        catLabel: 'Protsessor (CPU)',
+        q: 'Zamonaviy protsessor kristali ichidagi IMC (Integrated Memory Controller) blokining vazifasi nima?',
+        opts: [
+          'Tezkor xotira (RAM) bilan to‘g‘ridan-to‘g‘ri ishlaydi, shu bois RAM chastotasi va kanallar soni CPU ga bog‘liq',
+          'Monitorga videokartasiz tasvir uzatadi',
+          'Ventilyator tezligini PWM orqali boshqaradi',
+          'BIOS/UEFI sozlamalarini saqlaydi'
+        ],
+        ans: 0,
+        exp: 'IMC — o‘rnatilgan xotira kontrolleri. iGPU — o‘rnatilgan grafika (Intel UHD/Iris, AMD Radeon), L3 esa yadrolar o‘rtasidagi umumiy keshdir.'
+      },
+      {
+        id: 11,
+        cat: 'cpu',
+        catLabel: 'Protsessor (CPU)',
+        q: '6 yadroli protsessorda Hyper-Threading / SMT yoqilgan bo‘lsa, Windows nechta mantiqiy protsessorni ko‘rsatadi va SMT unumdorlikni qanchaga oshiradi?',
+        opts: [
+          '12 ta mantiqiy protsessor; o‘rtacha +15–30% qo‘shimcha unumdorlik beradi',
+          '6 ta mantiqiy protsessor; unumdorlikni oshirmaydi',
+          '24 ta mantiqiy protsessor; unumdorlikni 4 barobar oshiradi',
+          '3 ta mantiqiy protsessor; faqat energiyani tejaydi'
+        ],
+        ans: 0,
+        exp: 'SMT (Hyper-Threading) bilan 1 ta jismoniy yadro 2 ta oqimni navbatma-navbat bajaradi (6 × 2 = 12). Bu 2 ta mustaqil yadrodek 100% emas, balki bo‘sh vaqtni to‘ldirish hisobiga +15–30% tezlashuv beradi.'
+      },
+      {
+        id: 12,
+        cat: 'cpu',
+        catLabel: 'Protsessor (CPU)',
+        q: 'Xotira ierarxiyasida tezlik bo‘yicha (eng tezidan eng sekiniga qarab) to‘g‘ri tartib qaysi?',
+        opts: [
+          'Registr → L1 kesh → L2 kesh → L3 kesh → RAM → NVMe SSD → HDD',
+          'L1 kesh → Registr → RAM → L3 kesh → NVMe SSD → HDD',
+          'RAM → L1 kesh → L2 kesh → L3 kesh → HDD → NVMe SSD',
+          'Registr → L3 kesh → L2 kesh → L1 kesh → RAM → NVMe SSD'
+        ],
+        ans: 0,
+        exp: 'Tezlik va kechikish: Registr (~0,2 ns) → L1 (~1 ns, 32–80 KB/yadro) → L2 (~4 ns, 1–3 MB/yadro) → L3 (~12 ns, 8–96 MB umumiy) → RAM (~70 ns) → NVMe SSD (~50 000 ns) → HDD (~5 000 000 ns).'
+      },
+      {
+        id: 13,
+        cat: 'cpu',
+        catLabel: 'Protsessor (CPU)',
+        q: 'Protsessor A: IPC = 4, chastota = 4,0 GHz. Protsessor B: IPC = 6, chastota = 3,5 GHz (yadrolar soni teng). Qaysi biri tezroq va 4,0 GHz da bitta takt qancha vaqt davom etadi?',
+        opts: [
+          'Protsessor B tezroq (21 mlrd vs 16 mlrd buyruq/s); 4 GHz da 1 takt = 0,25 ns',
+          'Protsessor A tezroq, chunki GHz balandroq; 1 takt = 4 ns',
+          'Ikkalasi teng; 1 takt = 1 ms',
+          'Protsessor B tezroq; 1 takt = 2,5 ns'
+        ],
+        ans: 0,
+        exp: 'Unumdorlik ≈ IPC × Chastota × Yadrolar: A = 4 × 4 = 16; B = 6 × 3,5 = 21. 4 GHz = 4·10⁹ takt/s bo‘lgani uchun 1 takt = 1 / (4·10⁹) = 0,25 ns (yorug‘lik shu vaqtda 7,5 sm yuradi).'
+      },
+      {
+        id: 14,
+        cat: 'cpu',
+        catLabel: 'Protsessor (CPU)',
+        q: 'TDP (Thermal Design Power) nimani bildiradi va sovutgich TDP dan kuchsiz bo‘lsa nima yuz beradi?',
+        opts: [
+          'Sovitish tizimi chiqarib yuborishi kerak bo‘lgan issiqlik quvvati (vatt); kuchsiz bo‘lsa harorat oshib, throttling (chastota pasayishi) boshlanadi',
+          'Protsessorning maksimal saqlash hajmi (GB); kuchsiz bo‘lsa disk to‘ladi',
+          'RAM ning o‘tkazuvchanlik tezligi; kuchsiz bo‘lsa kadr tushadi',
+          'Tarmoq kartasining tezligi; kuchsiz bo‘lsa Wi-Fi uziladi'
+        ],
+        ans: 0,
+        exp: 'TDP (masalan: noutbuk U — 15 W, ofis PC — 65 W, geymer PC — 125 W, server — 280 W) — sovutgich tarqatishi lozim bo‘lgan issiqlik. Sovutgich yetmasa, CPU o‘zini himoyalash uchun chastotasini tushiradi (throttling).'
+      },
+      {
+        id: 15,
+        cat: 'cpu',
+        catLabel: 'Protsessor (CPU)',
+        q: 'Foydalanuvchi «VirtualBox / VMware ishlamayapti, 64-bitli VM ochilmayapti» deb murojaat qilsa, Help Desk mutaxassisi birinchi navbatda nimani tekshiradi?',
+        opts: [
+          'BIOS/UEFI da apparat virtualizatsiyasi (Intel VT-x yoki AMD-V / SVM) yoqilganligini',
+          'Monitor kabeli HDMI ga ulanganligini',
+          'Printer drayveri o‘rnatilganligini',
+          'Fan 3-pin DC ekanligini'
+        ],
+        ans: 0,
+        exp: 'Gipervizorlar (Hyper-V, VMware, VirtualBox, KVM) bir nechta mustaqil VM ishlatishi uchun BIOS/UEFI da Intel VT-x yoki AMD-V (SVM) yoqilgan bo‘lishi shart.'
+      },
+      {
+        id: 16,
+        cat: 'cpu',
+        catLabel: 'Protsessor (CPU)',
+        q: 'Linux tizimida protsessor yadrolari, oqimlari va virtualizatsiya (VT-x / AMD-V) bor-yo‘qligini tekshirish uchun qaysi buyruq ishlatiladi?',
+        opts: [
+          'lscpu',
+          'free -h',
+          'ping 127.0.0.1',
+          'mkdir /cpu'
+        ],
+        ans: 0,
+        exp: 'Linux da «lscpu» modeli, CPU(s) soni va Virtualization (VT-x / AMD-V) ni ko‘rsatadi. Windows PowerShell da esa «Get-CimInstance Win32_Processor» ishlatiladi.'
+      },
+
+      // ==================== 3. TEZKOR XOTIRA RAM (8) ====================
+      {
+        id: 17,
+        cat: 'ram',
+        catLabel: 'Tezkor xotira (RAM)',
+        q: 'RAM «energiyaga bog‘liq (volatile)» xotira deyilishining sababi nima va RAM to‘lib qolsa Windows qanday yo‘l tutadi?',
+        opts: [
+          'Tok o‘chsa RAM dagi ma’lumotlar yo‘qoladi; RAM yetmasa Windows diskdagi pagefile (virtual xotira) dan foydalanadi va kompyuter sekinlashadi',
+          'Tok o‘chsa ham ma’lumotlar saqlanadi; RAM to‘lsa kompyuter tezlashadi',
+          'Faqat video fayllarni saqlaydi; yetmasa monitor o‘chadi',
+          'Tok o‘chsa BIOS chiqib ketadi; yetmasa fan to‘xtaydi'
+        ],
+        ans: 0,
+        exp: 'RAM — kompyuterning «ish stoli»: tezkor, lekin tok o‘chganda tozalanadi. RAM yetishmasa tizim sekin diskni (Windows da pagefile, Linux da Swap) ishlatishga majbur bo‘ladi.'
+      },
+      {
+        id: 18,
+        cat: 'ram',
+        catLabel: 'Tezkor xotira (RAM)',
+        q: 'RAM modulidagi SPD chipining vazifasi nima?',
+        opts: [
+          'Modulning «pasporti» — hajmi, chastotasi, tayminglari va XMP/EXPO profillarini saqlaydi, BIOS shu yerdan o‘qiydi',
+          'Issiqlikni korpusdan tashqariga chiqaradi',
+          'Kuchlanishni 220 V dan 12 V ga tushiradi',
+          'Operatsion tizimni yuklaydi'
+        ],
+        ans: 0,
+        exp: 'SPD (Serial Presence Detect) chipi modul parametrlarini saqlaydi. DRAM mikrosxemalari esa ma’lumot saqlovchi yacheykalardan (kondensator + tranzistor) iborat.'
+      },
+      {
+        id: 19,
+        cat: 'ram',
+        catLabel: 'Tezkor xotira (RAM)',
+        q: 'DDR3, DDR4 va DDR5 xotira modullari haqida qaysi javob to‘g‘ri?',
+        opts: [
+          'O‘zaro mos emas (kalit kesik/notch joyi va kuchlanishi har xil: DDR3 1,5 V, DDR4 1,2 V, DDR5 1,1 V); DDR5 da PMIC modulning o‘zida va on-die ECC bor',
+          'DDR4 slotiga DDR5 modulini o‘rnatish mumkin, faqat tezligi pasayadi',
+          'SO-DIMM — serverlar uchun mo‘ljallangan 288 pinli eng katta modul',
+          'DDR5 kuchlanishi DDR3 dan yuqori (1,8 V)'
+        ],
+        ans: 0,
+        exp: 'DDR3 (1,5 V, 240 pin), DDR4 (1,2 V, 288 pin) va DDR5 (1,1 V, 288 pin, 2×32-bit subkanal, PMIC modulda) o‘zaro mos kelmaydi. Noutbuklar uchun kichik modul — SO-DIMM (204/260/262 pin).'
+      },
+      {
+        id: 20,
+        cat: 'ram',
+        catLabel: 'Tezkor xotira (RAM)',
+        q: 'DDR4-3200 CL16 va DDR5-6000 CL30 modullarining haqiqiy kechikishi (nanosekundda) qancha? (Formula: CL × 2000 / MT/s)',
+        opts: [
+          'Ikkalasining ham haqiqiy kechikishi bir xil — 10 ns, lekin DDR5 o‘tkazuvchanligi deyarli 2 barobar yuqori',
+          'DDR4-3200 CL16 (10 ns) DDR5-6000 CL30 (20 ns) dan 2 marta tez',
+          'DDR5-6000 CL30 kechikishi 5 ns',
+          'CL katta bo‘lgani uchun DDR5 har doim sekin ishlaydi'
+        ],
+        ans: 0,
+        exp: 'DDR4-3200 CL16 → 16 × 2000 / 3200 = 10 ns. DDR5-6000 CL30 → 30 × 2000 / 6000 = 10 ns. Demak, CL soni kattaligi chastota ham oshganda kechikish yomonlashganini bildirmaydi!'
+      },
+      {
+        id: 21,
+        cat: 'ram',
+        catLabel: 'Tezkor xotira (RAM)',
+        q: '4 ta RAM sloti (A1, A2, B1, B2) bo‘lgan ona platada 2 ta bir xil modulni Dual Channel (128 bit) rejimida ishlatish uchun odatda qaysi slotlarga o‘rnatiladi?',
+        opts: [
+          'A2 va B2 slotlariga (o‘tkazuvchanlik 2 barobar oshadi)',
+          'A1 va A2 slotlariga (ketma-ket yonma-yon)',
+          'Faqat bitta A1 slotiga ikkalasini navbat bilan',
+          'Qaysi slotga qo‘yilishining farqi yo‘q'
+        ],
+        ans: 0,
+        exp: 'Single channel 64 bit yo‘l (DDR4-3200 da 25,6 GB/s) bersa, Dual channel 128 bit yo‘l (51,2 GB/s) beradi. Ko‘pchilik ona platalarda Dual Channel uchun A2 + B2 slotlari tavsiya etiladi.'
+      },
+      {
+        id: 22,
+        cat: 'ram',
+        catLabel: 'Tezkor xotira (RAM)',
+        q: 'Serverlarda ishlatiladigan ECC (Error Correcting Code) xotira oddiy RAM dan nimasi bilan farq qiladi?',
+        opts: [
+          'Har 64 bit ma’lumotga 8 bit nazorat (jami 72 bit) qo‘shib, 1 bitli xatolarni avtomatik tuzatadi va 2 bitli xatolarni aniqlaydi',
+          'Faqat RGB yorug‘likka ega va o‘yinlarda FPS ni oshiradi',
+          'Tok o‘chganda ham ma’lumotlarni saqlab qoladi',
+          'Har qanday ona plata va uy protsessorida qo‘shimcha sozlashsiz ishlaydi'
+        ],
+        ans: 0,
+        exp: 'ECC xotira kosmik nur yoki elektr shovqini tufayli yuzaga keladigan bit xatolarini (BSOD/fayl buzilishini) oldini oladi. Uni ham CPU, ham ona plata qo‘llab-quvvatlashi shart.'
+      },
+      {
+        id: 23,
+        cat: 'ram',
+        catLabel: 'Tezkor xotira (RAM)',
+        q: 'Linux tizimida «free -h» buyrug‘i bajarilganda Swap xotira faol ishlatilayotgani ko‘rinsa, bu nimadan dalolat beradi?',
+        opts: [
+          'Operativ xotira (RAM) yetishmayapti va tizim diskdan qo‘shimcha joy sifatida foydalanmoqda',
+          'Protsessor qizib ketgan va throttling boshlangan',
+          'CMOS batareyasi tugagan',
+          'Dual channel rejimi muvaffaqiyatli yoqilgan'
+        ],
+        ans: 0,
+        exp: '«free -h» buyrug‘i jami, band va bo‘sh RAM hamda Swap hajmini ko‘rsatadi. Swap faol ishlatilsa, RAM yetmayapti (Windows dagi pagefile kabi).'
+      },
+      {
+        id: 24,
+        cat: 'ram',
+        catLabel: 'Tezkor xotira (RAM)',
+        q: 'Windows PowerShell da o‘rnatilgan RAM modullari qaysi slotlarda (DeviceLocator), hajmi va tezligini ko‘rish uchun qaysi buyruq qo‘llaniladi?',
+        opts: [
+          'Get-CimInstance Win32_PhysicalMemory | select DeviceLocator,Capacity,Speed',
+          'Get-CimInstance Win32_Processor | select Name',
+          'ipconfig /all',
+          'chkdsk C: /f'
+        ],
+        ans: 0,
+        exp: 'Win32_PhysicalMemory klassi orqali modullar DIMM_A2 va DIMM_B2 slotlarida turganini, ularning baytdagi hajmini (8589934592 = 8 GB) va tezligini (3200 MT/s) tekshirish mumkin.'
+      },
+
+      // ==================== 4. SOVITISH VA HELP DESK (8) ====================
+      {
+        id: 25,
+        cat: 'cool',
+        catLabel: 'Sovitish va Help Desk',
+        q: 'Havo bilan sovitishda termopasta (Thermal paste) nima uchun surtiladi?',
+        opts: [
+          'Protsessor qopqog‘i va sovutgich asosi orasidagi mikroskopik havo bo‘shliqlarini to‘ldirib, issiqlik o‘tkazuvchanlikni oshirish uchun',
+          'Protsessorni ona plataga mahkam yopishtirib qo‘yish uchun',
+          'Elektr tokini yaxshiroq o‘tkazish uchun',
+          'Ventilyator shovqinini kamaytirish uchun podshipnikka surtiladi'
+        ],
+        ans: 0,
+        exp: 'Havo issiqlikni yomon o‘tkazadi. Termopasta mikro-bo‘shliqlarni to‘ldirib, issiqlikni CPU → mis asos → issiqlik quvurlari (heatpipe) → radiator plastinkalari → fan zanjiri bo‘ylab tez uzatadi.'
+      },
+      {
+        id: 26,
+        cat: 'cool',
+        catLabel: 'Sovitish va Help Desk',
+        q: 'Suyuqlik bilan sovitish tizimining (AIO) havo kuleriga nisbatan asosiy kamchiliklari qaysilar?',
+        opts: [
+          'Narxi qimmatroq, nasos (pompa) buzilishi yoki suyuqlik oqishi xavfi mavjud',
+          'Umuman issiqlikni chiqara olmaydi va faqat 15 W noutbuklarga qo‘yiladi',
+          'Termopasta ishlatib bo‘lmaydi',
+          'Faqat bitta RAM slotini qoldiradi'
+        ],
+        ans: 0,
+        exp: 'AIO kuchli CPU larni jim va samarali sovutadi, lekin havo kuleriga qaraganda qimmatroq, mexanik nasos eskirishi va kamdan-kam hollarda oqish (leak) xavfi bor.'
+      },
+      {
+        id: 27,
+        cat: 'cool',
+        catLabel: 'Sovitish va Help Desk',
+        q: 'Korpus ichida to‘g‘ri havo oqimi (airflow) va «musbat bosim» qanday tashkil qilinadi?',
+        opts: [
+          'Sovuq havo old va pastdan kiradi, issiq havo orqa va tepadan chiqadi; kiruvchi fanlar oqimi chiquvchidan ko‘p bo‘lsa (musbat bosim), chang kamroq kiradi',
+          'Sovuq havo tepadan kiradi, issiq havo pastdan chiqadi',
+          'Barcha fanlar havoni faqat ichkariga puflashi kerak',
+          'Chiquvchi havo kiruvchidan ko‘p bo‘lsa, korpusga umuman chang kirmaydi'
+        ],
+        ans: 0,
+        exp: 'Issiq havo tabiiy ravishda yuqoriga ko‘tariladi. Shuning uchun sovuq havo old/pastdan kirib, orqa/tepadan chiqariladi. Musbat bosim (kirish > chiqish) filtrlanmagan tirqishlardan chang so‘rilishini kamaytiradi.'
+      },
+      {
+        id: 28,
+        cat: 'cool',
+        catLabel: 'Sovitish va Help Desk',
+        q: '4-pin PWM va 3-pin DC ventilyator boshqaruvi orasidagi farq nimada?',
+        opts: [
+          '4-pin PWM tezlikni impulslar kengligi orqali aniq boshqaradi, 3-pin DC esa kuchlanishni o‘zgartirib boshqaradi',
+          '4-pin faqat doimiy 100% tezlikda aylanadi',
+          '3-pin PWM deyiladi, 4-pin esa faqat RGB yorug‘lik uchun',
+          'Ikkalasi ham faqat BIOS dan tashqarida, qo‘lda burab sozlanadi'
+        ],
+        ans: 0,
+        exp: '4-pin PWM (Pulse Width Modulation) fan curve (harorat-RPM funksiyasi) asosida past tezliklarda ham aniq va jim ishlaydi. Masalan: 30 °C → 600 RPM, 70 °C → 1500 RPM.'
+      },
+      {
+        id: 29,
+        cat: 'cool',
+        catLabel: 'Sovitish va Help Desk',
+        q: 'Kompyuter yoqiladi, lekin ekranda tasvir yo‘q va signal (beep) eshitilmoqda (yoki 16 GB RAM o‘rniga 8 GB ko‘rinyapti). Eng birinchi ehtimoliy sabab va yechim nima?',
+        opts: [
+          'RAM moduli to‘g‘ri o‘rnatilmagan yoki kontaktlari kirlangan — RAM ni chiqarib, kontaktlarni tozalab, qulf (latch) «chik» etguncha qayta o‘rnatish',
+          'Windows tizimini qayta o‘rnatish',
+          'Monitor HDMI kabelini almashtirish',
+          'CMOS batareyasini chiqarib tashlash'
+        ],
+        ans: 0,
+        exp: 'Help Desk amaliyotida «yoqiladi + tasvir yo‘q + beep» yoki xotira hajmining yarmi ko‘rinishi deyarli har doim RAM moduli slotga oxirigacha kirmagani yoki kontakt oksidlanganidan bo‘ladi.'
+      },
+      {
+        id: 30,
+        cat: 'cool',
+        catLabel: 'Sovitish va Help Desk',
+        q: 'Kompyuter og‘ir o‘yin yoki yuklama ostida to‘satdan o‘chib qolmoqda, CPU harorati 98 °C ko‘rsatmoqda. Normal yuklama harorati qancha bo‘lishi kerak va nimani tekshirasiz?',
+        opts: [
+          'Normal yuklama 60–85 °C (kutish 30–45 °C), 95 °C+ muammo — birinchi navbatda sovitishni (fan aylanishi, chang, termopasta) tekshirish kerak',
+          '98 °C normal holat, Windows ni qayta o‘rnatish kerak',
+          'RAM ni boshqa slotga ko‘chirish kerak',
+          'Monitor yangilanish chastotasini tushirish kerak'
+        ],
+        ans: 0,
+        exp: '95–100 °C haddan tashqari qizish (overheating) bo‘lib, himoya tizimi kompyuterni o‘chiradi. Normal harorat: kutishda 30–45 °C, yuklamada 60–85 °C.'
+      },
+      {
+        id: 31,
+        cat: 'cool',
+        catLabel: 'Sovitish va Help Desk',
+        q: 'Kompyuter yoqilganda ekranda «CPU Fan Error» xabari chiqsa, bu nimani bildiradi?',
+        opts: [
+          'Protsessor sovutgichining ventilyatori ona platadagi CPU_FAN ulagichiga ulanmagan (yoki fan aylanmayapti)',
+          'Protsessor soketga teskari qo‘yilgan',
+          'M.2 NVMe SSD disk topilmadi',
+          'RAM modullari Dual Channel da emas'
+        ],
+        ans: 0,
+        exp: 'Ko‘pchilik ona platalar xavfsizlik uchun CPU_FAN ulagichidan aylanish signalini tekshiradi. Agar kuler SYS_FAN ga ulanib qolsa yoki ulanmasa, «CPU Fan Error» chiqadi.'
+      },
+      {
+        id: 32,
+        cat: 'cool',
+        catLabel: 'Sovitish va Help Desk',
+        q: 'Kompyuterni xavfsiz va to‘g‘ri yig‘ish tartibining dastlabki va yakuniy bosqichlari qaysi javobda to‘g‘ri ko‘rsatilgan?',
+        opts: [
+          '1) ESD bilaguzukni taqish → CPU, termopasta/sovutgich, RAM, M.2 ni plataga o‘rnatish → platani korpusga mahkamlash → PSU va kabellar → GPU → 9) Yoqish va POST tekshiruvi',
+          '1) Platani korpusga mahkamlash → PSU ulash → oxirida CPU va ESD bilaguzukni taqish',
+          '1) Videokartani o‘rnatish → yoqib ko‘rish → keyin termopasta surtish',
+          '1) Windows o‘rnatish → keyin RAM va CPU ni ulash'
+        ],
+        ans: 0,
+        exp: 'To‘g‘ri tartib (9 qadam): 1. ESD bilaguzuk → 2. CPU → 3. Termopasta + sovutgich → 4. RAM (A2/B2) → 5. M.2 SSD → 6. Platani korpusga → 7. PSU va kabellar → 8. GPU (PCIe x16) → 9. Yoqish va POST.'
+      }
+    ];
+    const G_MAVZU_1 = [
+      ['Ona plata (Motherboard)', 'Barcha komponentlarni elektr va ma’lumot liniyalari orqali o‘zaro bog‘lovchi asosiy bosma plata.'],
+      ['Form-faktor', 'Ona plata o‘lchami, mahkamlash nuqtalari va slotlar soni standarti (ATX 30,5×24,4 sm, Micro-ATX 24,4×24,4, Mini-ITX 17×17, E-ATX 30,5×33).'],
+      ['Soket (Socket)', 'Protsessorni ona plataga ulovchi uya; LGA (ignalar platada) va PGA (oyoqchalar CPU da). Moslik shart!'],
+      ['Chipset (PCH)', 'USB, SATA, LAN, audio va qo‘shimcha PCIe liniyalarni boshqarib, CPU ga DMI orqali ulovchi mikrosxemalar to‘plami.'],
+      ['VRM', 'PSU dan kelgan 12 V ni protsessor uchun barqaror ~1,1–1,4 V ga tushiruvchi kuchlanish regulyatori.'],
+      ['P = U × I', 'Quvvat formulasi: 125 W / 1,25 V = 100 A. Past kuchlanishda katta tok oqadi va VRM qiziydi.'],
+      ['PCIe', 'Yuqori tezlikli ketma-ket interfeys (x1–x16). 1 liniya tezligi: 3.0 ≈ 1 GB/s, 4.0 ≈ 2 GB/s, 5.0 ≈ 4 GB/s.'],
+      ['Fetch–Decode–Execute–Store', 'Protsessorning har bir buyruqni olish, dekodlash, bajarish va saqlash sikli.'],
+      ['Yadro va oqim (Core / Thread)', 'Yadro — jismoniy blok; oqim — mantiqiy ketma-ketlik (SMT/Hyper-Threading: 1 yadro = 2 oqim).'],
+      ['Kesh (L1 → L2 → L3)', 'CPU ichidagi tezkor xotira: L1 eng tez/kichik (~1 ns), L3 umumiy/katta (~12 ns).'],
+      ['Chastota va IPC', 'Unumdorlik ≈ IPC × Chastota × Yadrolar. 4 GHz da 1 takt = 0,25 ns.'],
+      ['TDP', 'Sovitish tizimi chiqarib yuborishi lozim bo‘lgan issiqlik quvvati (vatt). Yetmasa → throttling.'],
+      ['Virtualizatsiya (VT-x / AMD-V)', 'Bitta kompyuterda gipervizor yordamida bir nechta virtual mashina (VM) ishlatish texnologiyasi.'],
+      ['RAM', 'Tok o‘chganda tozalanadigan (volatile) tezkor ishchi xotira. Yetmasa disk (pagefile / Swap) ishlatiladi.'],
+      ['DDR avlodlari', 'DDR3 (1,5 V, 240 pin), DDR4 (1,2 V, 288 pin), DDR5 (1,1 V, 288 pin, PMIC va on-die ECC). O‘zaro mos emas.'],
+      ['Tayming (CL)', 'Haqiqiy kechikish (ns) = CL × 2000 / MT/s. Masalan, DDR4-3200 CL16 = 10 ns.'],
+      ['Dual channel', 'Ikki kanaldan (odatda A2 + B2) bir vaqtda foydalanib RAM o‘tkazuvchanligini 2× oshirish (128 bit).'],
+      ['ECC xotira', '64 bit + 8 bit = 72 bit; 1 bitli xatoni tuzatadi, 2 bitli xatoni aniqlaydi (serverlar uchun).'],
+      ['Termopasta', 'CPU va sovutgich orasidagi mikro-bo‘shliqlarni to‘ldirib, issiqlik o‘tkazuvchanligini oshiradi.'],
+      ['AIO suyuq sovitish', 'Nasos, CPU bloki, quvurlar va radiatordan iborat yopiq sovitish tizimi.'],
+      ['Airflow', 'Sovuq havo old/pastdan kirib, issiq havo orqa/tepadan chiqishi; musbat bosim changni kamaytiradi.'],
+      ['PWM fan boshqaruvi', '4-pinli ventilyator tezligini harorat egri chizig‘i (fan curve) asosida impulslar bilan aniq boshqarish.']
+    ];
+    const Q_MAVZU_2 = [
+      // ==================== 1. KENGAYTIRUVCHI KARTALAR VA RAID (10) ====================
+      {
+        id: 1,
+        cat: 'cards',
+        catLabel: 'Kartalar va RAID',
+        q: 'Ona plataning PCIe slotiga yangi kengaytiruvchi karta (masalan, tarmoq yoki tovush kartasi) o‘rnatilgandan keyin OS uni tanishi va to‘liq ishlashi uchun nima kerak?',
+        opts: [
+          'Tegishli drayver (driver) o‘rnatilishi kerak',
+          'CMOS batareyasini almashtirish kerak',
+          'RAM modullarini A1 va B1 ga ko‘chirish kerak',
+          'Hech narsa kerak emas, faqat BIOS soatini to‘g‘rilash yetarli'
+        ],
+        ans: 0,
+        exp: 'Kengaytiruvchi karta (Expansion card) PCIe slotiga o‘rnatilgach, operatsion tizim u bilan muloqot qilishi uchun drayver zarur — busiz OS kartani tanimaydi.'
+      },
+      {
+        id: 2,
+        cat: 'cards',
+        catLabel: 'Kartalar va RAID',
+        q: 'Yangi videokarta o‘rnatildi, lekin monitorda tasvir yo‘q. Help Desk amaliyotida eng ehtimoliy ikkita sabab qaysi?',
+        opts: [
+          'Qo‘shimcha quvvat kabeli (6/8-pin yoki 12V-2x6) ulanmagan yoki monitor kabeli videokartaga emas, ona plataga ulangan',
+          'SSD da joy qolmagan yoki RAM 16 GB dan kam',
+          'Klaviatura USB 2.0 ga ulangan',
+          'PSU da 80 PLUS Gold sertifikati yo‘q'
+        ],
+        ans: 0,
+        exp: 'PCIe x16 sloti atigi 75 W gacha quvvat beradi — kuchli GPU qo‘shimcha 6-pin (75 W), 8-pin (150 W) yoki 12V-2x6 (600 W gacha) kabelsiz ishlamaydi. Shuningdek, monitor kabeli bevosita videokarta portiga ulanishi shart.'
+      },
+      {
+        id: 3,
+        cat: 'cards',
+        catLabel: 'Kartalar va RAID',
+        q: 'Videokartaning tuzilishida VRAM va Backplate qismlarining vazifasi nima?',
+        opts: [
+          'VRAM (GDDR6/GDDR7) — kadrlar va teksturalarni saqlovchi tezkor xotira; Backplate — platani egilishdan saqlovchi va qisman sovituvchi orqa metall plastina',
+          'VRAM — protsessor keshi; Backplate — quvvat ulagichi',
+          'VRAM — doimiy disk; Backplate — ventilyator tezligini oshiradi',
+          'VRAM — tarmoq buferi; Backplate — faqat bezak uchun'
+        ],
+        ans: 0,
+        exp: 'Videokartada GPU chipidan tashqari uning o‘z xotirasi (VRAM, 8–24 GB), VRM, sovitish (0 dB rejimda to‘xtashi mumkin), PCIe x16 kontaktlari, video chiqishlar (HDMI/DP) va orqa Backplate mavjud.'
+      },
+      {
+        id: 4,
+        cat: 'cards',
+        catLabel: 'Kartalar va RAID',
+        q: 'GPU va CPU arxitekturasi orasidagi asosiy farq nimada?',
+        opts: [
+          'CPU da 8–16 ta kuchli yadro murakkab ketma-ket ishlarni bajaradi; GPU da minglab oddiy yadrolar bir xil amalni millionlab pikselda parallel bajaradi',
+          'GPU faqat matn terish uchun, CPU esa faqat 3D o‘yinlar uchun',
+          'CPU da minglab yadro bor, GPU da esa faqat 2 ta yadro',
+          'Ikkalasining tuzilishi bir xil, faqat narxi har xil'
+        ],
+        ans: 0,
+        exp: 'CPU «1 ta professor» kabi murakkab mantiqni yechsa, GPU «1000 ta o‘quvchi» kabi bir xil oddiy hisobni parallel bajaradi — shuning uchun GPU o‘yin, video montaj va AI da qo‘llaniladi.'
+      },
+      {
+        id: 5,
+        cat: 'cards',
+        catLabel: 'Kartalar va RAID',
+        q: '4K (3840 × 2160) tasvir Full HD (1920 × 1080) dan necha marta ko‘p pikselga ega va bitta 4K kadr (4 bayt/piksel) taxminan qancha joy egallaydi?',
+        opts: [
+          '4 marta ko‘p (8 294 400 vs 2 073 600 piksel); 1 ta 4K kadr ≈ 33 MB',
+          '2 marta ko‘p; 1 ta 4K kadr ≈ 8 MB',
+          '8 marta ko‘p; 1 ta 4K kadr ≈ 128 MB',
+          '10 marta ko‘p; 1 ta 4K kadr ≈ 1 MB'
+        ],
+        ans: 0,
+        exp: 'Full HD = 2 073 600 piksel, 4K = 8 294 400 piksel (4× ko‘p). 24 bit rang = 2²⁴ = 16,7 mln rang. Kadr hajmi = 8 294 400 × 4 bayt ≈ 33 MB (60 kadr/s da ~500 mln piksel/s!).'
+      },
+      {
+        id: 6,
+        cat: 'cards',
+        catLabel: 'Kartalar va RAID',
+        q: 'Quyidagi kengaytiruvchi kartalardan qaysi biri noyob MAC manzilga ega va kompyuterni 1/2,5/10/100 Gbit tarmoqqa ulash uchun ishlatiladi?',
+        opts: [
+          'NIC (Network Interface Card — tarmoq kartasi)',
+          'Capture karta',
+          'RAID kontroller',
+          'Tovush kartasi'
+        ],
+        ans: 0,
+        exp: 'NIC — tarmoq kartasi (Ethernet yoki Wi-Fi), har biri noyob MAC manzilga ega. Capture karta kamera/konsoldan video yozadi, AI akselerator (NPU/TPU) esa neyron tarmoqlarni tezlashtiradi.'
+      },
+      {
+        id: 7,
+        cat: 'cards',
+        catLabel: 'Kartalar va RAID',
+        q: 'RAID darajalari bo‘yicha qaysi ta’rif NOTO‘G‘RI?',
+        opts: [
+          'RAID 0 da 1 ta disk buzilsa ham ma’lumotlar to‘liq saqlanib qoladi',
+          'RAID 1 (mirroring) kamida 2 ta disk talab qiladi va 50% foydali hajm beradi',
+          'RAID 6 kamida 4 ta disk talab qiladi va bir vaqtda 2 ta disk buzilishiga chidaydi (N − 2)',
+          'RAID 10 kamida 4 ta disk talab qiladi, 50% hajm beradi va ma’lumotlar bazalarida qo‘llaniladi'
+        ],
+        ans: 0,
+        exp: 'RAID 0 (striping) ma’lumotni bo‘lib yozadi — tezligi yuqori, lekin himoya YO‘Q: 1 ta disk buzilsa, barcha ma’lumot yo‘qoladi!'
+      },
+      {
+        id: 8,
+        cat: 'cards',
+        catLabel: 'Kartalar va RAID',
+        q: 'RAID 5 massivida 4 ta 2 TB disk o‘rnatilgan. Foydali hajm qancha bo‘ladi va nechta disk buzilishiga chidaydi?',
+        opts: [
+          '6 TB foydali hajm ((4 − 1) × 2 TB); 1 ta disk buzilishiga chidaydi',
+          '8 TB foydali hajm; 2 ta disk buzilishiga chidaydi',
+          '4 TB foydali hajm; 1 ta disk buzilishiga chidaydi',
+          '2 TB foydali hajm; 3 ta disk buzilishiga chidaydi'
+        ],
+        ans: 0,
+        exp: 'RAID 5 kamida 3 ta disk talab qiladi, foydali hajmi = (N − 1) × eng kichik disk = (4 − 1) × 2 TB = 6 TB. Bitta disk hajmi paritetga ketadi va 1 ta disk buzilishini ko‘taradi.'
+      },
+      {
+        id: 9,
+        cat: 'cards',
+        catLabel: 'Kartalar va RAID',
+        q: 'RAID 5 da Disk A = 1011 va Disk B = 0110 bo‘lsa, Paritet P = A ⊕ B (XOR) qiymati nima bo‘ladi va nega RAID backup (zaxira nusxa) o‘rnini bosa olmaydi?',
+        opts: [
+          'P = 1101; chunki RAID faqat disk buzilishidan saqlaydi, lekin fayl o‘chirilishi, virus (ransomware) yoki yong‘indan himoya qilmaydi',
+          'P = 0010; RAID barcha viruslardan himoya qiladi',
+          'P = 1111; RAID hamisha zaxira nusxa o‘rnini bosadi',
+          'P = 1011; chunki paritet Disk A ning aynan nusxasi'
+        ],
+        ans: 0,
+        exp: 'XOR da bir xil bitlar 0, har xil bitlar 1 beradi: 1011 ⊕ 0110 = 1101 (B yo‘qolsa: 1011 ⊕ 1101 = 0110). Muhim qoida: RAID ≠ Backup — virus yoki tasodifiy o‘chirish barcha disklarda darhol sodir bo‘ladi.'
+      },
+      {
+        id: 10,
+        cat: 'cards',
+        catLabel: 'Kartalar va RAID',
+        q: 'Videokartani kompyuterga to‘g‘ri o‘rnatish tartibida oxirgi 3 ta qadam qaysi?',
+        opts: [
+          'Qo‘shimcha quvvat (8-pin) ulash → Monitorni videokartaga ulash → Drayverni o‘rnatish',
+          'ESD bilaguzuk taqish → Zaglushkani olish → Kartani PCIe x16 ga kiritish',
+          'Drayverni o‘rnatish → Kompyuterni o‘chirish → Burama bilan mahkamlash',
+          'Monitorni ona plataga ulash → PSU ni o‘chirish → ESD yechish'
+        ],
+        ans: 0,
+        exp: '8 qadam: 1. O‘chirib kabelni uzish → 2. ESD bilaguzuk → 3. Zaglushkani olish → 4. PCIe x16 ga «chik» etguncha kiritish → 5. Burama → 6. Qo‘shimcha quvvat → 7. Monitorni GPU ga ulash → 8. Drayver.'
+      },
+
+      // ==================== 2. SAQLASH QURILMALARI (12) ====================
+      {
+        id: 11,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: 'HDD ichidagi o‘qish/yozish kallagi plastina ustida qancha balandlikda «uchadi» va diskdan «taq-taq» ovoz chiqsa bu nimani anglatadi?',
+        opts: [
+          '~3 nanometr balandlikda uchadi; taq-taq ovoz — aktuator/kallak muammosi («head crash» xavfi), zudlik bilan zaxira olish kerak',
+          '~3 millimetr balandlikda; taq-taq ovoz — disk normal ishlayotganining belgisi',
+          'Plastinaga doimiy tegib sirpanadi; ovoz chiqishi normal',
+          '~10 santimetr balandlikda; faqat ventilyator ovozi'
+        ],
+        ans: 0,
+        exp: 'HDD kallagi ~3 nm balandlikda havo yostig‘ida uchadi! Zarba tushsa kallak plastinaga urilib (head crash) sirtni tirnaydi. Taq-taq ovozi jiddiy xavf belgisidir.'
+      },
+      {
+        id: 12,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: '7200 RPM tezlikdagi HDD da bitta to‘liq aylanish davri (T = 60 / RPM) va o‘rtacha aylanish kutish vaqti (T / 2) qancha?',
+        opts: [
+          'T = 8,33 ms (120 ayl/s), o‘rtacha kutish ≈ 4,17 ms (+ ~9 ms seek ≈ 13 ms; SSD ~0,05 ms bilan ~250× tezroq)',
+          'T = 60 ms, o‘rtacha kutish = 30 ms',
+          'T = 0,05 ms, o‘rtacha kutish = 0,025 ms',
+          'T = 120 ms, o‘rtacha kutish = 60 ms'
+        ],
+        ans: 0,
+        exp: '7200 RPM = 7200 / 60 = 120 aylanish/s → T = 1/120 ≈ 8,33 ms, yarim aylanish = 4,17 ms. Kallak harakati (seek) bilan ~13 ms ketadi, SSD esa ~0,05 ms da javob beradi.'
+      },
+      {
+        id: 13,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: 'SSD ning ishlash prinsipi va umri haqida qaysi javob to‘g‘ri?',
+        opts: [
+          'Ma’lumot NAND flesh da elektr zaryad sifatida saqlanadi; kontroller wear leveling va TRIM ni bajaradi; resursi TBW (Terabytes Written) bilan o‘lchanadi',
+          'Ma’lumot magnit plastinalarda saqlanadi; resursi RPM bilan o‘lchanadi',
+          'Harakatlanuvchi kallagi bor; zarbaga juda sezgir',
+          'Tok o‘chganda barcha fayllar o‘chib ketadi'
+        ],
+        ans: 0,
+        exp: 'SSD da harakatlanuvchi qism yo‘q (jim va zarbaga chidamli). Kontroller yozishni barcha yacheykalarga teng taqsimlaydi (wear leveling) va umri TBW (masalan, 600 TBW) da belgilanadi.'
+      },
+      {
+        id: 14,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: 'NAND flesh xotira turlari (SLC, MLC, TLC, QLC) bo‘yicha to‘g‘ri taqqoslash qaysi?',
+        opts: [
+          'SLC (1 bit, 2 daraja, ~100k P/E) eng tezkor va chidamli; QLC (4 bit, 16 daraja, ~1k P/E) eng arzon va sig‘imli, lekin sekinroq hamda umri qisqa',
+          'QLC eng chidamli (~100k P/E) va serverlar uchun eng yaxshisi',
+          'SLC bir yacheykada 4 bit saqlaydi',
+          'TLC va QLC da yozish/o‘chirish sikllari cheksiz'
+        ],
+        ans: 0,
+        exp: 'n bit → 2ⁿ daraja: SLC = 1 bit (2), MLC = 2 bit (4), TLC = 3 bit (8), QLC = 4 bit (16 daraja). Daraja ko‘paygani sayin arzonlashadi, lekin aniqlik qiyinlashib tezlik va P/E sikl kamayadi.'
+      },
+      {
+        id: 15,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: 'SATA (AHCI) va NVMe protokollari orasidagi asosiy farq nimada?',
+        opts: [
+          'SATA da 1 ta navbat (32 buyruq) va ~550 MB/s chegara bor; NVMe esa PCIe orqali 64 000 tagacha navbat bilan 3 500–14 000 MB/s tezlik beradi',
+          'SATA NVMe dan 10 barobar tez',
+          'NVMe faqat HDD disklar uchun yaratilgan',
+          'SATA da 64 000 ta navbat mavjud'
+        ],
+        ans: 0,
+        exp: 'SATA — «bitta kassa» (~550 MB/s), NVMe — «minglab kassa» (PCIe 3.0 ~3500 MB/s, PCIe 4.0 ~7000 MB/s, PCIe 5.0 ~12000–14000 MB/s).'
+      },
+      {
+        id: 16,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: 'Mijoz: «M.2 SSD sotib oldim, lekin tezligi atigi 550 MB/s chiqyapti». Eng ehtimoliy sabab va «M.2 2280» nimani anglatishi?',
+        opts: [
+          'M.2 — faqat shakl (form-faktor), disk M.2 SATA (B+M key) bo‘lishi mumkin; 2280 = 22 mm eni × 80 mm uzunligi',
+          'M.2 faqat NVMe protokolini anglatadi; 2280 = 2280 MB/s tezlik',
+          '2280 = 2280 GB hajm',
+          'PSU quvvati yetmagani uchun tezlik 550 MB/s ga tushgan'
+        ],
+        ans: 0,
+        exp: 'M.2 shakl bo‘lib, ham SATA (ko‘pincha B+M key, ~550 MB/s), ham NVMe (M key, PCIe x4) bo‘lishi mumkin. 2242, 2260, 2280 raqamlari eni (22 mm) va uzunligini (42/60/80 mm) bildiradi.'
+      },
+      {
+        id: 17,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: 'Tashqi USB disk va NAS (Network Attached Storage) o‘rtasidagi asosiy farq nima?',
+        opts: [
+          'Tashqi disk bitta kompyuterga USB/Thunderbolt orqali ulanadi; NAS esa tarmoqqa (Switch/Router) ulanadigan, o‘z OS, RAID va foydalanuvchi huquqlariga ega aqlli saqlash qurilmasi',
+          'NAS faqat bitta kompyuterga HDMI orqali ulanadi',
+          'Tashqi diskda RAID 5 bo‘lishi shart, NAS da esa yo‘q',
+          'NAS internet kabelisiz va tarmoqsiz ishlaydi'
+        ],
+        ans: 0,
+        exp: 'NAS — ofis yoki oila uchun tarmoqdagi umumiy «aqlli shkaf»: bir nechta qurilmalar (PC, noutbuk, telefon, TV) huquqlar asosida kiradi, avtomatik backup va kameralar yozuvi uchun qulay.'
+      },
+      {
+        id: 18,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: 'Mijoz: «Yangi 1 TB disk oldim, lekin Windows 931 GB ko‘rsatyapti, 69 GB qani?» Bu vaziyatni qanday tushuntirasiz?',
+        opts: [
+          'Ishlab chiqaruvchi o‘nlik tizimda 1 TB = 10¹² bayt hisoblaydi, Windows esa ikkilikda (GiB: 2³⁰ = 1 073 741 824 bayt) hisoblaydi: 10¹² ÷ 2³⁰ ≈ 931,3 GB',
+          '69 GB qismini ishlab chiqaruvchi zavodda yashirib qo‘ygan',
+          'Disk nuqsonli, do‘konga qaytarish kerak',
+          'Windows tizimi o‘rnatishdan oldin 69 GB ni o‘chirib tashlaydi'
+        ],
+        ans: 0,
+        exp: 'Bu xato emas — TB (10¹²) va TiB/GiB (2⁴⁰/2³⁰) hisoblash farqi. Xuddi shu sababli 2 TB disk Windows da ~1862 GB bo‘lib ko‘rinadi.'
+      },
+      {
+        id: 19,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: 'Windows PowerShell da qaysi disk SSD/HDD ekanligini va interfeysini (NVMe/SATA) ko‘rish hamda fayl tizimi xatolarini tekshirish buyruqlari qaysilar?',
+        opts: [
+          'Get-PhysicalDisk | select FriendlyName,MediaType,BusType  va  chkdsk C: /scan',
+          'Get-CimInstance Win32_Processor  va  ipconfig',
+          'lsblk  va  free -h',
+          'smartctl  va  lscpu'
+        ],
+        ans: 0,
+        exp: 'PowerShell da «Get-PhysicalDisk» MediaType (SSD/HDD) va BusType (NVMe/SATA) ni chiqaradi; «chkdsk C: /scan» esa fayl tizimini tekshiradi.'
+      },
+      {
+        id: 20,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: 'Linux da «lsblk -d -o NAME,ROTA,SIZE,TRAN» buyrug‘ida ROTA = 1 nimani bildiradi va «sudo smartctl -H /dev/sda» FAILED chiqsa nima qilish kerak?',
+        opts: [
+          'ROTA = 1 aylanuvchi disk (HDD, 0 = SSD); smartctl FAILED chiqsa — darhol zaxira nusxa (backup) olib, diskni almashtirish kerak',
+          'ROTA = 1 NVMe SSD ni bildiradi; FAILED chiqsa e’tibor bermaslik mumkin',
+          'ROTA = 1 RAM hajmini bildiradi',
+          'FAILED chiqsa diskni formatlash kifoya'
+        ],
+        ans: 0,
+        exp: 'ROTA (rotational): 1 = HDD, 0 = SSD. S.M.A.R.T. (Self-Monitoring) Caution yoki FAILED bersa, disk tez orada ishdan chiqadi — birinchi navbatda zaxira nusxa oling!'
+      },
+      {
+        id: 21,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: 'Ma’lumotlarni saqlashdagi «3-2-1» zaxira (backup) qoidasi nimani anglatadi?',
+        opts: [
+          'Ma’lumotning 3 ta nusxasi, 2 xil turdagi tashuvchida (masalan SSD + tashqi HDD), shundan 1 tasi boshqa joyda (offsite / bulutda)',
+          '3 ta kompyuter, 2 ta monitor, 1 ta printer',
+          'Har 3 soatda, 2 marta, 1 ta fleshkaga yozish',
+          '3 ta RAID 0 diski, 2 ta PSU, 1 ta UPS'
+        ],
+        ans: 0,
+        exp: '3-2-1 oltin qoidasi: 3 nusxa, 2 xil tashuvchi, 1 nusxa boshqa joyda (yong‘in, o‘g‘irlik yoki ransomware dan himoya uchun).'
+      },
+      {
+        id: 22,
+        cat: 'storage',
+        catLabel: 'Saqlash qurilmalari',
+        q: 'Disklarning o‘qish/yozish tezligi va narx/TB bo‘yicha qaysi ta’rif to‘g‘ri?',
+        opts: [
+          'HDD eng arzon va katta sig‘imli (1–24 TB, 100–250 MB/s), SATA SSD (~550 MB/s) eski PC ni tezlashtiradi, NVMe SSD (3500–14000 MB/s) OS/o‘yin/montaj uchun eng tez',
+          'HDD NVMe SSD dan tezroq va qimmatroq',
+          'SATA SSD 7000 MB/s gacha tezlik beradi',
+          'Tashqi USB disklar har doim ichki NVMe dan tez'
+        ],
+        ans: 0,
+        exp: 'Arxiv va NAS uchun HDD eng tejamkor; eski tizimni jonlantirish uchun SATA SSD (~550 MB/s); zamonaviy OS, o‘yin va 4K montaj uchun esa NVMe SSD eng maqbul.'
+      },
+
+      // ==================== 3. QUVVAT MANBAI PSU (10) ====================
+      {
+        id: 23,
+        cat: 'psu',
+        catLabel: 'Quvvat manbai (PSU)',
+        q: 'Nima uchun PSU (quvvat manbai) korpusini hech qachon ochish mumkin emas (hatto rozetkadan uzilgan bo‘lsa ham)?',
+        opts: [
+          'Ichidagi katta kondensatorlarda tok uzilgandan keyin ham hayot uchun xavfli yuqori kuchlanish (zaryad) saqlanib qoladi',
+          'Ichidagi termopasta bug‘lanib ketadi',
+          'Ventilyator to‘xtab qoladi',
+          'BIOS paroli o‘chib ketadi'
+        ],
+        ans: 0,
+        exp: 'PSU ichidagi yuqori voltli kondensatorlar tokdan uzilgandan keyin ham xavfli zaryadni ushlab turadi — PSU ta’mirlanmaydi, nosoz bo‘lsa yangisiga almashtiriladi.'
+      },
+      {
+        id: 24,
+        cat: 'psu',
+        catLabel: 'Quvvat manbai (PSU)',
+        q: 'PSU rozetkadagi 220 V o‘zgaruvchan tokni (AC) qaysi o‘zgarmas tok (DC) kuchlanishlariga aylantiradi va ular nimalarga ketadi?',
+        opts: [
+          '+12 V (CPU, GPU, fanlar), +5 V (USB, SATA), +3,3 V (RAM, chipset) va +5 VSB (kutish rejimi)',
+          '+220 V, +110 V va +50 V',
+          'Faqat +5 V barcha komponentlarga',
+          '+12 V faqat klaviaturaga, +3,3 V faqat monitor ekraniga'
+        ],
+        ans: 0,
+        exp: 'Zamonaviy kompyuterlarda quvvatning asosiy qismi +12 V liniyasiga tushadi (CPU va GPU). +5 V USB/SATA ga, +3,3 V RAM/chipsetga, +5 VSB esa kutish rejimiga (standby) xizmat qiladi.'
+      },
+      {
+        id: 25,
+        cat: 'psu',
+        catLabel: 'Quvvat manbai (PSU)',
+        q: 'Ixcham Mini-ITX korpus yig‘ayotganda ATX PSU sig‘masa, qaysi PSU form-faktorini tanlash kerak; serverlarda to‘xtovsiz ishlash uchun qaysi tur ishlatiladi?',
+        opts: [
+          'Mini-ITX uchun SFX / SFX-L; serverlarda esa 1 tasi buzilsa ham ishlaydigan Redundant PSU',
+          'Mini-ITX uchun E-ATX; serverlarda TFX',
+          'Mini-ITX uchun Flex ATX faqat; serverlarda modulsiz ATX',
+          'Barcha PSU larning o‘lchami bir xil'
+        ],
+        ans: 0,
+        exp: 'ATX (150×86×140+ mm) — standart stol PC; SFX/SFX-L (125×63,5 mm) — Mini-ITX; TFX — yupqa ofis PC; Flex ATX — mini PC; Redundant — almashuvchan server modullari.'
+      },
+      {
+        id: 26,
+        cat: 'psu',
+        catLabel: 'Quvvat manbai (PSU)',
+        q: 'Tizimdagi barcha komponentlar jami 435 W iste’mol qiladi. 20–30% zaxira qoidasi (× 1,3) bo‘yicha qanday quvvatli PSU tanlanadi va nega zaxira kerak?',
+        opts: [
+          '435 × 1,3 ≈ 566 W → 650 W PSU; yuklama cho‘qqilari, kelajakdagi yangilash va PSU ning qarishi uchun',
+          '435 W ning o‘zi yoki 450 W PSU yetarli, zaxira shart emas',
+          '435 × 3 = 1305 W → 1600 W PSU shart',
+          '435 / 1,3 = 335 W → 350 W PSU'
+        ],
+        ans: 0,
+        exp: 'P(PSU) = Jami iste’mol × 1,3. Masalan: 435 × 1,3 ≈ 566 W → 650 W; 400 × 1,3 ≈ 520 W → 550 W. Zaxira qisqa muddatli pik yuklamalar va uzoq umr uchun zarur.'
+      },
+      {
+        id: 27,
+        cat: 'psu',
+        catLabel: 'Quvvat manbai (PSU)',
+        q: '80 PLUS sertifikatlari nimani bildiradi va kompyuterga 500 W chiqish quvvati kerak bo‘lganda 80 PLUS Bronze (85%) bilan Gold (90%) rozetkadan qancha oladi?',
+        opts: [
+          'FIK (η = P_chiqish / P_kirish) ni bildiradi; Bronze ~588 W, Gold ~556 W oladi (qolgan energiya issiqlikka aylanadi)',
+          '80 PLUS sertifikati faqat kabel rangini bildiradi',
+          'Gold rozetkadan 500 W dan kam (450 W) oladi',
+          'White 94% FIK ga ega, Titanium esa 80%'
+        ],
+        ans: 0,
+        exp: '80 PLUS darajalari (50% yuklamada): White 80%, Bronze 85%, Silver 88%, Gold 90%, Platinum 92%, Titanium 94%. P_kirish = P_chiqish / η: 500/0,85 ≈ 588 W, 500/0,90 ≈ 556 W (yiliga ~93 kVt·soat tejaladi!).'
+      },
+      {
+        id: 28,
+        cat: 'psu',
+        catLabel: 'Quvvat manbai (PSU)',
+        q: 'Modulsiz, yarim modulli (semi-modular) va to‘liq modulli (fully modular) PSU lar orasidagi farq nima?',
+        opts: [
+          'Modulsizda hamma kabellar qotirilgan; yarim modullida 24-pin va EPS qotirilgan, qolgani olinadi; to‘liq modullida hamma kabellar ajraladi (airflow yaxshilanadi)',
+          'To‘liq modullida kabellar umuman bo‘lmaydi, simsiz ishlaydi',
+          'Yarim modullida faqat SATA kabellari qotirilgan',
+          'Modullik PSU ning quvvatini 2 barobar oshiradi'
+        ],
+        ans: 0,
+        exp: 'Modulli PSU da faqat kerakli kabellarni ulaysiz — ortiqcha simlar korpus ichida havo oqimini (airflow) to‘sib qo‘ymaydi.'
+      },
+      {
+        id: 29,
+        cat: 'psu',
+        catLabel: 'Quvvat manbai (PSU)',
+        q: 'PSU ulagichlari bo‘yicha qaysi moslik to‘g‘ri ko‘rsatilgan?',
+        opts: [
+          '24-pin (20+4) → ona plata; 4+4/8-pin EPS → CPU (~150 W); 6+2 PCIe → GPU (150 W); 12V-2x6 (12+4) → zamonaviy GPU (600 W gacha); 15-pin SATA → SSD/HDD',
+          '8-pin EPS videokartaga, 6+2 PCIe esa protsessorga ulanadi',
+          '12V-2x6 faqat HDD disklarni quvvatlaydi',
+          '4-pin Molex ona plataning asosiy quvvati'
+        ],
+        ans: 0,
+        exp: 'Eslatma: 8-pin EPS (CPU) va 8-pin (6+2) PCIe (GPU) ulagichlari tashqi ko‘rinishda o‘xshasa-da, qutblari har xil — ularni almashtirib ulash mumkin emas!'
+      },
+      {
+        id: 30,
+        cat: 'psu',
+        catLabel: 'Quvvat manbai (PSU)',
+        q: 'Kompyuter umuman yoqilmayapti. Eng oddiy sababdan murakkabiga qarab tekshirish tartibi qaysi?',
+        opts: [
+          'Rozetka → Quvvat kabeli → PSU orqasidagi I/O tugmasi → 24-pin/8-pin → Front panel Power simi → PSU tester/skrepka → Boshqa ishlaydigan PSU bilan sinash',
+          'Darhol ona platani almashtirish → keyin rozetkani tekshirish',
+          'Windows ni qayta o‘rnatish → BIOS yangilash → kabelni tekshirish',
+          'PSU ni ochib kondensatorlarni tekshirish'
+        ],
+        ans: 0,
+        exp: 'Help Desk oltin qoidasi: har doim eng oddiy fizik tekshiruvdan (rozetka, kabel, PSU orqasidagi I/O tugmasi «I» holatidami) boshlab murakkabiga o‘ting.'
+      },
+      {
+        id: 31,
+        cat: 'psu',
+        catLabel: 'Quvvat manbai (PSU)',
+        q: 'Tizim yuklama ostida maksimal 400 W iste’mol qiladi. Qaysi PSU eng to‘g‘ri tanlov?',
+        opts: [
+          '550 W, 80 PLUS Gold',
+          '400 W, sertifikatsiz (no-name)',
+          '350 W, 80 PLUS Titanium',
+          '1600 W, 80 PLUS White'
+        ],
+        ans: 0,
+        exp: '400 × 1,3 = 520 W → 550 W yetarli 20–30% zaxira beradi, 80 PLUS Gold esa yuqori FIK (90%) va ishonchlilikni ta’minlaydi. 1600 W keraksiz qimmat, 350 W esa yetmaydi.'
+      },
+      {
+        id: 32,
+        cat: 'psu',
+        catLabel: 'Quvvat manbai (PSU)',
+        q: 'Kompyuter og‘ir o‘yin yoki render paytida o‘z-o‘zidan to‘satdan o‘chib qolmoqda (qizish yo‘q). Bu ko‘pincha nimaning belgisi?',
+        opts: [
+          'PSU quvvati pik yuklamaga yetmayapti yoki sifatsiz PSU himoyasi ishga tushyapti',
+          'SSD da bo‘sh joy kamaygan',
+          'Monitor kabeli DisplayPort emas, HDMI ekan',
+          'CMOS batareyasi tugagan'
+        ],
+        ans: 0,
+        exp: 'Agar CPU/GPU qizib ketmayotgan bo‘lsa-yu, yuklama oshganda kompyuter to‘satdan o‘chib qolsa, sabab odatda PSU quvvati yetmasligi yoki kuchlanish barqaror emasligidir.'
+      }
+    ];
+    const G_MAVZU_2 = [
+      ['Kengaytiruvchi karta', 'PCIe slotiga o‘rnatilib yangi funksiya qo‘shadigan plata (GPU, NIC, tovush, RAID); ishlashi uchun drayver shart.'],
+      ['GPU va VRAM', 'Minglab parallel yadroli grafik protsessor va uning o‘z tezkor xotirasi (GDDR6/GDDR7, 8–24 GB).'],
+      ['NIC (Tarmoq kartasi)', 'Kompyuterni tarmoqqa ulovchi karta (1–100 Gbit Ethernet / Wi-Fi); har biri noyob MAC manzilga ega.'],
+      ['RAID 0 / 1 / 5 / 6 / 10', 'RAID 0 (tez, himoyasiz), RAID 1 (50%, 1 disk), RAID 5 (N−1, 1 disk), RAID 6 (N−2, 2 disk), RAID 10 (50%, DB uchun).'],
+      ['RAID ≠ Backup', 'RAID faqat disk buzilishidan saqlaydi; virus, o‘chirish va yong‘in uchun alohida zaxira nusxa shart.'],
+      ['Paritet (XOR ⊕)', 'RAID 5 da ma’lumot bitlaridan XOR bilan hisoblangan nazorat bloki (P = A ⊕ B) — 1 ta diskni tiklaydi.'],
+      ['HDD anatomiyasi', 'Magnit plastinalar, shpindel (5400/7200 RPM), aktuator qo‘li va ~3 nm balandlikda uchadigan kallak; taq-taq ovoz = xavf.'],
+      ['HDD kechikishi', '7200 RPM = 120 ayl/s → T = 8,33 ms, o‘rtacha kutish T/2 ≈ 4,17 ms (+ seek ~9 ms). SSD (~0,05 ms) ~250× tez.'],
+      ['SSD va TBW', 'Harakatsiz qismlarsiz NAND flesh disk; kontroller wear leveling/TRIM bajaradi, umri TBW bilan o‘lchanadi.'],
+      ['SLC / MLC / TLC / QLC', '1/2/3/4 bit/yacheyka (2/4/8/16 daraja). Bit ko‘paygani sayin arzonlashadi, lekin tezlik va P/E chidamlilik kamayadi.'],
+      ['SATA vs NVMe', 'SATA (AHCI): 1 navbat, ~550 MB/s. NVMe (PCIe): 64 000 navbatgacha, 3 500–14 000 MB/s.'],
+      ['M.2 form-faktori', 'Shakl (protokol emas!): 2280 = 22×80 mm. M key = NVMe, B+M key = ko‘pincha SATA.'],
+      ['NAS', 'Tarmoqqa ulangan, o‘z OS, RAID va kirish huquqlariga ega umumiy fayl saqlash qurilmasi.'],
+      ['1 TB = 931,3 GB sababi', 'Ishlab chiqaruvchi 10¹² bayt, Windows esa 2³⁰ bayt (GiB) da hisoblaydi: 10¹² ÷ 2³⁰ ≈ 931,3 GB.'],
+      ['S.M.A.R.T. va 3-2-1', 'S.M.A.R.T. disk sog‘lig‘ini kuzatadi. 3-2-1: 3 nusxa, 2 xil tashuvchi, 1 tasi boshqa joyda (offsite).'],
+      ['PSU (AC → DC)', '220 V AC ni +12 V (CPU/GPU), +5 V (USB/SATA), +3,3 V (RAM/chipset), +5 VSB ga aylantiradi. Kondensatorlar xavfli — ochmang!'],
+      ['PSU form-faktorlari', 'ATX (stol PC), SFX/SFX-L (Mini-ITX), TFX (yupqa ofis), Flex ATX (mini PC), Redundant (server).'],
+      ['Quvvat zaxirasi', 'P(PSU) = Jami iste’mol × 1,3 (20–30% zaxira pik yuklamalar va kelajakdagi yangilash uchun).'],
+      ['80 PLUS (FIK)', 'White 80%, Bronze 85%, Silver 88%, Gold 90%, Platinum 92%, Titanium 94% (50% yuklamada).'],
+      ['PSU ulagichlari', '24-pin ATX, 4+4/8-pin EPS (CPU), 6+2 PCIe (GPU), 12V-2x6 (600 W gacha), 15-pin SATA, 4-pin Molex.']
+    ];
+
+    const SUBJECTS = [
+      {
+        id: 'comp-arch',
+        code: 'IT · 1-kurs',
+        title: 'Kompyuter arxitekturasi',
+        desc: 'Kompyuterning apparat ta’minoti, protsessor, xotira, saqlash qurilmalari, RAID va quvvat manbalari.',
+        topics: [
+          {
+            id: 'it-01',
+            badge: '1-mavzu · Imtihon testi',
+            title: 'Kompyuterning asosiy komponentlari',
+            desc: 'CPU, kesh xotira, RAM/ROM, anakart, chipset, shinalar, UEFI/BIOS va sovutish tizimlari.',
+            categories: [
+              { id: 'all', label: 'Barchasi' },
+              { id: 'cpu', label: 'CPU' },
+              { id: 'ram', label: 'RAM va ROM' },
+              { id: 'mobo', label: 'Anakart va BIOS' },
+              { id: 'cool', label: 'Sovutish' }
+            ],
+            questions: Q_MAVZU_1,
+            glossary: G_MAVZU_1
+          },
+          {
+            id: 'it-02',
+            badge: '2-mavzu · Imtihon testi',
+            title: 'Kengaytiruvchi kartalar, saqlash qurilmalari va PSU',
+            desc: 'GPU, NIC, RAID 0/1/5/6/10, HDD/SSD/NVMe/M.2, S.M.A.R.T., 80 PLUS va PSU diagnostikasi.',
+            categories: [
+              { id: 'all', label: 'Barchasi' },
+              { id: 'cards', label: 'Kartalar va RAID' },
+              { id: 'storage', label: 'Saqlash qurilmalari' },
+              { id: 'psu', label: 'Quvvat manbai PSU' }
+            ],
+            questions: Q_MAVZU_2,
+            glossary: G_MAVZU_2
+          }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // 3. HOLAT (STATE), TAYMER VA SAQLASH
+    // =========================================================================
+    const state = {
+      user: null,
+      theme: 'light',
+      view: 'subjects', // 'subjects' | 'topics' | 'quiz'
+      activeSubjectId: null,
+      activeTopicId: null,
+      progressByTopic: {},
+      activeCat: 'all',
+      order: [],
+      authMode: 'login',
+      timerSecondsLeft: 0,
+      timerInterval: null,
+      timerExpired: false
+    };
+
+    function lsGet(key) {
+      try { return localStorage.getItem(key); } catch (e) { return null; }
+    }
+    function lsSet(key, val) {
+      try { localStorage.setItem(key, val); } catch (e) {}
+    }
+
+    function applyTheme(theme) {
+      state.theme = theme === 'dark' ? 'dark' : 'light';
+      if (state.theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      lsSet('studyhub_theme', state.theme);
+    }
+
+    async function toggleTheme() {
+      const next = state.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      if (isFirebaseConfigured && state.user && !state.user.isDemo) {
+        try {
+          await setDoc(doc(db, 'users', state.user.uid), { theme: next }, { merge: true });
+        } catch (e) {}
+      }
+    }
+
+    function loadLocalProgress(uid) {
+      const raw = lsGet('studyhub_progress_' + uid);
+      if (!raw) return {};
+      try { return JSON.parse(raw) || {}; } catch (e) { return {}; }
+    }
+
+    function saveLocalProgress(uid) {
+      lsSet('studyhub_progress_' + uid, JSON.stringify(state.progressByTopic));
+    }
+
+    async function loadUserData(userObj) {
+      if (isFirebaseConfigured && !userObj.isDemo) {
+        try {
+          const profileSnap = await getDoc(doc(db, 'users', userObj.uid));
+          if (profileSnap.exists()) {
+            const p = profileSnap.data();
+            if (p.theme) applyTheme(p.theme);
+            if (p.name) userObj.name = p.name;
+            if (p.group) userObj.group = p.group;
+          }
+          const progSnap = await getDocs(collection(db, 'users', userObj.uid, 'progress'));
+          const map = {};
+          progSnap.forEach((d) => { map[d.id] = d.data(); });
+          state.progressByTopic = map;
+        } catch (e) {
+          state.progressByTopic = loadLocalProgress(userObj.uid);
+        }
+      } else {
+        state.progressByTopic = loadLocalProgress(userObj.uid);
+      }
+      renderAll();
+    }
+
+    async function persistTopicProgress(topicId) {
+      const prog = state.progressByTopic[topicId];
+      if (!prog) return;
+      const syncEl = document.getElementById('sync-status');
+      if (state.user) {
+        if (isFirebaseConfigured && !state.user.isDemo) {
+          if (syncEl) syncEl.textContent = 'Saqlanmoqda...';
+          try {
+            await setDoc(doc(db, 'users', state.user.uid, 'progress', topicId), prog, { merge: true });
+            if (syncEl) syncEl.textContent = 'Bulutga saqlandi ✓';
+          } catch (e) {
+            if (syncEl) syncEl.textContent = 'Firestore Rules tekshiring';
+          }
+        } else {
+          saveLocalProgress(state.user.uid);
+          if (syncEl) syncEl.textContent = 'Lokal saqlandi ✓';
+        }
+      } else {
+        saveLocalProgress('guest');
+      }
+    }
+
+    // Timer functions (2 minutes per question)
+    function stopTimer() {
+      if (state.timerInterval) {
+        clearInterval(state.timerInterval);
+        state.timerInterval = null;
+      }
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function updateTimerUI() {
+      const disp = document.getElementById('timer-display');
+      const box = document.getElementById('timer-box');
+      if (!disp || !box) return;
+      disp.textContent = formatTime(state.timerSecondsLeft);
+      if (state.timerSecondsLeft <= 60) {
+        box.className = 'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800 tabular-nums';
+      } else if (state.timerSecondsLeft <= 300) {
+        box.className = 'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 tabular-nums';
+      } else {
+        box.className = 'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 tabular-nums';
+      }
+    }
+
+    function startTimer(questionCount) {
+      stopTimer();
+      state.timerExpired = false;
+      state.timerSecondsLeft = questionCount * 120; // 2 minutes per question
+      updateTimerUI();
+      state.timerInterval = setInterval(() => {
+        if (state.timerSecondsLeft > 0) {
+          state.timerSecondsLeft--;
+          updateTimerUI();
+        }
+        if (state.timerSecondsLeft <= 0) {
+          stopTimer();
+          state.timerExpired = true;
+          const topic = getActiveTopic();
+          const prog = getTopicProgress(topic.id);
+          const entries = Object.values(prog.answers || {});
+          const correct = entries.filter((x) => x.isCorrect).length;
+          document.getElementById('timeup-summary').textContent =
+            `Siz ${topic.questions.length} ta savoldan ${entries.length} tasini yechdingiz. To‘g‘ri javoblar: ${correct} ta.`;
+          document.getElementById('timeup-modal').classList.remove('hidden');
+        }
+      }, 1000);
+    }
+
+    // =========================================================================
+    // 4. UI RENDERING
+    // =========================================================================
+    function getInitials(name, email) {
+      const src = (name || email || 'U').trim();
+      const parts = src.split(/\s+/);
+      if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+      return src.slice(0, 2).toUpperCase();
+    }
+
+    function updateNavbar() {
+      const backBtn = document.getElementById('btn-back');
+      const backLbl = document.getElementById('btn-back-label');
+      const profileWrap = document.getElementById('profile-wrapper');
+      const openAuthBtn = document.getElementById('btn-open-auth');
+      const fbStatusBtn = document.getElementById('btn-fb-status');
+
+      if (state.view === 'subjects') {
+        backBtn.classList.add('hidden');
+        backBtn.classList.remove('inline-flex');
+      } else if (state.view === 'topics') {
+        backBtn.classList.remove('hidden');
+        backBtn.classList.add('inline-flex');
+        backLbl.textContent = 'Fanlar';
+      } else {
+        backBtn.classList.remove('hidden');
+        backBtn.classList.add('inline-flex');
+        backLbl.textContent = 'Mavzular';
+      }
+
+      if (!isFirebaseConfigured) {
+        fbStatusBtn.classList.remove('hidden');
+        fbStatusBtn.classList.add('inline-flex');
+      } else {
+        fbStatusBtn.classList.add('hidden');
+        fbStatusBtn.classList.remove('inline-flex');
+      }
+
+      if (state.user) {
+        profileWrap.classList.remove('hidden');
+        openAuthBtn.classList.add('hidden');
+        const initials = getInitials(state.user.name, state.user.email);
+        const pImg = document.getElementById('profile-img');
+        const pInit = document.getElementById('profile-initials');
+        const mImg = document.getElementById('menu-img');
+        const mInit = document.getElementById('menu-initials');
+
+        if (state.user.photoURL) {
+          pImg.src = state.user.photoURL;
+          pImg.classList.remove('hidden');
+          pInit.classList.add('hidden');
+          mImg.src = state.user.photoURL;
+          mImg.classList.remove('hidden');
+          mInit.classList.add('hidden');
+        } else {
+          pImg.classList.add('hidden');
+          pInit.classList.remove('hidden');
+          pInit.textContent = initials;
+          mImg.classList.add('hidden');
+          mInit.classList.remove('hidden');
+          mInit.textContent = initials;
+        }
+        document.getElementById('menu-name').textContent = state.user.name || 'Talaba';
+        document.getElementById('menu-email').textContent = state.user.email || '';
+        const grpRow = document.getElementById('menu-group-row');
+        if (state.user.group) {
+          grpRow.classList.remove('hidden');
+          document.getElementById('menu-group').textContent = state.user.group;
+        } else {
+          grpRow.classList.add('hidden');
+        }
+      } else {
+        profileWrap.classList.add('hidden');
+        openAuthBtn.classList.remove('hidden');
+      }
+    }
+
+    function renderSubjects() {
+      const grid = document.getElementById('subjects-grid');
+      let totalQ = 0;
+      let totalCorrect = 0;
+
+      grid.innerHTML = SUBJECTS.map((subj) => {
+        let subjQ = 0;
+        let subjAns = 0;
+        let subjCor = 0;
+        subj.topics.forEach((t) => {
+          subjQ += t.questions.length;
+          const prog = state.progressByTopic[t.id] || { answers: {}, bestScore: 0 };
+          const entries = Object.values(prog.answers || {});
+          subjAns += entries.length;
+          const c = entries.filter((x) => x.isCorrect).length;
+          subjCor += Math.max(c, prog.bestScore || 0);
+        });
+        totalQ += subjQ;
+        totalCorrect += subjCor;
+        const pct = subjQ ? Math.round((subjAns / subjQ) * 100) : 0;
+
+        return `
+          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col justify-between hover:border-violet-400 dark:hover:border-violet-600 transition">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800">${subj.code}</span>
+                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">${subj.topics.length} ta mavzu · ${subjQ} ta savol</span>
+              </div>
+              <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">${subj.title}</h2>
+              <p class="text-sm text-slate-600 dark:text-slate-400 mt-1.5">${subj.desc}</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+              <div class="flex items-center justify-between text-xs mb-1.5">
+                <span class="font-semibold text-slate-600 dark:text-slate-400">Umumiy jarayon: ${subjAns} / ${subjQ} (${pct}%)</span>
+                <span class="font-bold text-emerald-600 dark:text-emerald-400">To‘g‘ri: ${subjCor}</span>
+              </div>
+              <div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mb-4">
+                <div class="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-300" style="width: ${pct}%"></div>
+              </div>
+              <button type="button" data-open-subject="${subj.id}" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+                Mavzularni ochish
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('hub-stat-subjects').textContent = SUBJECTS.length;
+      document.getElementById('hub-stat-questions').textContent = totalQ;
+      document.getElementById('hub-stat-mastery').textContent = totalQ ? Math.round((totalCorrect / totalQ) * 100) + '%' : '0%';
+    }
+
+    function getActiveSubject() {
+      return SUBJECTS.find((s) => s.id === state.activeSubjectId) || SUBJECTS[0];
+    }
+
+    function getActiveTopic() {
+      const subj = getActiveSubject();
+      return subj.topics.find((t) => t.id === state.activeTopicId) || subj.topics[0];
+    }
+
+    function renderTopics() {
+      const subj = getActiveSubject();
+      document.getElementById('subj-badge').textContent = subj.code;
+      document.getElementById('subj-title').textContent = subj.title;
+      document.getElementById('subj-desc').textContent = subj.desc;
+
+      const grid = document.getElementById('topics-grid');
+      grid.innerHTML = subj.topics.map((t) => {
+        const prog = state.progressByTopic[t.id] || { answers: {}, bestScore: 0 };
+        const entries = Object.values(prog.answers || {});
+        const answered = entries.length;
+        const correct = entries.filter((x) => x.isCorrect).length;
+        const pct = t.questions.length ? Math.round((answered / t.questions.length) * 100) : 0;
+        const acc = answered ? Math.round((correct / answered) * 100) : 0;
+        const totalMin = t.questions.length * 2;
+
+        return `
+          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 flex flex-col justify-between hover:border-violet-400 dark:hover:border-violet-600 transition">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800">${t.badge}</span>
+                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">${t.questions.length} savol · ${totalMin} daqiqa</span>
+              </div>
+              <h3 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white leading-snug">${t.title}</h3>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1.5">${t.desc}</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+              <div class="flex items-center justify-between text-xs mb-1.5">
+                <span class="font-semibold text-slate-600 dark:text-slate-400">Yechilgan: ${answered} / ${t.questions.length} (${pct}%)</span>
+                <span class="font-bold text-emerald-600 dark:text-emerald-400">Aniqlik: ${acc}%</span>
+              </div>
+              <div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mb-4">
+                <div class="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-300" style="width: ${pct}%"></div>
+              </div>
+              <button type="button" data-open-topic="${t.id}" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+                ${answered > 0 ? 'Testni davom ettirish' : 'Testni boshlash'}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function getTopicProgress(topicId) {
+      if (!state.progressByTopic[topicId]) {
+        state.progressByTopic[topicId] = { answers: {}, wrongIds: [], bestScore: 0 };
+      }
+      return state.progressByTopic[topicId];
+    }
+
+    function openSubject(subjectId) {
+      stopTimer();
+      state.activeSubjectId = subjectId;
+      state.view = 'topics';
+      renderAll();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openTopic(topicId) {
+      state.activeTopicId = topicId;
+      state.view = 'quiz';
+      state.activeCat = 'all';
+      const topic = getActiveTopic();
+      state.order = topic.questions.map((q) => q.id);
+      renderAll();
+      startTimer(topic.questions.length);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderQuizStats() {
+      const topic = getActiveTopic();
+      const prog = getTopicProgress(topic.id);
+      const total = topic.questions.length;
+      const entries = Object.values(prog.answers || {});
+      const answered = entries.length;
+      const correct = entries.filter((x) => x.isCorrect).length;
+      const wrong = answered - correct;
+      const pct = Math.round((answered / total) * 100);
+
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-answered').textContent = answered;
+      document.getElementById('stat-correct').textContent = correct;
+      document.getElementById('stat-wrong').textContent = wrong;
+      document.getElementById('stat-pct').textContent = answered ? `${Math.round((correct / answered) * 100)}% aniqlik` : '0% natija';
+      document.getElementById('progress-bar').style.width = pct + '%';
+
+      const tabsEl = document.getElementById('filter-tabs');
+      const catCounts = {};
+      topic.questions.forEach((q) => { catCounts[q.cat] = (catCounts[q.cat] || 0) + 1; });
+
+      const tabButtons = topic.categories.map((c) => {
+        const count = c.id === 'all' ? total : (catCounts[c.id] || 0);
+        const isActive = state.activeCat === c.id;
+        const cls = isActive
+          ? 'bg-violet-600 text-white shadow-sm'
+          : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700';
+        return `<button type="button" data-cat="${c.id}" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition ${cls}">${c.label} (${count})</button>`;
+      });
+
+      const isWrongActive = state.activeCat === 'wrong';
+      const wrongCls = isWrongActive
+        ? 'bg-rose-600 text-white shadow-sm'
+        : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700';
+      tabButtons.push(`<button type="button" data-cat="wrong" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition ${wrongCls}">Xatolarim (${wrong})</button>`);
+      tabsEl.innerHTML = tabButtons.join('');
+    }
+
+    function renderQuiz() {
+      const topic = getActiveTopic();
+      const prog = getTopicProgress(topic.id);
+      document.getElementById('quiz-badge').textContent = topic.badge;
+      document.getElementById('quiz-title').textContent = topic.title;
+      renderQuizStats();
+
+      const container = document.getElementById('questions-list');
+      const emptyState = document.getElementById('empty-wrong');
+      const qMap = new Map(topic.questions.map((q) => [q.id, q]));
+
+      const visibleIds = state.order.filter((id) => {
+        const q = qMap.get(id);
+        if (!q) return false;
+        if (state.activeCat === 'all') return true;
+        if (state.activeCat === 'wrong') {
+          const st = prog.answers[id];
+          return st && !st.isCorrect;
+        }
+        return q.cat === state.activeCat;
+      });
+
+      if (visibleIds.length === 0 && state.activeCat === 'wrong') {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      const letters = ['A', 'B', 'C', 'D'];
+      container.innerHTML = visibleIds.map((id, idx) => {
+        const q = qMap.get(id);
+        const st = prog.answers[id];
+        const isAnswered = Boolean(st);
+
+        const optsHtml = q.opts.map((optText, oIdx) => {
+          let btnCls = 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/70 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-violet-300 dark:hover:border-violet-600 text-slate-800 dark:text-slate-200';
+          let badgeCls = 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200';
+
+          if (isAnswered) {
+            if (oIdx === q.ans) {
+              btnCls = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-900 dark:text-emerald-200 font-semibold';
+              badgeCls = 'bg-emerald-600 text-white';
+            } else if (oIdx === st.selected) {
+              btnCls = 'border-rose-400 bg-rose-50 dark:bg-rose-950/50 text-rose-900 dark:text-rose-200';
+              badgeCls = 'bg-rose-600 text-white';
+            } else {
+              btnCls = 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 text-slate-400 dark:text-slate-500';
+              badgeCls = 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-500';
+            }
+          }
+
+          return `
+            <button type="button" data-qid="${q.id}" data-oidx="${oIdx}" ${isAnswered ? 'disabled' : ''}
+              class="opt-btn w-full text-left px-4 py-3 rounded-xl border text-sm flex items-start gap-3 transition ${btnCls}">
+              <span class="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${badgeCls}">${letters[oIdx]}</span>
+              <span class="leading-relaxed">${optText}</span>
+            </button>
+          `;
+        }).join('');
+
+        const expHtml = isAnswered ? `
+          <div class="mt-4 p-4 rounded-xl border fade-in ${st.isCorrect ? 'bg-emerald-50/70 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800' : 'bg-amber-50/80 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800'}">
+            <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wide mb-1 ${st.isCorrect ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-800 dark:text-amber-400'}">
+              ${st.isCorrect ? '✓ To‘g‘ri javob!' : '✕ Noto‘g‘ri. To‘g‘ri javob: ' + letters[q.ans]}
+            </div>
+            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${q.exp}</p>
+          </div>
+        ` : '';
+
+        return `
+          <article class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6">
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Savol #${idx + 1}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${q.catLabel}</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-snug mb-4">${q.q}</h3>
+            <div class="space-y-2.5">${optsHtml}</div>
+            ${expHtml}
+          </article>
+        `;
+      }).join('');
+    }
+
+    function renderAll() {
+      updateNavbar();
+      document.getElementById('view-subjects').classList.add('hidden');
+      document.getElementById('view-topics').classList.add('hidden');
+      document.getElementById('view-quiz').classList.add('hidden');
+
+      if (state.view === 'subjects') {
+        document.getElementById('view-subjects').classList.remove('hidden');
+        renderSubjects();
+      } else if (state.view === 'topics') {
+        document.getElementById('view-topics').classList.remove('hidden');
+        renderTopics();
+      } else {
+        document.getElementById('view-quiz').classList.remove('hidden');
+        renderQuiz();
+      }
+    }
+
+    // =========================================================================
+    // 5. HODISALAR (EVENT LISTENERS)
+    // =========================================================================
+    document.getElementById('btn-theme').addEventListener('click', toggleTheme);
+
+    document.getElementById('btn-home').addEventListener('click', () => {
+      stopTimer();
+      state.view = 'subjects';
+      renderAll();
+    });
+
+    document.getElementById('btn-back').addEventListener('click', () => {
+      stopTimer();
+      if (state.view === 'quiz') {
+        state.view = 'topics';
+      } else {
+        state.view = 'subjects';
+      }
+      renderAll();
+    });
+
+    document.getElementById('subjects-grid').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-open-subject]');
+      if (btn) openSubject(btn.dataset.openSubject);
+    });
+
+    document.getElementById('topics-grid').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-open-topic]');
+      if (btn) openTopic(btn.dataset.openTopic);
+    });
+
+    document.getElementById('filter-tabs').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-cat]');
+      if (!btn) return;
+      state.activeCat = btn.dataset.cat;
+      renderQuiz();
+    });
+
+    document.getElementById('questions-list').addEventListener('click', async (e) => {
+      const btn = e.target.closest('.opt-btn');
+      if (!btn || btn.disabled) return;
+      const qid = Number(btn.dataset.qid);
+      const oidx = Number(btn.dataset.oidx);
+      const topic = getActiveTopic();
+      const q = topic.questions.find((item) => item.id === qid);
+      if (!q) return;
+
+      const prog = getTopicProgress(topic.id);
+      if (prog.answers[qid]) return;
+
+      const isCorrect = oidx === q.ans;
+      prog.answers[qid] = { selected: oidx, isCorrect };
+      const correctCount = Object.values(prog.answers).filter((x) => x.isCorrect).length;
+      prog.bestScore = Math.max(prog.bestScore || 0, correctCount);
+      prog.wrongIds = Object.entries(prog.answers).filter(([, v]) => !v.isCorrect).map(([k]) => Number(k));
+      prog.updatedAt = new Date().toISOString();
+
+      renderQuiz();
+      await persistTopicProgress(topic.id);
+    });
+
+    document.getElementById('btn-shuffle').addEventListener('click', () => {
+      for (let i = state.order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [state.order[i], state.order[j]] = [state.order[j], state.order[i]];
+      }
+      renderQuiz();
+    });
+
+    async function resetActiveQuiz() {
+      const topic = getActiveTopic();
+      state.progressByTopic[topic.id] = { answers: {}, wrongIds: [], bestScore: 0, updatedAt: new Date().toISOString() };
+      state.activeCat = 'all';
+      state.order = topic.questions.map((q) => q.id);
+      renderQuiz();
+      startTimer(topic.questions.length);
+      await persistTopicProgress(topic.id);
+    }
+
+    document.getElementById('btn-reset').addEventListener('click', resetActiveQuiz);
+    document.getElementById('btn-timeup-close').addEventListener('click', () => {
+      document.getElementById('timeup-modal').classList.add('hidden');
+    });
+    document.getElementById('btn-timeup-retry').addEventListener('click', async () => {
+      document.getElementById('timeup-modal').classList.add('hidden');
+      await resetActiveQuiz();
+    });
+
+    // Profile Avatar Dropdown
+    const profileMenu = document.getElementById('profile-menu');
+    document.getElementById('btn-profile-avatar').addEventListener('click', (e) => {
+      e.stopPropagation();
+      profileMenu.classList.toggle('hidden');
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#profile-wrapper')) {
+        profileMenu.classList.add('hidden');
+      }
+    });
+
+    // Glossary Modal
+    document.getElementById('btn-glossary').addEventListener('click', () => {
+      const topic = getActiveTopic();
+      document.getElementById('glossary-title').textContent = `Tezkor konspekt — ${topic.title}`;
+      document.getElementById('glossary-body').innerHTML = topic.glossary.map(([term, def]) => `
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
+          <div class="font-bold text-slate-900 dark:text-white">${term}</div>
+          <div class="text-slate-600 dark:text-slate-300 mt-0.5">${def}</div>
+        </div>
+      `).join('');
+      document.getElementById('glossary-modal').classList.remove('hidden');
+    });
+
+    document.getElementById('btn-close-glossary').addEventListener('click', () => {
+      document.getElementById('glossary-modal').classList.add('hidden');
+    });
+
+    // Auth Modal & Google Sign-In
+    const authModal = document.getElementById('auth-modal');
+    const regFields = document.getElementById('register-fields');
+    const authTitle = document.getElementById('auth-modal-title');
+    const authSubmitBtn = document.getElementById('btn-auth-submit');
+    const authErr = document.getElementById('auth-error');
+
+    function setAuthMode(mode) {
+      state.authMode = mode;
+      authErr.classList.add('hidden');
+      const tabLogin = document.getElementById('tab-login');
+      const tabReg = document.getElementById('tab-register');
+      if (mode === 'register') {
+        regFields.classList.remove('hidden');
+        authTitle.textContent = 'Yangi akkaunt yaratish';
+        authSubmitBtn.textContent = 'Ro‘yxatdan o‘tish';
+        tabReg.className = 'flex-1 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm';
+        tabLogin.className = 'flex-1 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400';
+      } else {
+        regFields.classList.add('hidden');
+        authTitle.textContent = 'Akkauntga kirish';
+        authSubmitBtn.textContent = 'Kirish';
+        tabLogin.className = 'flex-1 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm';
+        tabReg.className = 'flex-1 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400';
+      }
+    }
+
+    document.getElementById('btn-open-auth').addEventListener('click', () => {
+      setAuthMode('login');
+      authModal.classList.remove('hidden');
+    });
+    document.getElementById('btn-close-auth').addEventListener('click', () => authModal.classList.add('hidden'));
+    document.getElementById('tab-login').addEventListener('click', () => setAuthMode('login'));
+    document.getElementById('tab-register').addEventListener('click', () => setAuthMode('register'));
+    document.getElementById('btn-guest-mode').addEventListener('click', () => authModal.classList.add('hidden'));
+
+    document.getElementById('btn-google-signin').addEventListener('click', async () => {
+      authErr.classList.add('hidden');
+      if (isFirebaseConfigured) {
+        try {
+          const res = await signInWithPopup(auth, googleProvider);
+          await setDoc(doc(db, 'users', res.user.uid), {
+            name: res.user.displayName || res.user.email,
+            email: res.user.email,
+            theme: state.theme
+          }, { merge: true });
+          authModal.classList.add('hidden');
+        } catch (err) {
+          authErr.textContent = err.message || 'Google orqali kirishda xatolik.';
+          authErr.classList.remove('hidden');
+        }
+      } else {
+        const demoUser = { uid: 'demo_google', name: 'Google Demo', email: 'demo@gmail.com', isDemo: true };
+        state.user = demoUser;
+        lsSet('studyhub_demo_user', JSON.stringify(demoUser));
+        authModal.classList.add('hidden');
+        await loadUserData(demoUser);
+      }
+    });
+
+    document.getElementById('auth-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      authErr.classList.add('hidden');
+      const email = document.getElementById('auth-email').value.trim();
+      const pass = document.getElementById('auth-password').value;
+      const name = document.getElementById('auth-name').value.trim() || email.split('@')[0];
+      const group = document.getElementById('auth-group').value.trim();
+
+      if (isFirebaseConfigured) {
+        try {
+          if (state.authMode === 'register') {
+            const cred = await createUserWithEmailAndPassword(auth, email, pass);
+            await updateProfile(cred.user, { displayName: name });
+            await setDoc(doc(db, 'users', cred.user.uid), { name, group, email, theme: state.theme }, { merge: true });
+          } else {
+            await signInWithEmailAndPassword(auth, email, pass);
+          }
+          authModal.classList.add('hidden');
+        } catch (err) {
+          authErr.textContent = err.message || 'Kirishda xatolik yuz berdi.';
+          authErr.classList.remove('hidden');
+        }
+      } else {
+        const demoUser = { uid: 'demo_' + email, name, email, group, isDemo: true };
+        state.user = demoUser;
+        lsSet('studyhub_demo_user', JSON.stringify(demoUser));
+        authModal.classList.add('hidden');
+        await loadUserData(demoUser);
+      }
+    });
+
+    document.getElementById('btn-logout').addEventListener('click', async () => {
+      profileMenu.classList.add('hidden');
+      if (isFirebaseConfigured && state.user && !state.user.isDemo) {
+        await signOut(auth);
+      } else {
+        lsSet('studyhub_demo_user', '');
+        state.user = null;
+        state.progressByTopic = loadLocalProgress('guest');
+        renderAll();
+      }
+    });
+
+    // =========================================================================
+    // 6. ISHGA TUSHIRISH (INIT)
+    // =========================================================================
+    applyTheme(lsGet('studyhub_theme') || 'light');
+
+    if (isFirebaseConfigured) {
+      onAuthStateChanged(auth, async (fbUser) => {
+        if (fbUser) {
+          state.user = {
+            uid: fbUser.uid,
+            name: fbUser.displayName || fbUser.email,
+            email: fbUser.email,
+            photoURL: fbUser.photoURL || null,
+            isDemo: false
+          };
+          await loadUserData(state.user);
+        } else {
+          state.user = null;
+          state.progressByTopic = loadLocalProgress('guest');
+          renderAll();
+        }
+      });
+    } else {
+      state.progressByTopic = loadLocalProgress('guest');
+      renderAll();
+    }
+  </script>
+</body>
+</html>
