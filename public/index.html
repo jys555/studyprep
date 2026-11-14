@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudyHub — Fanlar va Imtihon Testlari Portali</title>
+  <title>StudyPrep — Fanlar va Imtihon Testlari Portali</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script>
     tailwind.config = { darkMode: 'class' };
@@ -21,8 +21,8 @@
     <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
       <div class="flex items-center gap-3 min-w-0">
         <button id="btn-home" type="button" class="flex items-center gap-2.5 text-left group focus:outline-none">
-          <span class="w-9 h-9 rounded-xl bg-violet-600 text-white flex items-center justify-center font-extrabold text-sm shadow-sm group-hover:bg-violet-700 transition">SH</span>
-          <span class="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white truncate">StudyHub</span>
+          <span class="w-9 h-9 rounded-xl bg-violet-600 text-white flex items-center justify-center font-extrabold text-sm shadow-sm group-hover:bg-violet-700 transition">SP</span>
+          <span class="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white truncate">StudyPrep</span>
         </button>
         <button id="btn-back" type="button" class="hidden items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
           <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
@@ -34,6 +34,11 @@
         <button id="btn-open-admin" type="button" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition">
           <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           Admin
+        </button>
+
+        <!-- Support Icon Button -->
+        <button id="btn-open-support" type="button" aria-label="Yordam (Support)" title="Support / Admin bilan aloqa" class="w-9 h-9 rounded-full flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 13v-1a8 8 0 0116 0v1m-14 0h2a1 1 0 011 1v3a1 1 0 01-1 1H6a2 2 0 01-2-2v-3zm14 0h-2a1 1 0 00-1 1v3a1 1 0 001 1h2a2 2 0 002-2v-3zm-2 5v1a2 2 0 01-2 2h-3"/></svg>
         </button>
 
         <!-- Icon-only Night Mode button -->
@@ -62,9 +67,15 @@
             <div id="menu-group-row" class="hidden pt-2.5 text-xs text-slate-600 dark:text-slate-400">
               Guruh: <span id="menu-group" class="font-semibold text-slate-800 dark:text-slate-200"></span>
             </div>
-            <button id="btn-logout" type="button" class="mt-3 w-full py-2 rounded-xl text-xs font-bold bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition">
-              Akkauntdan chiqish
-            </button>
+            <div class="mt-3 space-y-1.5">
+              <button id="btn-edit-profile" type="button" class="w-full py-2 px-3 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center gap-1.5 transition">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                Profilni tahrirlash
+              </button>
+              <button id="btn-logout" type="button" class="w-full py-2 rounded-xl text-xs font-bold bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition">
+                Akkauntdan chiqish
+              </button>
+            </div>
           </div>
         </div>
 
@@ -80,7 +91,7 @@
     <!-- Loading Banner -->
     <div id="loading-banner" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 text-center">
       <div class="w-8 h-8 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-      <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">Firestore bazasidan ma’lumotlar yuklanmoqda...</p>
+      <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">Ma’lumotlar yuklanmoqda...</p>
     </div>
 
     <!-- VIEW 1: SUBJECTS HOME -->
@@ -93,7 +104,7 @@
             </span>
             <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">Fanlar katalogi</h1>
             <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-              Fanlar va mavzular bazadan tejamkor rejimda yuklanadi; testlar faqat boshlash tugmasi bosilganda ochiladi.
+              Kerakli fanni tanlang va imtihonlarga tayyorgarlikni boshlang — barcha natijalaringiz avtomatik saqlanib boradi.
             </p>
           </div>
           <div class="grid grid-cols-3 gap-2.5 shrink-0 text-center">
@@ -124,30 +135,6 @@
         <p id="subj-desc" class="text-sm text-slate-600 dark:text-slate-400 mt-1"></p>
       </div>
       <div id="topics-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-    </section>
-
-    <!-- VIEW 3: TOPIC READY / START GATE (Timer doesn't start until clicked!) -->
-    <section id="view-ready" class="hidden fade-in">
-      <div class="max-w-xl mx-auto bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 sm:p-8 text-center">
-        <span id="ready-badge" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-3"></span>
-        <h1 id="ready-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white"></h1>
-        <p id="ready-desc" class="text-sm text-slate-600 dark:text-slate-400 mt-2"></p>
-
-        <div class="grid grid-cols-2 gap-3 my-6">
-          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
-            <div id="ready-qcount" class="text-2xl font-extrabold text-slate-900 dark:text-white">0</div>
-            <div class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Jami savollar</div>
-          </div>
-          <div class="p-4 rounded-xl bg-violet-50 dark:bg-violet-950/50 border border-violet-200 dark:border-violet-800">
-            <div id="ready-time" class="text-2xl font-extrabold text-violet-700 dark:text-violet-300">0 daqiqa</div>
-            <div class="text-xs font-medium text-violet-600 dark:text-violet-400 mt-0.5">Har bir savolga 2 daqiqa</div>
-          </div>
-        </div>
-
-        <button id="btn-start-quiz-now" type="button" class="w-full py-3 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-md">
-          Testni boshlash
-        </button>
-      </div>
     </section>
 
     <!-- VIEW 4: QUIZ RUNNER WITH TIMER -->
@@ -408,7 +395,7 @@
         <div id="register-fields" class="hidden space-y-3">
           <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Ism va familiya</label>
-            <input id="auth-name" type="text" placeholder="Masalan: Yashnarbek Jumanov" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+            <input id="auth-name" type="text" placeholder="Masalan: Rami Malek" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Guruh</label>
@@ -433,6 +420,54 @@
         <button id="btn-guest-mode" type="button" class="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
           Mehmon sifatida davom etish
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Profile Modal -->
+  <div id="edit-profile-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Profilni tahrirlash</h3>
+        <button id="btn-close-edit-profile" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
+      </div>
+      <form id="form-edit-profile" class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Ism va familiya</label>
+          <input id="edit-prof-name" type="text" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Guruh</label>
+          <input id="edit-prof-group" type="text" placeholder="Masalan: KI-26" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">Saqlash</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Support Modal -->
+  <div id="support-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Support / Admin bilan aloqa</h3>
+        <button id="btn-close-support" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
+      </div>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Savol, taklif yoki texnik muammolar bo‘yicha admin bilan bog‘laning:</p>
+      <div class="space-y-2.5">
+        <a href="https://t.me/JYS_I" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800 hover:bg-sky-100 dark:hover:bg-sky-900/50 transition">
+          <div>
+            <div class="text-xs font-semibold text-sky-700 dark:text-sky-400">Telegram</div>
+            <div class="text-sm font-extrabold text-slate-900 dark:text-white">@JYS_I</div>
+          </div>
+          <span class="text-xs font-bold text-sky-600 dark:text-sky-400">Ochish →</span>
+        </a>
+        <a href="mailto:jumanovyashnarbek55@gmail.com" class="flex items-center justify-between p-3.5 rounded-xl bg-violet-50 dark:bg-violet-950/40 border border-violet-200 dark:border-violet-800 hover:bg-violet-100 dark:hover:bg-violet-900/50 transition">
+          <div class="min-w-0">
+            <div class="text-xs font-semibold text-violet-700 dark:text-violet-400">Gmail</div>
+            <div class="text-sm font-extrabold text-slate-900 dark:text-white truncate">jumanovyashnarbek55@gmail.com</div>
+          </div>
+          <span class="text-xs font-bold text-violet-600 dark:text-violet-400 shrink-0 ml-2">Yozish →</span>
+        </a>
       </div>
     </div>
   </div>
@@ -515,7 +550,7 @@
       state.theme = theme === 'dark' ? 'dark' : 'light';
       if (state.theme === 'dark') document.documentElement.classList.add('dark');
       else document.documentElement.classList.remove('dark');
-      lsSet('studyhub_theme', state.theme);
+      lsSet('studyprep_theme', state.theme);
     }
 
     async function toggleTheme() {
@@ -564,12 +599,12 @@
     }
 
     function loadLocalProgress(uid) {
-      const raw = lsGet('studyhub_progress_' + uid);
+      const raw = lsGet('studyprep_progress_' + uid);
       if (!raw) return {};
       try { return JSON.parse(raw) || {}; } catch (e) { return {}; }
     }
     function saveLocalProgress(uid) {
-      lsSet('studyhub_progress_' + uid, JSON.stringify(state.progressByTopic));
+      lsSet('studyprep_progress_' + uid, JSON.stringify(state.progressByTopic));
     }
 
     async function loadUserData(userObj) {
@@ -599,9 +634,9 @@
         if (syncEl) syncEl.textContent = 'Saqlanmoqda...';
         try {
           await setDoc(doc(db, 'users', state.user.uid, 'progress', topicId), prog, { merge: true });
-          if (syncEl) syncEl.textContent = 'Bulutga saqlandi ✓';
+          if (syncEl) syncEl.textContent = 'Saqlandi ✓';
         } catch (e) {
-          if (syncEl) syncEl.textContent = 'Firestore Rules tekshiring';
+          if (syncEl) syncEl.textContent = 'Saqlashda xatolik';
         }
       } else {
         saveLocalProgress('guest');
@@ -678,7 +713,7 @@
         backBtn.classList.remove('hidden');
         backBtn.classList.add('inline-flex');
         if (state.view === 'topics' || state.view === 'admin') backLbl.textContent = 'Fanlar';
-        else if (state.view === 'ready') backLbl.textContent = 'Mavzular';
+        
         else backLbl.textContent = 'Mavzular';
       }
 
@@ -726,8 +761,8 @@
       if (state.subjects.length === 0) {
         grid.innerHTML = `
           <div class="col-span-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 text-center">
-            <p class="text-base font-bold text-slate-800 dark:text-slate-200">Hozircha bazada fanlar yo‘q.</p>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Admin akkauntingiz bilan kirib, <b>Admin → JSON fayl yuklash</b> orqali fan va testlarni yuklang.</p>
+            <p class="text-base font-bold text-slate-800 dark:text-slate-200">Hozircha fanlar qo‘shilmagan.</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Tez orada fanlar va testlar qo‘shiladi.</p>
           </div>`;
         document.getElementById('hub-stat-subjects').textContent = 0;
         document.getElementById('hub-stat-questions').textContent = 0;
@@ -831,23 +866,12 @@
               <div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mb-4">
                 <div class="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-300" style="width: ${pct}%"></div>
               </div>
-              <button type="button" data-open-ready="${t.id}" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
-                Mavzuni ochish
+              <button type="button" data-open-quiz="${t.id}" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+                ${answered > 0 ? "Testni davom ettirish" : "Testni boshlash"}
               </button>
             </div>
           </div>`;
       }).join('');
-    }
-
-    function renderReady() {
-      const meta = getActiveTopicMeta();
-      if (!meta) return;
-      const qc = meta.questionCount || 0;
-      document.getElementById('ready-badge').textContent = meta.badge || 'Mavzu';
-      document.getElementById('ready-title').textContent = meta.title;
-      document.getElementById('ready-desc').textContent = meta.desc || '';
-      document.getElementById('ready-qcount').textContent = qc;
-      document.getElementById('ready-time').textContent = `${qc * 2} daqiqa`;
     }
 
     function getTopicProgress(topicId) {
@@ -865,20 +889,11 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function openReadyScreen(topicId) {
-      stopTimer();
-      state.activeTopicId = topicId;
-      state.view = 'ready';
-      renderAll();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    async function startQuizNow() {
-      const btn = document.getElementById('btn-start-quiz-now');
-      btn.disabled = true;
-      btn.textContent = 'Testlar yuklanmoqda...';
+    async function startQuizForTopic(topicId, btnEl) {
+      if (btnEl) { btnEl.disabled = true; btnEl.textContent = 'Yuklanmoqda...'; }
       try {
-        const data = await loadTopicData(state.activeTopicId);
+        state.activeTopicId = topicId;
+        const data = await loadTopicData(topicId);
         state.activeCat = 'all';
         state.order = (data.questions || []).map((q) => q.id);
         state.view = 'quiz';
@@ -886,8 +901,7 @@
         startTimer((data.questions || []).length);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } finally {
-        btn.disabled = false;
-        btn.textContent = 'Testni boshlash';
+        if (btnEl) { btnEl.disabled = false; }
       }
     }
 
@@ -1014,7 +1028,7 @@
     function renderAll() {
       updateNavbar();
       if (state.loading) return;
-      ['view-subjects', 'view-topics', 'view-ready', 'view-quiz', 'view-admin'].forEach((id) => {
+      ['view-subjects', 'view-topics', 'view-quiz', 'view-admin'].forEach((id) => {
         document.getElementById(id).classList.add('hidden');
       });
       if (state.view === 'subjects') {
@@ -1023,9 +1037,6 @@
       } else if (state.view === 'topics') {
         document.getElementById('view-topics').classList.remove('hidden');
         renderTopics();
-      } else if (state.view === 'ready') {
-        document.getElementById('view-ready').classList.remove('hidden');
-        renderReady();
       } else if (state.view === 'quiz') {
         document.getElementById('view-quiz').classList.remove('hidden');
         renderQuiz();
@@ -1438,10 +1449,9 @@
       if (btn) openSubject(btn.dataset.openSubject);
     });
     document.getElementById('topics-grid').addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-open-ready]');
-      if (btn) openReadyScreen(btn.dataset.openReady);
+      const btn = e.target.closest('[data-open-quiz]');
+      if (btn) startQuizForTopic(btn.dataset.openQuiz, btn);
     });
-    document.getElementById('btn-start-quiz-now').addEventListener('click', startQuizNow);
 
     document.getElementById('filter-tabs').addEventListener('click', (e) => {
       const btn = e.target.closest('[data-cat]');
@@ -1582,7 +1592,44 @@
       await signOut(auth);
     });
 
-    applyTheme(lsGet('studyhub_theme') || 'light');
+    // Edit Profile & Support
+    const openSupport = () => {
+      profileMenu.classList.add('hidden');
+      document.getElementById('support-modal').classList.remove('hidden');
+    };
+    document.getElementById('btn-open-support').addEventListener('click', openSupport);
+    document.getElementById('btn-close-support').addEventListener('click', () => {
+      document.getElementById('support-modal').classList.add('hidden');
+    });
+
+    document.getElementById('btn-edit-profile').addEventListener('click', () => {
+      if (!state.user) return;
+      profileMenu.classList.add('hidden');
+      document.getElementById('edit-prof-name').value = state.user.name || '';
+      document.getElementById('edit-prof-group').value = state.user.group || '';
+      document.getElementById('edit-profile-modal').classList.remove('hidden');
+    });
+    document.getElementById('btn-close-edit-profile').addEventListener('click', () => {
+      document.getElementById('edit-profile-modal').classList.add('hidden');
+    });
+    document.getElementById('form-edit-profile').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!state.user) return;
+      const newName = document.getElementById('edit-prof-name').value.trim();
+      const newGroup = document.getElementById('edit-prof-group').value.trim();
+      state.user.name = newName;
+      state.user.group = newGroup;
+      if (auth.currentUser) {
+        try { await updateProfile(auth.currentUser, { displayName: newName }); } catch (err) {}
+      }
+      try {
+        await setDoc(doc(db, 'users', state.user.uid), { name: newName, group: newGroup }, { merge: true });
+      } catch (err) {}
+      document.getElementById('edit-profile-modal').classList.add('hidden');
+      updateNavbar();
+    });
+
+    applyTheme(lsGet('studyprep_theme') || 'light');
     (async () => {
       await loadCatalogMeta();
       onAuthStateChanged(auth, async (fbUser) => {
