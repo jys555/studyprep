@@ -526,7 +526,8 @@
       GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, sendPasswordResetEmail
     } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
     import {
-      getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs
+      getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
+      doc, getDoc, setDoc, deleteDoc, collection, getDocs
     } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js';
 
     const ADMIN_EMAIL = "jumanovyashnarbek55@gmail.com";
@@ -543,7 +544,12 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const db = getFirestore(app);
+    let db;
+    try {
+      db = initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) });
+    } catch (e) {
+      db = getFirestore(app);
+    }
     const googleProvider = new GoogleAuthProvider();
 
     const state = {
@@ -597,9 +603,35 @@
       }
     }
 
-    // Optimal Lazy Loading: fetch ONLY subjects + topic_meta on startup (0 questions loaded!)
+    function hydrateFromLocalCache() {
+      try {
+        const rawCat = lsGet('studyprep_catalog_cache');
+        if (rawCat) {
+          const parsed = JSON.parse(rawCat);
+          if (Array.isArray(parsed.subjects) && parsed.subjects.length) {
+            state.subjects = parsed.subjects;
+            state.topicMetas = Array.isArray(parsed.topicMetas) ? parsed.topicMetas : [];
+            state.loading = false;
+            document.getElementById('loading-banner').classList.add('hidden');
+          }
+        }
+      } catch (e) {}
+      try {
+        const rawUser = lsGet('studyprep_user_cache');
+        if (rawUser) {
+          const u = JSON.parse(rawUser);
+          if (u && u.uid) {
+            state.user = u;
+            state.progressByTopic = loadLocalProgress(u.uid);
+          }
+        }
+      } catch (e) {}
+      if (!state.loading || state.user) renderAll();
+    }
+
+    // Optimal Lazy Loading + instant local cache sync
     async function loadCatalogMeta() {
-      state.loading = true;
+      if (!state.subjects.length) state.loading = true;
       try {
         const [subjSnap, metaSnap] = await Promise.all([
           getDocs(collection(db, 'subjects')),
@@ -614,9 +646,13 @@
         metaSnap.forEach((d) => mlist.push({ id: d.id, ...d.data() }));
         mlist.sort((a, b) => (a.order || 99) - (b.order || 99));
         state.topicMetas = mlist;
+
+        lsSet('studyprep_catalog_cache', JSON.stringify({ subjects: slist, topicMetas: mlist }));
       } catch (e) {
-        state.subjects = [];
-        state.topicMetas = [];
+        if (!state.subjects.length) {
+          state.subjects = [];
+          state.topicMetas = [];
+        }
       }
       state.loading = false;
       document.getElementById('loading-banner').classList.add('hidden');
@@ -645,17 +681,21 @@
 
     async function loadUserData(userObj) {
       try {
-        const profileSnap = await getDoc(doc(db, 'users', userObj.uid));
+        const [profileSnap, progSnap] = await Promise.all([
+          getDoc(doc(db, 'users', userObj.uid)),
+          getDocs(collection(db, 'users', userObj.uid, 'progress'))
+        ]);
         if (profileSnap.exists()) {
           const p = profileSnap.data();
           if (p.theme) applyTheme(p.theme);
           if (p.name) userObj.name = p.name;
           if (p.group) userObj.group = p.group;
         }
-        const progSnap = await getDocs(collection(db, 'users', userObj.uid, 'progress'));
         const map = {};
         progSnap.forEach((d) => { map[d.id] = d.data(); });
         state.progressByTopic = map;
+        lsSet('studyprep_user_cache', JSON.stringify(userObj));
+        saveLocalProgress(userObj.uid);
       } catch (e) {
         state.progressByTopic = loadLocalProgress(userObj.uid);
       }
@@ -1709,6 +1749,7 @@
 
     document.getElementById('btn-logout').addEventListener('click', async () => {
       profileMenu.classList.add('hidden');
+      try { localStorage.removeItem('studyprep_user_cache'); } catch (e) {}
       await signOut(auth);
     });
 
@@ -1836,6 +1877,7 @@
         state.activeTopicId = mixId;
         state.activeCat = 'all';
         state.order = combinedQs.map((q) => q.id);
+        buildOptionOrders(mixId, combinedQs, false);
         state.view = 'quiz';
         document.getElementById('mix-modal').classList.add('hidden');
         renderAll();
@@ -1848,19 +1890,21 @@
     });
 
     applyTheme(lsGet('studyprep_theme') || 'light');
-    (async () => {
-      await loadCatalogMeta();
-      onAuthStateChanged(auth, async (fbUser) => {
-        if (fbUser) {
-          state.user = { uid: fbUser.uid, name: fbUser.displayName || fbUser.email, email: fbUser.email, photoURL: fbUser.photoURL || null };
-          await loadUserData(state.user);
-        } else {
-          state.user = null;
-          state.progressByTopic = loadLocalProgress('guest');
-          renderAll();
-        }
-      });
-    })();
+    hydrateFromLocalCache();
+    loadCatalogMeta();
+    onAuthStateChanged(auth, async (fbUser) => {
+      if (fbUser) {
+        state.user = { uid: fbUser.uid, name: fbUser.displayName || fbUser.email, email: fbUser.email, photoURL: fbUser.photoURL || null };
+        lsSet('studyprep_user_cache', JSON.stringify(state.user));
+        renderAll();
+        await loadUserData(state.user);
+      } else {
+        state.user = null;
+        try { localStorage.removeItem('studyprep_user_cache'); } catch (e) {}
+        state.progressByTopic = loadLocalProgress('guest');
+        renderAll();
+      }
+    });
   </script>
 </body>
 </html>
