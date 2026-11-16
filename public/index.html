@@ -15,37 +15,100 @@
     body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
     .fade-in { animation: fadeIn 0.22s ease-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.65);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.75);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 4px 24px -10px rgba(15, 23, 42, 0.08);
+    }
+    .dark .glass-nav {
+      background: rgba(15, 23, 42, 0.58);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 8px 28px -10px rgba(0, 0, 0, 0.55);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.66);
+      -webkit-backdrop-filter: blur(22px) saturate(180%);
+      backdrop-filter: blur(22px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow:
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.92),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.30),
+        0 8px 28px -10px rgba(15, 23, 42, 0.08);
+    }
+    .dark .glass-card {
+      background: rgba(15, 23, 42, 0.56);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow:
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.18),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+        0 12px 32px -10px rgba(0, 0, 0, 0.55);
+    }
+
+    .glass-sub {
+      background: rgba(248, 250, 252, 0.62);
+      -webkit-backdrop-filter: blur(14px) saturate(165%);
+      backdrop-filter: blur(14px) saturate(165%);
+      border: 1px solid rgba(226, 232, 240, 0.80);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.80);
+    }
+    .dark .glass-sub {
+      background: rgba(30, 41, 59, 0.48);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .glass-icon-btn {
+      background: rgba(241, 245, 249, 0.68);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.90), 0 4px 12px -4px rgba(15, 23, 42, 0.08);
+    }
+    .dark .glass-icon-btn {
+      background: rgba(30, 41, 59, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 4px 14px -4px rgba(0, 0, 0, 0.45);
+    }
+
     .apple-glass {
-      background: rgba(255, 255, 255, 0.72);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(255, 255, 255, 0.56);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      backdrop-filter: blur(24px) saturate(190%);
+      box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.88), 0 10px 30px -6px rgba(15, 23, 42, 0.14);
     }
     .dark .apple-glass {
-      background: rgba(15, 23, 42, 0.72);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(15, 23, 42, 0.56);
+      box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.20), 0 12px 32px -6px rgba(0, 0, 0, 0.58);
     }
   </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200">
   <!-- Top Navbar -->
-  <nav class="sticky top-0 z-30 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-slate-200 dark:border-slate-800">
+  <nav class="sticky top-0 z-30 glass-nav">
     <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
       <div class="flex items-center gap-3 min-w-0">
         <button id="btn-home" type="button" class="flex items-center gap-2.5 text-left group focus:outline-none">
           <img src="/logo.png" alt="StudyPrep" class="w-9 h-9 rounded-xl object-cover shadow-sm" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span style="display:none" class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 text-white items-center justify-center font-extrabold text-sm shadow-sm">SP</span>
           <span class="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white truncate">StudyPrep</span>
         </button>
-        <button id="btn-back" type="button" class="hidden items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+        <button id="btn-back" type="button" class="hidden items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold glass-icon-btn text-slate-700 dark:text-slate-300 hover:bg-white/90 dark:hover:bg-slate-700/70 transition">
           <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
           <span id="btn-back-label">Orqaga</span>
         </button>
       </div>
 
       <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
-        <button id="btn-open-leaderboard" type="button" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition">
-          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8m-4-4v4m-5-9a5 5 0 0010 0V5H7v7zm-3-5h3v3a3 3 0 01-3-3V7zm16 0h-3v3a3 3 0 003-3V7z"/></svg>
-          <span class="hidden sm:inline">Reyting</span>
+        <button id="btn-open-leaderboard" type="button" aria-label="Reyting" title="Reyting" class="hidden w-9 h-9 rounded-full items-center justify-center glass-icon-btn bg-amber-50/70 dark:bg-amber-950/50 text-amber-600 dark:text-amber-300 border-amber-200/70 dark:border-amber-800/70 hover:bg-amber-100/80 dark:hover:bg-amber-900/60 transition">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 20H4a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h5v8z"/>
+            <path d="M15 20H9V9a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v11z"/>
+            <path d="M21 20h-6v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1z"/>
+            <path d="M12 2.5l.8 1.6 1.8.26-1.3 1.26.3 1.78L12 6.55l-1.6.85.3-1.78-1.3-1.26 1.8-.26L12 2.5z" fill="currentColor" stroke="none"/>
+          </svg>
         </button>
 
         <button id="btn-open-admin" type="button" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition">
@@ -54,12 +117,12 @@
         </button>
 
         <!-- Support Icon Button -->
-        <button id="btn-open-support" type="button" aria-label="Yordam (Support)" title="Support / Admin bilan aloqa" class="w-9 h-9 rounded-full flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition">
+        <button id="btn-open-support" type="button" aria-label="Yordam (Support)" title="Support / Admin bilan aloqa" class="w-9 h-9 rounded-full flex items-center justify-center glass-icon-btn hover:bg-white/90 dark:hover:bg-slate-700/70 text-slate-700 dark:text-slate-200 transition">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 13v-1a8 8 0 0116 0v1m-14 0h2a1 1 0 011 1v3a1 1 0 01-1 1H6a2 2 0 01-2-2v-3zm14 0h-2a1 1 0 00-1 1v3a1 1 0 001 1h2a2 2 0 002-2v-3zm-2 5v1a2 2 0 01-2 2h-3"/></svg>
         </button>
 
         <!-- Icon-only Night Mode button -->
-        <button id="btn-theme" type="button" aria-label="Tungi va kunduzgi rejim" title="Tungi / Kunduzgi rejim" class="w-9 h-9 rounded-full flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700 transition">
+        <button id="btn-theme" type="button" aria-label="Tungi va kunduzgi rejim" title="Tungi / Kunduzgi rejim" class="w-9 h-9 rounded-full flex items-center justify-center glass-icon-btn hover:bg-white/90 dark:hover:bg-slate-700/70 text-slate-700 dark:text-amber-300 transition">
           <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
           <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314L7.05 7.05m9.9 9.9l1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
         </button>
@@ -70,7 +133,7 @@
             <img id="profile-img" class="hidden w-full h-full object-cover" alt="Avatar">
             <span id="profile-initials">U</span>
           </button>
-          <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-4 z-50 fade-in">
+          <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 glass-card rounded-2xl shadow-xl p-4 z-50 fade-in">
             <div class="flex items-center gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
               <div class="w-10 h-10 rounded-full bg-violet-600 text-white font-bold text-sm flex items-center justify-center overflow-hidden shrink-0">
                 <img id="menu-img" class="hidden w-full h-full object-cover" alt="Avatar">
@@ -103,24 +166,31 @@
     </div>
   </nav>
 
+  <!-- Floating Centered Apple Glass Timer -->
+  <div id="floating-glass-timer" class="fixed top-[74px] left-1/2 -translate-x-1/2 z-30 opacity-0 -translate-y-3 pointer-events-none transition-all duration-300">
+    <div id="floating-timer-pill" class="apple-glass inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/60 dark:border-slate-700/70 text-sm font-extrabold text-slate-900 dark:text-white tabular-nums">
+      <span id="floating-timer-dot" class="w-2 h-2 rounded-full bg-violet-500 animate-pulse"></span>
+      <svg class="w-4 h-4 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <span id="floating-timer-display">00:00</span>
+    </div>
+  </div>
+
   <!-- Main Content -->
   <div class="max-w-5xl mx-auto px-4 py-6 sm:py-8">
     <!-- Loading Banner -->
-    <div id="loading-banner" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 text-center">
+    <div id="loading-banner" class="glass-card rounded-2xl p-8 text-center">
       <div class="w-8 h-8 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
       <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">Ma’lumotlar yuklanmoqda...</p>
     </div>
 
     <!-- Auth Required Gate (No Guest Mode) -->
     <section id="view-auth-gate" class="hidden fade-in py-10">
-      <div class="max-w-md mx-auto bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 sm:p-8 text-center">
+      <div class="max-w-md mx-auto glass-card rounded-2xl p-6 sm:p-8 text-center">
         <div class="w-14 h-14 rounded-2xl bg-violet-100 dark:bg-violet-950/60 text-violet-600 dark:text-violet-400 flex items-center justify-center mx-auto mb-4">
           <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
         </div>
         <h1 class="text-xl font-extrabold text-slate-900 dark:text-white">StudyPrep portaliga xush kelibsiz!</h1>
-        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">
-          Testlarni yechish, natijalaringizni saqlash va reytingda qatnashish uchun akkauntingizga kiring yoki ro‘yxatdan o‘ting.
-        </p>
+  
         <button id="btn-gate-signin" type="button" class="mt-5 w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
           Kirish / Ro‘yxatdan o‘tish
         </button>
@@ -128,32 +198,19 @@
     </section>
 
     <!-- VIEW 1: SUBJECTS HOME -->
-    <section id="view-subjects" class="hidden fade-in">
-      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 mb-6">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-2">
-              Shaxsiy imtihon portali
-            </span>
-            <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">Fanlar katalogi</h1>
-            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-              Kerakli fanni tanlang va imtihonlarga tayyorgarlikni boshlang — eng yaxshi natijalaringiz doim saqlanadi.
-            </p>
-          </div>
-          <div class="grid grid-cols-3 gap-2.5 shrink-0 text-center">
-            <div class="px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
-              <div id="hub-stat-subjects" class="text-lg font-extrabold text-slate-900 dark:text-white">0</div>
-              <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Fan</div>
-            </div>
-            <div class="px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
-              <div id="hub-stat-questions" class="text-lg font-extrabold text-slate-900 dark:text-white">0</div>
-              <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Savol</div>
-            </div>
-            <div class="px-3 py-2.5 rounded-xl bg-violet-50 dark:bg-violet-950/50 border border-violet-200 dark:border-violet-800">
-              <div id="hub-stat-mastery" class="text-lg font-extrabold text-violet-700 dark:text-violet-300">0%</div>
-              <div class="text-[11px] font-medium text-violet-600 dark:text-violet-400">O‘zlashtirish</div>
-            </div>
-          </div>
+    <section id="view-subjects" class="hidden fade-in space-y-5">
+      <div class="grid grid-cols-3 gap-2.5 text-center">
+        <div class="glass-card rounded-2xl px-3 py-3">
+          <div id="hub-stat-subjects" class="text-lg font-extrabold text-slate-900 dark:text-white">0</div>
+          <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Fan</div>
+        </div>
+        <div class="glass-card rounded-2xl px-3 py-3">
+          <div id="hub-stat-questions" class="text-lg font-extrabold text-slate-900 dark:text-white">0</div>
+          <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Savol</div>
+        </div>
+        <div class="glass-card rounded-2xl px-3 py-3">
+          <div id="hub-stat-mastery" class="text-lg font-extrabold text-violet-700 dark:text-violet-300">0%</div>
+          <div class="text-[11px] font-medium text-violet-600 dark:text-violet-400">O‘zlashtirish</div>
         </div>
       </div>
 
@@ -162,13 +219,12 @@
 
     <!-- VIEW 2: TOPICS OF SELECTED SUBJECT -->
     <section id="view-topics" class="hidden fade-in">
-      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 mb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <span id="subj-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-2"></span>
-          <h1 id="subj-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white"></h1>
-          <p id="subj-desc" class="text-sm text-slate-600 dark:text-slate-400 mt-1"></p>
+      <div class="glass-card rounded-2xl p-4 sm:p-5 mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <span id="subj-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50/80 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200/80 dark:border-violet-800 shrink-0"></span>
+          <h1 id="subj-title" class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white truncate"></h1>
         </div>
-        <button id="btn-open-mix" type="button" class="hidden shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition">
+        <button id="btn-open-mix" type="button" class="hidden shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-50/80 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition">
           Mavzularni aralashtirish
         </button>
       </div>
@@ -177,23 +233,13 @@
 
     <!-- VIEW 3: LEADERBOARD -->
     <section id="view-leaderboard" class="hidden fade-in space-y-5">
-      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 mb-2">
-            Talabalar reytingi
-          </span>
-          <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">Umumiy Leaderboard</h1>
-          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Barcha fanlar bo‘yicha eng yaxshi natijalar (best score) asosida reyting.</p>
-        </div>
-        <button id="btn-refresh-leaderboard" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shrink-0">
-          Yangilash
-        </button>
-      </div>
-
       <div id="my-rank-card" class="hidden bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl p-5 shadow-sm flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <div class="text-xs font-semibold text-violet-100 uppercase tracking-wider">Sizning natijangiz</div>
-          <div id="my-rank-title" class="text-lg sm:text-xl font-extrabold mt-0.5"></div>
+        <div class="flex items-center gap-3.5">
+          <div id="my-rank-badge" class="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-lg font-extrabold shrink-0">#1</div>
+          <div>
+            <div id="my-rank-title" class="text-base sm:text-lg font-extrabold"></div>
+            <div id="my-rank-sub" class="text-xs text-violet-100"></div>
+          </div>
         </div>
         <div class="flex items-center gap-5 text-center">
           <div>
@@ -207,58 +253,35 @@
         </div>
       </div>
 
-      <div id="leaderboard-list" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden"></div>
+      <div id="leaderboard-podium" class="hidden grid grid-cols-3 gap-2.5 sm:gap-4 items-end"></div>
+
+      <div id="leaderboard-list" class="glass-card rounded-2xl divide-y divide-slate-200/60 dark:divide-slate-800/70 overflow-hidden"></div>
     </section>
 
-    <!-- VIEW 4: QUIZ RUNNER WITH APPLE GLASS FLOATING TIMER HUD -->
+    <!-- VIEW 4: QUIZ RUNNER -->
     <section id="view-quiz" class="hidden fade-in">
-      <!-- Sticky Apple Glass Floating Timer & Live Progress Bar under Header -->
-      <div class="sticky top-[70px] z-20 mb-4">
-        <div id="glass-timer-bar" class="apple-glass rounded-2xl border border-white/60 dark:border-slate-700/70 shadow-lg shadow-slate-900/5 dark:shadow-black/30 px-4 py-2.5 flex items-center justify-between gap-3 transition-all">
-          <div class="flex items-center gap-3 min-w-0">
-            <div id="timer-box" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-extrabold bg-white/80 dark:bg-slate-800/80 text-slate-900 dark:text-white border border-slate-200/70 dark:border-slate-700/70 tabular-nums shadow-sm shrink-0">
-              <span id="timer-dot" class="w-2 h-2 rounded-full bg-violet-500 animate-pulse"></span>
-              <svg class="w-4 h-4 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <span id="timer-display">00:00</span>
-            </div>
-            <div class="hidden sm:flex items-center gap-3 text-xs font-semibold text-slate-600 dark:text-slate-300 truncate">
-              <span>Yechilgan: <b id="hud-answered" class="text-slate-900 dark:text-white">0/0</b></span>
-              <span class="text-emerald-600 dark:text-emerald-400">✓ <b id="hud-correct">0</b></span>
-              <span class="text-rose-600 dark:text-rose-400">✕ <b id="hud-wrong">0</b></span>
-            </div>
-          </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <span id="hud-pct" class="text-xs font-extrabold text-violet-700 dark:text-violet-300 sm:hidden">0%</span>
-            <button id="btn-glossary-mini" type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-white/75 dark:bg-slate-800/75 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700/60 transition">
-              Konspekt
-            </button>
-            <button id="btn-reset-mini" type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-violet-600 hover:bg-violet-700 text-white shadow-sm transition">
-              Qayta
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <header class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 mb-5 transition-colors">
+      <header id="quiz-header-card" class="glass-card rounded-2xl p-5 sm:p-6 mb-5 transition-colors">
         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
-            <span id="quiz-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-2"></span>
+            <span id="quiz-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50/80 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-2"></span>
             <h1 id="quiz-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-tight"></h1>
-            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-              Javobni belgilashingiz bilan to‘g‘ri javob, tushuntirish ochiladi va eng yaxshi natijangiz saqlanadi.
-            </p>
           </div>
           <div class="flex flex-wrap items-center gap-2 shrink-0">
-            <button id="btn-glossary" type="button" class="px-3.5 py-2 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition">
+            <div id="inline-timer-box" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold glass-sub text-slate-900 dark:text-white tabular-nums">
+              <span id="inline-timer-dot" class="w-2 h-2 rounded-full bg-violet-500 animate-pulse"></span>
+              <svg class="w-4 h-4 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span id="inline-timer-display">00:00</span>
+            </div>
+            <button id="btn-glossary" type="button" class="px-3.5 py-2 rounded-xl text-sm font-semibold glass-icon-btn text-slate-800 dark:text-slate-200 transition">
               Tezkor konspekt
             </button>
-            <button id="btn-reset" type="button" class="px-3.5 py-2 rounded-xl text-sm font-semibold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
-              Qayta boshlash
+            <button id="btn-finish-quiz" type="button" class="px-3.5 py-2 rounded-xl text-sm font-bold bg-rose-600 hover:bg-rose-700 text-white transition shadow-sm">
+              Yakunlash
             </button>
           </div>
         </div>
 
-        <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+        <div class="mt-5 pt-4 border-t border-slate-200/60 dark:border-slate-800/70">
           <div class="flex flex-wrap items-center justify-between gap-3 text-sm mb-2">
             <div class="flex items-center gap-4">
               <span class="font-semibold text-slate-700 dark:text-slate-300">Yechilgan: <span id="stat-answered" class="text-slate-900 dark:text-white">0</span> / <span id="stat-total">0</span></span>
@@ -270,14 +293,14 @@
               <span id="stat-pct" class="font-bold text-violet-700 dark:text-violet-400">0% natija</span>
             </div>
           </div>
-          <div class="w-full h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+          <div class="w-full h-2.5 bg-slate-200/70 dark:bg-slate-800/70 rounded-full overflow-hidden">
             <div id="progress-bar" class="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-300" style="width: 0%"></div>
           </div>
         </div>
 
         <div class="mt-4 flex flex-wrap items-center justify-between gap-2">
           <div id="filter-tabs" class="flex flex-wrap gap-1.5"></div>
-          <button id="btn-shuffle" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition">
+          <button id="btn-shuffle" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-50/80 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition">
             Savollarni aralashtirish
           </button>
         </div>
@@ -285,21 +308,23 @@
 
       <main id="questions-list" class="space-y-4"></main>
 
-      <div id="empty-wrong" class="hidden bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 text-center">
+      <div id="empty-wrong" class="hidden glass-card rounded-2xl p-8 text-center">
         <p class="text-base font-bold text-slate-800 dark:text-slate-200">Hozircha savollar topilmadi!</p>
-        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Barcha savollar ro‘yxatiga qaytib testni davom ettirishingiz mumkin.</p>
+      </div>
+
+      <div id="quiz-bottom-actions" class="mt-6 flex justify-center">
+        <button id="btn-finish-quiz-bottom" type="button" class="px-7 py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+          Yakunlash
+        </button>
       </div>
     </section>
 
     <!-- VIEW 5: FULL DEDICATED ADMIN PAGE -->
     <section id="view-admin" class="hidden fade-in space-y-6">
-      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 mb-2">
-            Admin Boshqaruv Sahifasi
-          </span>
-          <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">Fanlar, Mavzular va Testlarni Boshqarish</h1>
-          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Qo‘shish, tahrirlash, o‘chirish va JSON fayl import qilish.</p>
+      <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="flex items-center gap-2.5">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50/80 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">Admin</span>
+          <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">Boshqaruv</h1>
         </div>
         <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition shrink-0">
           JSON fayl yuklash (.json)
@@ -318,7 +343,7 @@
 
       <!-- ADMIN TAB 1: SUBJECTS CRUD -->
       <div id="admin-sec-subjects" class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <form id="form-subj-crud" class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 space-y-3 h-fit">
+        <form id="form-subj-crud" class="lg:col-span-2 glass-card rounded-2xl p-5 space-y-3 h-fit">
           <div class="flex items-center justify-between">
             <h2 id="subj-form-title" class="text-base font-extrabold text-slate-900 dark:text-white">Yangi fan qo‘shish</h2>
             <button id="btn-subj-cancel" type="button" class="hidden text-xs font-semibold text-slate-500 hover:underline">Bekor qilish</button>
@@ -349,7 +374,7 @@
 
       <!-- ADMIN TAB 2: TOPICS CRUD -->
       <div id="admin-sec-topics" class="hidden grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <form id="form-topic-crud" class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 space-y-3 h-fit">
+        <form id="form-topic-crud" class="lg:col-span-2 glass-card rounded-2xl p-5 space-y-3 h-fit">
           <div class="flex items-center justify-between">
             <h2 id="topic-form-title" class="text-base font-extrabold text-slate-900 dark:text-white">Yangi mavzu qo‘shish</h2>
             <button id="btn-topic-cancel" type="button" class="hidden text-xs font-semibold text-slate-500 hover:underline">Bekor qilish</button>
@@ -384,14 +409,14 @@
 
       <!-- ADMIN TAB 3: QUESTIONS CRUD -->
       <div id="admin-sec-questions" class="hidden space-y-6">
-        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 flex flex-col sm:flex-row sm:items-center gap-3">
+        <div class="glass-card rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-3">
           <label class="text-xs font-bold uppercase tracking-wider text-slate-500 shrink-0">Mavzuni tanlang:</label>
           <select id="adm-q-topic" class="flex-1 px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-semibold"></select>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
           <div class="lg:col-span-2 space-y-4">
-            <form id="form-q-crud" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 space-y-3">
+            <form id="form-q-crud" class="glass-card rounded-2xl p-5 space-y-3">
               <div class="flex items-center justify-between">
                 <h2 id="q-form-title" class="text-base font-extrabold text-slate-900 dark:text-white">Yangi savol qo‘shish</h2>
                 <button id="btn-q-cancel" type="button" class="hidden text-xs font-semibold text-slate-500 hover:underline">Bekor qilish</button>
@@ -427,7 +452,7 @@
               <button type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition">Savolni saqlash</button>
             </form>
 
-            <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 space-y-2">
+            <div class="glass-card rounded-2xl p-5 space-y-2">
               <div class="text-xs font-bold uppercase tracking-wider text-slate-500">JSON massivdan ko‘p savol qo‘shish</div>
               <textarea id="adm-q-json" rows="3" placeholder='[{"catLabel":"Asoslar","q":"...","opts":["A","B","C","D"],"ans":0,"exp":"..."}]' class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-mono"></textarea>
               <button id="btn-import-json" type="button" class="w-full py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition">JSON dan import qilish</button>
@@ -443,77 +468,64 @@
     </section>
   </div>
 
-  <!-- Pre-Start / Resume Topic Modal (Always Timed) -->
-  <div id="quiz-start-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
-      <div class="flex items-start justify-between gap-3 mb-3">
-        <div>
-          <span id="qs-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-1.5"></span>
-          <h3 id="qs-title" class="text-lg font-extrabold text-slate-900 dark:text-white leading-snug"></h3>
-        </div>
-        <button id="btn-close-qs" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold shrink-0">✕</button>
+  <!-- Minimal Pre-Start / Resume Topic Modal (90s per question automatically) -->
+  <div id="quiz-start-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-sm w-full p-5 fade-in">
+      <div class="flex items-center justify-between mb-3">
+        <div id="qs-meta-line" class="text-xs font-bold text-violet-600 dark:text-violet-400"></div>
+        <button id="btn-close-qs" type="button" class="w-7 h-7 rounded-lg flex items-center justify-center glass-icon-btn text-slate-600 dark:text-slate-300 font-bold text-xs">✕</button>
       </div>
 
-      <div class="grid grid-cols-2 gap-2.5 mb-4 text-center">
-        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
-          <div id="qs-progress-val" class="text-base font-extrabold text-slate-900 dark:text-white">0 / 0</div>
-          <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Joriy jarayon</div>
+      <div id="qs-stats-row" class="hidden grid grid-cols-2 gap-2 mb-4 text-center">
+        <div id="qs-progress-card" class="hidden p-2.5 rounded-xl glass-sub">
+          <div id="qs-progress-val" class="text-sm font-extrabold text-slate-900 dark:text-white">0 / 0</div>
+          <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Hozirgi holat</div>
         </div>
-        <div class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800">
-          <div id="qs-best-val" class="text-base font-extrabold text-emerald-700 dark:text-emerald-300">0 / 0</div>
+        <div id="qs-best-card" class="hidden p-2.5 rounded-xl bg-emerald-50/75 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800">
+          <div id="qs-best-val" class="text-sm font-extrabold text-emerald-700 dark:text-emerald-300">0 / 0</div>
           <div class="text-[11px] font-medium text-emerald-600 dark:text-emerald-400">Eng yaxshi natija</div>
-        </div>
-      </div>
-
-      <div class="mb-4">
-        <div class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2">Har bir savol uchun vaqt (taymer doim yoqilgan):</div>
-        <div class="grid grid-cols-3 gap-2">
-          <button type="button" data-sec-q="60" class="qs-pace-btn py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition">60s / savol</button>
-          <button type="button" data-sec-q="90" class="qs-pace-btn py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition">90s / savol</button>
-          <button type="button" data-sec-q="120" class="qs-pace-btn py-2 rounded-xl text-xs font-bold border-2 border-violet-600 bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 transition">120s / savol</button>
         </div>
       </div>
 
       <div id="qs-actions" class="space-y-2">
         <button id="btn-qs-resume" type="button" class="hidden w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
-          Testni davom ettirish
+          Davom ettirish
         </button>
-        <button id="btn-qs-wrong" type="button" class="hidden w-full py-2.5 rounded-xl text-sm font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition">
+        <button id="btn-qs-wrong" type="button" class="hidden w-full py-2.5 rounded-xl text-sm font-bold bg-amber-50/85 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition">
           Faqat xatolarni qayta ishlash
         </button>
-        <button id="btn-qs-fresh" type="button" class="w-full py-2.5 rounded-xl text-sm font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:opacity-90 transition">
+        <button id="btn-qs-fresh" type="button" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
           Testni boshlash
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Reset Options Modal (Preserves Best Score) -->
-  <div id="reset-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Qayta boshlash rejimini tanlang</h3>
-        <button id="btn-close-reset" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
+  <!-- Finish Quiz Summary Modal -->
+  <div id="finish-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-sm w-full p-6 text-center fade-in">
+      <div class="w-12 h-12 rounded-2xl bg-emerald-100/80 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-3">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
       </div>
-      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-4">
-        Xavotir olmang: qayta boshlaganda ham eng yaxshi natijangiz (<b>Best Score</b>) va reytingdagi ballingiz saqlanib qoladi.
-      </p>
-      <div class="space-y-2.5">
-        <button id="btn-reset-wrong-only" type="button" class="w-full py-3 px-4 rounded-xl text-left border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition">
-          <div class="text-sm font-bold text-amber-900 dark:text-amber-200">Faqat xatolarni qayta ishlash</div>
-          <div id="reset-wrong-sub" class="text-xs text-amber-700 dark:text-amber-400 mt-0.5">To‘g‘ri javoblaringiz saqlanadi, faqat xato savollar qayta ochiladi.</div>
+      <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Test yakunlandi!</h3>
+      <p id="finish-summary" class="text-sm text-slate-600 dark:text-slate-400 mt-2"></p>
+      <div class="mt-5 space-y-2">
+        <button id="btn-finish-wrong" type="button" class="hidden w-full py-2.5 rounded-xl text-sm font-bold bg-amber-50/85 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition">
+          Faqat xatolarni qayta ishlash
         </button>
-        <button id="btn-reset-full" type="button" class="w-full py-3 px-4 rounded-xl text-left border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/70 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          <div class="text-sm font-bold text-slate-900 dark:text-white">Barchasini noldan boshlash</div>
-          <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Savollar va variantlar aralashtirilib, taymer yangidan boshlanadi.</div>
+        <button id="btn-finish-exit" type="button" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+          Mavzularga qaytish
+        </button>
+        <button id="btn-finish-retry" type="button" class="w-full py-2 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">
+          Qayta boshlash
         </button>
       </div>
     </div>
   </div>
 
   <!-- Time Up Modal -->
-  <div id="timeup-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl text-center fade-in">
+  <div id="timeup-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-md w-full p-6 shadow-xl text-center fade-in">
       <div class="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto mb-3">
         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       </div>
@@ -527,8 +539,8 @@
   </div>
 
   <!-- Auth Modal (No Guest Mode) -->
-  <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
+  <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
       <div class="flex items-center justify-between mb-4">
         <h3 id="auth-modal-title" class="text-lg font-extrabold text-slate-900 dark:text-white">Akkauntga kirish</h3>
         <button id="btn-close-auth" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
@@ -592,8 +604,8 @@
   </div>
 
   <!-- Edit Profile Modal -->
-  <div id="edit-profile-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
+  <div id="edit-profile-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Profilni tahrirlash</h3>
         <button id="btn-close-edit-profile" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
@@ -613,13 +625,12 @@
   </div>
 
   <!-- Support Modal -->
-  <div id="support-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
+  <div id="support-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Support / Admin bilan aloqa</h3>
         <button id="btn-close-support" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
       </div>
-      <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Savol, taklif yoki texnik muammolar bo‘yicha admin bilan bog‘laning:</p>
       <div class="space-y-2.5">
         <a href="https://t.me/JYS_I" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800 hover:bg-sky-100 dark:hover:bg-sky-900/50 transition">
           <div>
@@ -640,13 +651,12 @@
   </div>
 
   <!-- Mix Topics Modal (With Balanced Random Question Count) -->
-  <div id="mix-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-xl fade-in">
+  <div id="mix-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-lg w-full p-6 shadow-xl fade-in">
       <div class="flex items-center justify-between mb-3">
         <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Mavzularni aralashtirish</h3>
         <button id="btn-close-mix" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
       </div>
-      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-3">Aralash imtihon uchun mavzularni tanlang — savollar har bir mavzudan teng taqsimlab random olinadi:</p>
       <div id="mix-topics-list" class="space-y-2 max-h-56 overflow-y-auto mb-4"></div>
 
       <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 mb-4 space-y-2.5">
@@ -674,8 +684,8 @@
   </div>
 
   <!-- Glossary Modal -->
-  <div id="glossary-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-xl">
+  <div id="glossary-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-xl">
       <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
         <h2 id="glossary-title" class="text-lg font-extrabold text-slate-900 dark:text-white">Tezkor konspekt</h2>
         <button id="btn-close-glossary" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
@@ -697,6 +707,7 @@
     } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js';
 
     const ADMIN_EMAIL = "jumanovyashnarbek55@gmail.com";
+    const SEC_PER_QUESTION = 90;
 
     const firebaseConfig = {
       apiKey: "AIzaSyApfhXLHTw2XRm_kBHRxoOO2ppuVcZ_KwI",
@@ -732,7 +743,6 @@
       activeSubjectId: null,
       activeTopicId: null,
       pendingTopicId: null,
-      selectedSecPerQ: 120,
       progressByTopic: {},
       activeCat: 'all',
       order: [],
@@ -741,12 +751,30 @@
       timerSecondsLeft: 0,
       timerDeadlineAt: 0,
       timerInterval: null,
+      quizHeaderVisible: true,
       loading: true,
       adminTab: 'subjects'
     };
 
     function isAdmin() {
       return Boolean(state.user && state.user.email && state.user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+    }
+
+    function friendlyAuthError(err) {
+      const code = (err && err.code) || '';
+      const map = {
+        'auth/invalid-credential': 'Email yoki parol noto‘g‘ri. Qaytadan tekshirib ko‘ring.',
+        'auth/wrong-password': 'Parol noto‘g‘ri. Qaytadan urinib ko‘ring.',
+        'auth/user-not-found': 'Bunday email bilan ro‘yxatdan o‘tilgan akkaunt topilmadi.',
+        'auth/invalid-email': 'Email manzili noto‘g‘ri formatda kiritilgan.',
+        'auth/email-already-in-use': 'Bu email allaqachon ro‘yxatdan o‘tgan. Kirish bo‘limidan foydalaning.',
+        'auth/weak-password': 'Parol juda oddiy — kamida 6 ta belgi kiriting.',
+        'auth/too-many-requests': 'Juda ko‘p urinish bo‘ldi. Biroz kutib qayta urinib ko‘ring.',
+        'auth/network-request-failed': 'Internet aloqasida muammo. Ulanishni tekshiring.',
+        'auth/popup-closed-by-user': 'Google orqali kirish oynasi yopildi.',
+        'auth/user-disabled': 'Ushbu akkaunt vaqtincha bloklangan.'
+      };
+      return map[code] || 'Kirishda xatolik yuz berdi. Ma’lumotlarni tekshirib qayta urining.';
     }
 
     function escapeHtml(str) {
@@ -960,11 +988,26 @@
       }
     }
 
+    function updateFloatingTimerVisibility() {
+      const floatEl = document.getElementById('floating-glass-timer');
+      if (!floatEl) return;
+      const shouldShow = state.view === 'quiz' && !state.quizHeaderVisible && state.timerDeadlineAt > 0;
+      if (shouldShow) {
+        floatEl.classList.remove('opacity-0', '-translate-y-3', 'pointer-events-none');
+        floatEl.classList.add('opacity-100', 'translate-y-0');
+      } else {
+        floatEl.classList.add('opacity-0', '-translate-y-3', 'pointer-events-none');
+        floatEl.classList.remove('opacity-100', 'translate-y-0');
+      }
+    }
+
     function stopTimer() {
       if (state.timerInterval) {
         clearInterval(state.timerInterval);
         state.timerInterval = null;
       }
+      state.timerDeadlineAt = 0;
+      updateFloatingTimerVisibility();
     }
 
     function formatTime(sec) {
@@ -974,20 +1017,33 @@
     }
 
     function updateTimerUI() {
-      const disp = document.getElementById('timer-display');
-      const box = document.getElementById('timer-box');
-      const dot = document.getElementById('timer-dot');
-      if (!disp || !box) return;
-      disp.textContent = formatTime(state.timerSecondsLeft);
+      const timeStr = formatTime(state.timerSecondsLeft);
+      const inDisp = document.getElementById('inline-timer-display');
+      const inBox = document.getElementById('inline-timer-box');
+      const inDot = document.getElementById('inline-timer-dot');
+
+      const flDisp = document.getElementById('floating-timer-display');
+      const flPill = document.getElementById('floating-timer-pill');
+      const flDot = document.getElementById('floating-timer-dot');
+
+      if (inDisp) inDisp.textContent = timeStr;
+      if (flDisp) flDisp.textContent = timeStr;
+
       if (state.timerSecondsLeft <= 60) {
-        box.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-extrabold bg-rose-50/90 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800 tabular-nums shadow-sm shrink-0';
-        if (dot) dot.className = 'w-2 h-2 rounded-full bg-rose-500 animate-ping';
+        if (inBox) inBox.className = 'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold bg-rose-50/90 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800 tabular-nums';
+        if (inDot) inDot.className = 'w-2 h-2 rounded-full bg-rose-500 animate-ping';
+        if (flPill) flPill.className = 'apple-glass inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-rose-400/70 dark:border-rose-700/80 text-sm font-extrabold text-rose-700 dark:text-rose-300 tabular-nums';
+        if (flDot) flDot.className = 'w-2 h-2 rounded-full bg-rose-500 animate-ping';
       } else if (state.timerSecondsLeft <= 300) {
-        box.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-extrabold bg-amber-50/90 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 tabular-nums shadow-sm shrink-0';
-        if (dot) dot.className = 'w-2 h-2 rounded-full bg-amber-500 animate-pulse';
+        if (inBox) inBox.className = 'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold bg-amber-50/90 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 tabular-nums';
+        if (inDot) inDot.className = 'w-2 h-2 rounded-full bg-amber-500 animate-pulse';
+        if (flPill) flPill.className = 'apple-glass inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-400/70 dark:border-amber-700/80 text-sm font-extrabold text-amber-800 dark:text-amber-300 tabular-nums';
+        if (flDot) flDot.className = 'w-2 h-2 rounded-full bg-amber-500 animate-pulse';
       } else {
-        box.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-extrabold bg-white/80 dark:bg-slate-800/80 text-slate-900 dark:text-white border border-slate-200/70 dark:border-slate-700/70 tabular-nums shadow-sm shrink-0';
-        if (dot) dot.className = 'w-2 h-2 rounded-full bg-violet-500 animate-pulse';
+        if (inBox) inBox.className = 'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold glass-sub text-slate-900 dark:text-white tabular-nums';
+        if (inDot) inDot.className = 'w-2 h-2 rounded-full bg-violet-500 animate-pulse';
+        if (flPill) flPill.className = 'apple-glass inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/60 dark:border-slate-700/70 text-sm font-extrabold text-slate-900 dark:text-white tabular-nums';
+        if (flDot) flDot.className = 'w-2 h-2 rounded-full bg-violet-500 animate-pulse';
       }
     }
 
@@ -1012,6 +1068,7 @@
       stopTimer();
       state.timerDeadlineAt = deadlineAt;
       syncTimerFromDeadline();
+      updateFloatingTimerVisibility();
       if (state.timerSecondsLeft > 0) {
         state.timerInterval = setInterval(syncTimerFromDeadline, 1000);
       }
@@ -1022,6 +1079,14 @@
         syncTimerFromDeadline();
       }
     });
+
+    const headerObserver = new IntersectionObserver((entries) => {
+      if (entries[0]) {
+        state.quizHeaderVisible = entries[0].isIntersecting;
+        updateFloatingTimerVisibility();
+      }
+    }, { threshold: 0.05 });
+    headerObserver.observe(document.getElementById('quiz-header-card'));
 
     function getInitials(name, email) {
       const src = (name || email || 'U').trim();
@@ -1099,7 +1164,7 @@
       const grid = document.getElementById('subjects-grid');
       if (state.subjects.length === 0) {
         grid.innerHTML = `
-          <div class="col-span-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 text-center">
+          <div class="col-span-full glass-card rounded-2xl p-8 text-center">
             <p class="text-base font-bold text-slate-800 dark:text-slate-200">Hozircha fanlar qo‘shilmagan.</p>
             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Tez orada fanlar va testlar qo‘shiladi.</p>
           </div>`;
@@ -1128,15 +1193,14 @@
         const pct = subjQ ? Math.round((subjAns / subjQ) * 100) : 0;
 
         return `
-          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col justify-between hover:border-violet-400 dark:hover:border-violet-600 transition">
+          <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:border-violet-400 dark:hover:border-violet-600 transition">
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800">${escapeHtml(subj.code || 'Fan')}</span>
                 <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">${subjMetas.length} ta mavzu · ${subjQ} ta savol</span>
               </div>
               <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">${escapeHtml(subj.title)}</h2>
-              <p class="text-sm text-slate-600 dark:text-slate-400 mt-1.5">${escapeHtml(subj.desc || '')}</p>
-            </div>
+                          </div>
             <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
               <div class="flex items-center justify-between text-xs mb-1.5">
                 <span class="font-semibold text-slate-600 dark:text-slate-400">Jarayon: ${subjAns} / ${subjQ} (${pct}%)</span>
@@ -1172,7 +1236,6 @@
       if (!subj) return;
       document.getElementById('subj-badge').textContent = subj.code || 'Fan';
       document.getElementById('subj-title').textContent = subj.title;
-      document.getElementById('subj-desc').textContent = subj.desc || '';
 
       const subjMetas = state.topicMetas.filter((t) => t.subjectId === subj.id);
       const mixBtn = document.getElementById('btn-open-mix');
@@ -1180,40 +1243,44 @@
       else mixBtn.classList.add('hidden');
       const grid = document.getElementById('topics-grid');
       if (subjMetas.length === 0) {
-        grid.innerHTML = `<div class="col-span-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 text-center text-sm text-slate-500">Bu fanga hali mavzular qo‘shilmagan.</div>`;
+        grid.innerHTML = `<div class="col-span-full glass-card rounded-2xl p-8 text-center text-sm text-slate-500">Bu fanga hali mavzular qo‘shilmagan.</div>`;
         return;
       }
 
       grid.innerHTML = subjMetas.map((t) => {
         const qc = t.questionCount || 0;
+        const mins = Math.round((qc * SEC_PER_QUESTION) / 60);
         const prog = state.progressByTopic[t.id] || { answers: {}, bestScore: 0 };
         const entries = Object.values(prog.answers || {});
         const answered = entries.length;
         const curCorrect = entries.filter((x) => x.isCorrect).length;
         const bestScore = Math.max(curCorrect, prog.bestScore || 0);
         const bestPct = qc ? Math.round((bestScore / qc) * 100) : 0;
-        const pct = qc ? Math.round((answered / qc) * 100) : 0;
+        const isInProgress = answered > 0 && !prog.finished;
+        const isFinished = Boolean(prog.finished) || (!isInProgress && bestScore > 0);
+        const barPct = isInProgress ? (qc ? Math.round((answered / qc) * 100) : 0) : (isFinished ? bestPct : 0);
 
         return `
-          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 flex flex-col justify-between hover:border-violet-400 dark:hover:border-violet-600 transition">
+          <div class="glass-card rounded-2xl p-5 flex flex-col justify-between hover:border-violet-400 dark:hover:border-violet-600 transition">
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800">${escapeHtml(t.badge || 'Mavzu')}</span>
-                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">${qc} savol · ${qc * 2} daqiqa</span>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50/80 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800">${escapeHtml(t.badge || 'Mavzu')}</span>
+                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">${qc} savol · ${mins} daqiqa</span>
               </div>
               <h3 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white leading-snug">${escapeHtml(t.title)}</h3>
-              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1.5">${escapeHtml(t.desc || '')}</p>
             </div>
-            <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
-              <div class="flex items-center justify-between text-xs mb-1.5">
-                <span class="font-semibold text-slate-600 dark:text-slate-400">Yechilgan: ${answered} / ${qc} (${pct}%)</span>
-                <span class="font-bold text-emerald-600 dark:text-emerald-400">Best: ${bestScore}/${qc} (${bestPct}%)</span>
-              </div>
-              <div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mb-4">
-                <div class="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-300" style="width: ${pct}%"></div>
-              </div>
+            <div class="mt-5 pt-4 border-t border-slate-200/60 dark:border-slate-800/70">
+              ${(isInProgress || isFinished) ? `
+                <div class="flex items-center justify-between text-xs mb-1.5">
+                  <span class="font-semibold text-slate-600 dark:text-slate-400">${isInProgress ? `Hozirgi holat: ${answered} / ${qc}` : 'Yakunlangan'}</span>
+                  ${(isFinished || bestScore > 0) ? `<span class="font-bold text-emerald-600 dark:text-emerald-400">Best: ${bestScore}/${qc} (${bestPct}%)</span>` : ''}
+                </div>
+                <div class="w-full h-2 bg-slate-200/70 dark:bg-slate-800/70 rounded-full overflow-hidden mb-4">
+                  <div class="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-300" style="width: ${barPct}%"></div>
+                </div>
+              ` : '<div class="mb-4"></div>'}
               <button type="button" data-open-quiz="${escapeHtml(t.id)}" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
-                ${answered > 0 ? "Davom ettirish / Qayta" : "Testni boshlash"}
+                ${isInProgress ? "Davom ettirish" : "Testni boshlash"}
               </button>
             </div>
           </div>`;
@@ -1222,28 +1289,58 @@
 
     function renderLeaderboard() {
       const listEl = document.getElementById('leaderboard-list');
+      const podiumEl = document.getElementById('leaderboard-podium');
       const myCard = document.getElementById('my-rank-card');
       if (state.leaderboardLoading) {
         myCard.classList.add('hidden');
-        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Reyting yuklanmoqda...</div>`;
+        podiumEl.classList.add('hidden');
+        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Yuklanmoqda...</div>`;
         return;
       }
       if (!state.leaderboard.length) {
         myCard.classList.add('hidden');
-        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Hozircha reytingda ma’lumot yo‘q. Test yechib birinchi bo‘ling!</div>`;
+        podiumEl.classList.add('hidden');
+        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Hozircha natijalar yo‘q.</div>`;
         return;
       }
       const myIdx = state.user ? state.leaderboard.findIndex((u) => u.uid === state.user.uid) : -1;
       if (myIdx >= 0) {
         const me = state.leaderboard[myIdx];
         myCard.classList.remove('hidden');
-        document.getElementById('my-rank-title').textContent = `#${myIdx + 1}-o‘rin · ${me.name || 'Talaba'}`;
+        document.getElementById('my-rank-badge').textContent = `#${myIdx + 1}`;
+        document.getElementById('my-rank-title').textContent = me.name || 'Talaba';
+        document.getElementById('my-rank-sub').textContent = me.group ? `${me.group} · ${me.totalAnswered || 0} ta savol` : `${me.totalAnswered || 0} ta savol`;
         document.getElementById('my-rank-correct').textContent = me.totalCorrect || 0;
         document.getElementById('my-rank-acc').textContent = (me.accuracy || 0) + '%';
       } else {
         myCard.classList.add('hidden');
       }
 
+      if (state.leaderboard.length >= 2) {
+        podiumEl.classList.remove('hidden');
+        const order = state.leaderboard.length >= 3 ? [1, 0, 2] : [1, 0];
+        const medals = ['🥇', '🥈', '🥉'];
+        const heights = { 0: 'pt-6 pb-4 border-amber-300 dark:border-amber-700', 1: 'pt-4 pb-3', 2: 'pt-3 pb-3 border-orange-200 dark:border-orange-800/70' };
+        podiumEl.innerHTML = order.map((idx) => {
+          const u = state.leaderboard[idx];
+          const init = getInitials(u.name, '');
+          const av = u.photoURL
+            ? `<img src="${escapeHtml(u.photoURL)}" class="w-11 h-11 rounded-full object-cover mx-auto ring-2 ring-white dark:ring-slate-800 shadow-sm" alt="">`
+            : `<div class="w-11 h-11 rounded-full bg-violet-600 text-white font-bold text-sm flex items-center justify-center mx-auto ring-2 ring-white dark:ring-slate-800 shadow-sm">${escapeHtml(init)}</div>`;
+          return `
+            <div class="glass-card rounded-2xl p-3 text-center ${heights[idx]}">
+              <div class="text-xl mb-1">${medals[idx]}</div>
+              ${av}
+              <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate mt-2">${escapeHtml(u.name || 'Talaba')}</div>
+              <div class="text-xs font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5">${u.totalCorrect || 0} ball</div>
+              <div class="text-[10px] font-semibold text-slate-500 dark:text-slate-400">${u.accuracy || 0}%</div>
+            </div>`;
+        }).join('');
+      } else {
+        podiumEl.classList.add('hidden');
+      }
+
+      const maxScore = Math.max(1, state.leaderboard[0].totalCorrect || 1);
       const medals = ['🥇', '🥈', '🥉'];
       listEl.innerHTML = state.leaderboard.map((u, idx) => {
         const isMe = state.user && u.uid === state.user.uid;
@@ -1252,18 +1349,21 @@
         const avatarHtml = u.photoURL
           ? `<img src="${escapeHtml(u.photoURL)}" class="w-9 h-9 rounded-full object-cover shrink-0" alt="">`
           : `<div class="w-9 h-9 rounded-full bg-violet-600 text-white font-bold text-xs flex items-center justify-center shrink-0">${escapeHtml(initials)}</div>`;
+        const barW = Math.round(((u.totalCorrect || 0) / maxScore) * 100);
 
         return `
           <div class="p-4 flex items-center justify-between gap-3 ${isMe ? 'bg-violet-50/70 dark:bg-violet-950/30' : ''}">
-            <div class="flex items-center gap-3 min-w-0">
+            <div class="flex items-center gap-3 min-w-0 flex-1">
               <div class="w-8 text-center shrink-0">${rankDisplay}</div>
               ${avatarHtml}
-              <div class="min-w-0">
-                <div class="font-bold text-sm text-slate-900 dark:text-white truncate">
-                  ${escapeHtml(u.name || 'Talaba')} ${isMe ? '<span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-violet-600 text-white">Siz</span>' : ''}
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-bold text-sm text-slate-900 dark:text-white truncate">${escapeHtml(u.name || 'Talaba')}</span>
+                  ${isMe ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-violet-600 text-white font-bold shrink-0">Siz</span>' : ''}
+                  ${u.group ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold shrink-0">${escapeHtml(u.group)}</span>` : ''}
                 </div>
-                <div class="text-xs text-slate-500 dark:text-slate-400 truncate">
-                  ${u.group ? escapeHtml(u.group) + ' · ' : ''}${u.totalAnswered || 0} ta savol yechilgan
+                <div class="w-full max-w-[200px] h-1.5 bg-slate-200/70 dark:bg-slate-800/70 rounded-full overflow-hidden mt-1.5">
+                  <div class="h-full bg-emerald-500 rounded-full" style="width: ${barW}%"></div>
                 </div>
               </div>
             </div>
@@ -1310,55 +1410,80 @@
       });
     }
 
-    // Open Pre-Start Modal for Topic
     function openQuizStartModal(topicId) {
       const meta = state.topicMetas.find((t) => t.id === topicId);
       if (!meta) return;
       state.pendingTopicId = topicId;
       const qc = meta.questionCount || 0;
+      const mins = Math.round((qc * SEC_PER_QUESTION) / 60);
       const prog = getTopicProgress(topicId);
       const entries = Object.values(prog.answers || {});
       const answered = entries.length;
       const curCorrect = entries.filter((x) => x.isCorrect).length;
       const wrongCount = answered - curCorrect;
       const best = Math.max(curCorrect, prog.bestScore || 0);
+      const hasUnfinished = answered > 0 && !prog.finished;
+      const hasBest = Boolean(prog.finished) || best > 0;
 
-      document.getElementById('qs-badge').textContent = meta.badge || 'Mavzu';
-      document.getElementById('qs-title').textContent = meta.title;
-      document.getElementById('qs-progress-val').textContent = `${answered} / ${qc}`;
-      document.getElementById('qs-best-val').textContent = `${best} / ${qc}`;
+      document.getElementById('qs-meta-line').textContent = `${qc} ta savol · ${mins} daqiqa`;
+
+      const statsRow = document.getElementById('qs-stats-row');
+      const progCard = document.getElementById('qs-progress-card');
+      const bestCard = document.getElementById('qs-best-card');
+
+      if (hasUnfinished) {
+        progCard.classList.remove('hidden');
+        document.getElementById('qs-progress-val').textContent = `${answered} / ${qc}`;
+      } else {
+        progCard.classList.add('hidden');
+      }
+
+      if (hasBest) {
+        bestCard.classList.remove('hidden');
+        document.getElementById('qs-best-val').textContent = `${best} / ${qc}`;
+      } else {
+        bestCard.classList.add('hidden');
+      }
+
+      if (hasUnfinished || hasBest) {
+        statsRow.classList.remove('hidden');
+        statsRow.className = (hasUnfinished && hasBest) ? 'grid grid-cols-2 gap-2 mb-4 text-center' : 'grid grid-cols-1 gap-2 mb-4 text-center';
+      } else {
+        statsRow.classList.add('hidden');
+      }
 
       const resumeBtn = document.getElementById('btn-qs-resume');
       const wrongBtn = document.getElementById('btn-qs-wrong');
       const freshBtn = document.getElementById('btn-qs-fresh');
 
-      if (answered > 0) {
+      if (hasUnfinished) {
         resumeBtn.classList.remove('hidden');
-        resumeBtn.textContent = answered < qc ? `Davom ettirish (${qc - answered} ta qoldi)` : 'Natijalarni ko‘rish / Davom ettirish';
-        freshBtn.textContent = 'Noldan qayta boshlash';
+        resumeBtn.textContent = `Davom ettirish (${qc - answered} ta qoldi)`;
+        if (wrongCount > 0) {
+          wrongBtn.classList.remove('hidden');
+          wrongBtn.textContent = `Faqat xatolarni qayta ishlash (${wrongCount} ta)`;
+        } else {
+          wrongBtn.classList.add('hidden');
+        }
+        freshBtn.textContent = 'Noldan boshlash';
+        freshBtn.className = 'w-full py-2.5 rounded-xl text-sm font-bold glass-sub text-slate-800 dark:text-slate-200 hover:bg-white/80 dark:hover:bg-slate-700/70 transition';
       } else {
         resumeBtn.classList.add('hidden');
-        freshBtn.textContent = 'Testni boshlash';
-      }
-
-      if (wrongCount > 0) {
-        wrongBtn.classList.remove('hidden');
-        wrongBtn.textContent = `Faqat xatolarni qayta ishlash (${wrongCount} ta)`;
-      } else {
         wrongBtn.classList.add('hidden');
+        freshBtn.textContent = 'Testni boshlash';
+        freshBtn.className = 'w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm';
       }
 
       document.getElementById('quiz-start-modal').classList.remove('hidden');
     }
 
-    async function launchTopicQuiz(topicId, mode = 'resume', btnEl = null) {
+    async function launchTopicQuiz(topicId, mode = 'fresh', btnEl = null) {
       if (btnEl) { btnEl.disabled = true; btnEl.dataset.origText = btnEl.textContent; btnEl.textContent = 'Yuklanmoqda...'; }
       try {
         state.activeTopicId = topicId;
         const data = await loadTopicData(topicId);
         const qs = data.questions || [];
         const prog = getTopicProgress(topicId);
-        const secPerQ = state.selectedSecPerQ || 120;
 
         if (mode === 'fresh') {
           const prevBest = Math.max(
@@ -1369,8 +1494,8 @@
             answers: {},
             wrongIds: [],
             bestScore: prevBest,
-            secPerQ,
-            deadlineAt: Date.now() + Math.max(1, qs.length) * secPerQ * 1000,
+            finished: false,
+            deadlineAt: Date.now() + Math.max(1, qs.length) * SEC_PER_QUESTION * 1000,
             updatedAt: new Date().toISOString()
           };
           state.order = shuffleArray(qs.map((q) => q.id));
@@ -1385,24 +1510,24 @@
           wrongQs.forEach((q) => { delete prog.answers[q.id]; });
           prog.bestScore = prevBest;
           prog.wrongIds = [];
-          prog.secPerQ = secPerQ;
-          prog.deadlineAt = Date.now() + Math.max(1, wrongQs.length) * secPerQ * 1000;
+          prog.finished = false;
+          prog.deadlineAt = Date.now() + Math.max(1, wrongQs.length) * SEC_PER_QUESTION * 1000;
           prog.updatedAt = new Date().toISOString();
           state.order = shuffleArray(qs.map((q) => q.id));
           buildOptionOrders(topicId, wrongQs, false);
           persistTopicProgress(topicId);
         } else {
-          // resume
+          prog.finished = false;
           state.order = qs.map((q) => q.id);
           buildOptionOrders(topicId, qs, true);
           const remainingCount = Math.max(1, qs.length - Object.keys(prog.answers || {}).length);
           if (!prog.deadlineAt || prog.deadlineAt <= Date.now()) {
-            prog.deadlineAt = Date.now() + remainingCount * (prog.secPerQ || secPerQ) * 1000;
+            prog.deadlineAt = Date.now() + remainingCount * SEC_PER_QUESTION * 1000;
             persistTopicProgress(topicId);
           }
         }
 
-        state.activeCat = mode === 'wrong' ? 'all' : 'all';
+        state.activeCat = 'all';
         document.getElementById('quiz-start-modal').classList.add('hidden');
         state.view = 'quiz';
         renderAll();
@@ -1431,12 +1556,6 @@
       document.getElementById('stat-wrong').textContent = wrong;
       document.getElementById('stat-pct').textContent = answered ? `${Math.round((correct / answered) * 100)}% aniqlik` : '0% natija';
       document.getElementById('progress-bar').style.width = pct + '%';
-
-      // Sync Apple Glass HUD
-      document.getElementById('hud-answered').textContent = `${answered}/${total}`;
-      document.getElementById('hud-correct').textContent = correct;
-      document.getElementById('hud-wrong').textContent = wrong;
-      document.getElementById('hud-pct').textContent = `${pct}%`;
 
       if (total > 0 && answered >= total) stopTimer();
 
@@ -1533,7 +1652,7 @@
           </div>` : '';
 
         return `
-          <article class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6">
+          <article class="glass-card rounded-2xl p-5 sm:p-6">
             <div class="flex items-center justify-between gap-2 mb-3">
               <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Savol #${idx + 1}</span>
               <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${escapeHtml(q.catLabel || 'Umumiy')}</span>
@@ -1553,6 +1672,7 @@
 
       const closeAuthBtn = document.getElementById('btn-close-auth');
       if (!state.user) {
+        updateFloatingTimerVisibility();
         if (state.authResolved) {
           document.getElementById('loading-banner').classList.add('hidden');
           document.getElementById('view-auth-gate').classList.remove('hidden');
@@ -1579,6 +1699,7 @@
         document.getElementById('view-admin').classList.remove('hidden');
         renderAdminPage();
       }
+      updateFloatingTimerVisibility();
     }
 
     // =========================================================================
@@ -1616,7 +1737,7 @@
 
       document.getElementById('admin-subjects-list').innerHTML = state.subjects.length
         ? state.subjects.map((s) => `
-            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between gap-3">
+            <div class="glass-card rounded-xl p-4 flex items-center justify-between gap-3">
               <div class="min-w-0">
                 <div class="text-xs font-semibold text-violet-600 dark:text-violet-400">${escapeHtml(s.id)} · ${escapeHtml(s.code)}</div>
                 <div class="font-bold text-slate-900 dark:text-white truncate">${escapeHtml(s.title)}</div>
@@ -1630,7 +1751,7 @@
 
       document.getElementById('admin-topics-list').innerHTML = state.topicMetas.length
         ? state.topicMetas.map((t) => `
-            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between gap-3">
+            <div class="glass-card rounded-xl p-4 flex items-center justify-between gap-3">
               <div class="min-w-0">
                 <div class="text-xs font-semibold text-violet-600 dark:text-violet-400">${escapeHtml(t.id)} · ${t.questionCount || 0} savol</div>
                 <div class="font-bold text-slate-900 dark:text-white truncate">${escapeHtml(t.title)}</div>
@@ -1653,7 +1774,7 @@
       document.getElementById('adm-q-count').textContent = qs.length;
       document.getElementById('admin-questions-list').innerHTML = qs.length
         ? qs.map((q, idx) => `
-            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+            <div class="glass-card rounded-xl p-4">
               <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
                   <span class="text-xs font-bold text-slate-400">#${idx + 1} · ${escapeHtml(q.catLabel || 'Umumiy')}</span>
@@ -1683,7 +1804,6 @@
       renderAll();
       loadLeaderboard();
     });
-    document.getElementById('btn-refresh-leaderboard').addEventListener('click', loadLeaderboard);
 
     document.querySelectorAll('.admin-tab').forEach((b) => {
       b.addEventListener('click', () => setAdminTab(b.dataset.adminTab));
@@ -1999,17 +2119,6 @@
     document.getElementById('btn-close-qs').addEventListener('click', () => {
       document.getElementById('quiz-start-modal').classList.add('hidden');
     });
-    document.querySelectorAll('.qs-pace-btn').forEach((b) => {
-      b.addEventListener('click', () => {
-        state.selectedSecPerQ = Number(b.dataset.secQ || 120);
-        document.querySelectorAll('.qs-pace-btn').forEach((btn) => {
-          const active = Number(btn.dataset.secQ) === state.selectedSecPerQ;
-          btn.className = active
-            ? 'qs-pace-btn py-2 rounded-xl text-xs font-bold border-2 border-violet-600 bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 transition'
-            : 'qs-pace-btn py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition';
-        });
-      });
-    });
     document.getElementById('btn-qs-resume').addEventListener('click', (e) => launchTopicQuiz(state.pendingTopicId, 'resume', e.currentTarget));
     document.getElementById('btn-qs-wrong').addEventListener('click', (e) => launchTopicQuiz(state.pendingTopicId, 'wrong', e.currentTarget));
     document.getElementById('btn-qs-fresh').addEventListener('click', (e) => launchTopicQuiz(state.pendingTopicId, 'fresh', e.currentTarget));
@@ -2047,78 +2156,65 @@
       renderQuiz();
     });
 
-    // Reset Modal & Safe Best-Score-Preserving Reset
-    function openResetModal() {
-      const prog = getTopicProgress(state.activeTopicId);
-      const wrongCount = Object.values(prog.answers || {}).filter((x) => !x.isCorrect).length;
-      const wrongBtn = document.getElementById('btn-reset-wrong-only');
-      const wrongSub = document.getElementById('reset-wrong-sub');
-      if (wrongCount > 0) {
-        wrongBtn.disabled = false;
-        wrongBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        wrongSub.textContent = `${wrongCount} ta xato savol qayta ochiladi, to‘g‘ri javoblaringiz saqlanadi.`;
-      } else {
-        wrongBtn.disabled = true;
-        wrongBtn.classList.add('opacity-50', 'cursor-not-allowed');
-        wrongSub.textContent = 'Hozircha xato qilingan savollar yo‘q.';
-      }
-      document.getElementById('reset-modal').classList.remove('hidden');
-    }
-
-    async function executeReset(mode) {
-      document.getElementById('reset-modal').classList.add('hidden');
+    async function finishActiveQuiz() {
       const tid = state.activeTopicId;
       const data = state.topicDataCache[tid] || { questions: [] };
-      const qs = data.questions || [];
+      const total = (data.questions || []).length;
       const prog = getTopicProgress(tid);
-      const prevBest = Math.max(
-        prog.bestScore || 0,
-        Object.values(prog.answers || {}).filter((x) => x.isCorrect).length
-      );
-      const secPerQ = prog.secPerQ || state.selectedSecPerQ || 120;
+      const entries = Object.values(prog.answers || {});
+      const answered = entries.length;
+      const correct = entries.filter((x) => x.isCorrect).length;
+      const wrong = answered - correct;
+      const best = Math.max(prog.bestScore || 0, correct);
+      const pct = total ? Math.round((correct / total) * 100) : 0;
 
-      if (mode === 'wrong') {
-        const wrongQs = qs.filter((q) => prog.answers[q.id] && !prog.answers[q.id].isCorrect);
-        if (!wrongQs.length) return;
-        wrongQs.forEach((q) => { delete prog.answers[q.id]; });
-        prog.bestScore = prevBest;
-        prog.wrongIds = [];
-        prog.deadlineAt = Date.now() + wrongQs.length * secPerQ * 1000;
-        prog.updatedAt = new Date().toISOString();
-        state.activeCat = 'all';
-        state.order = shuffleArray(qs.map((q) => q.id));
-        buildOptionOrders(tid, wrongQs, false);
-        renderQuiz();
-        startTimerFromDeadline(prog.deadlineAt);
-        await persistTopicProgress(tid);
+      stopTimer();
+      prog.bestScore = best;
+      prog.finished = true;
+      prog.deadlineAt = 0;
+      prog.updatedAt = new Date().toISOString();
+      await persistTopicProgress(tid);
+
+      document.getElementById('finish-summary').textContent =
+        `${total} ta savoldan ${answered} tasi yechildi. To‘g‘ri javoblar: ${correct} ta (${pct}%). Eng yaxshi natija: ${best}/${total}.`;
+      const wrongBtn = document.getElementById('btn-finish-wrong');
+      if (wrong > 0 && !tid.startsWith('mix_')) {
+        wrongBtn.classList.remove('hidden');
+        wrongBtn.textContent = `Faqat xatolarni qayta ishlash (${wrong} ta)`;
       } else {
-        state.progressByTopic[tid] = {
-          answers: {},
-          wrongIds: [],
-          bestScore: prevBest,
-          secPerQ,
-          deadlineAt: Date.now() + Math.max(1, qs.length) * secPerQ * 1000,
-          updatedAt: new Date().toISOString()
-        };
-        state.activeCat = 'all';
-        state.order = shuffleArray(qs.map((q) => q.id));
-        buildOptionOrders(tid, qs, false);
-        renderQuiz();
-        startTimerFromDeadline(state.progressByTopic[tid].deadlineAt);
-        await persistTopicProgress(tid);
+        wrongBtn.classList.add('hidden');
       }
+      document.getElementById('finish-modal').classList.remove('hidden');
     }
 
-    document.getElementById('btn-reset').addEventListener('click', openResetModal);
-    document.getElementById('btn-reset-mini').addEventListener('click', openResetModal);
-    document.getElementById('btn-close-reset').addEventListener('click', () => document.getElementById('reset-modal').classList.add('hidden'));
-    document.getElementById('btn-reset-wrong-only').addEventListener('click', () => executeReset('wrong'));
-    document.getElementById('btn-reset-full').addEventListener('click', () => executeReset('full'));
+    document.getElementById('btn-finish-quiz').addEventListener('click', finishActiveQuiz);
+    document.getElementById('btn-finish-quiz-bottom').addEventListener('click', finishActiveQuiz);
+    document.getElementById('btn-finish-exit').addEventListener('click', () => {
+      document.getElementById('finish-modal').classList.add('hidden');
+      state.view = 'topics';
+      renderAll();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    document.getElementById('btn-finish-wrong').addEventListener('click', () => {
+      document.getElementById('finish-modal').classList.add('hidden');
+      launchTopicQuiz(state.activeTopicId, 'wrong');
+    });
+    document.getElementById('btn-finish-retry').addEventListener('click', () => {
+      document.getElementById('finish-modal').classList.add('hidden');
+      if (state.activeTopicId && state.activeTopicId.startsWith('mix_')) {
+        state.view = 'topics';
+        renderAll();
+      } else {
+        launchTopicQuiz(state.activeTopicId, 'fresh');
+      }
+    });
 
     document.getElementById('btn-timeup-close').addEventListener('click', () => document.getElementById('timeup-modal').classList.add('hidden'));
     document.getElementById('btn-timeup-retry').addEventListener('click', () => {
       document.getElementById('timeup-modal').classList.add('hidden');
-      openResetModal();
+      if (state.activeTopicId && !state.activeTopicId.startsWith('mix_')) {
+        launchTopicQuiz(state.activeTopicId, 'fresh');
+      }
     });
 
     const profileMenu = document.getElementById('profile-menu');
@@ -2141,7 +2237,6 @@
       document.getElementById('glossary-modal').classList.remove('hidden');
     }
     document.getElementById('btn-glossary').addEventListener('click', openGlossaryModal);
-    document.getElementById('btn-glossary-mini').addEventListener('click', openGlossaryModal);
     document.getElementById('btn-close-glossary').addEventListener('click', () => document.getElementById('glossary-modal').classList.add('hidden'));
 
     const authModal = document.getElementById('auth-modal');
@@ -2202,7 +2297,7 @@
         authErr.classList.remove('hidden');
       } catch (err) {
         authErr.className = 'text-xs font-medium text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 rounded-lg px-3 py-2';
-        authErr.textContent = err.message || 'Xatolik yuz berdi.';
+        authErr.textContent = friendlyAuthError(err);
         authErr.classList.remove('hidden');
       }
     });
@@ -2214,7 +2309,7 @@
       }
     }).catch((err) => {
       if (err?.code) {
-        authErr.textContent = err.message || 'Google orqali kirishda xatolik.';
+        authErr.textContent = friendlyAuthError(err);
         authErr.classList.remove('hidden');
       }
     });
@@ -2236,7 +2331,7 @@
           await signInWithRedirect(auth, googleProvider);
           return;
         }
-        authErr.textContent = err.message || 'Google orqali kirishda xatolik.';
+        authErr.textContent = friendlyAuthError(err);
         authErr.classList.remove('hidden');
       }
     });
@@ -2258,7 +2353,7 @@
         }
         authModal.classList.add('hidden');
       } catch (err) {
-        authErr.textContent = err.message || 'Kirishda xatolik yuz berdi.';
+        authErr.textContent = friendlyAuthError(err);
         authErr.classList.remove('hidden');
       }
     });
@@ -2330,7 +2425,7 @@
       }
 
       document.getElementById('mix-summary').textContent =
-        `${chosen} ta savol · ${chosen * 2} daqiqa (mavjud: ${totalAvailable} ta)`;
+        `${chosen} ta savol · ${Math.round((chosen * SEC_PER_QUESTION) / 60)} daqiqa (mavjud: ${totalAvailable} ta)`;
       const startBtn = document.getElementById('btn-start-mix');
       const disabled = totalAvailable === 0 || chosen < 1;
       startBtn.disabled = disabled;
@@ -2428,8 +2523,7 @@
 
         const finalShuffled = shuffleArray(combinedQs);
         const mixId = 'mix_' + subj.id;
-        const secPerQ = state.selectedSecPerQ || 120;
-        const deadlineAt = Date.now() + finalShuffled.length * secPerQ * 1000;
+        const deadlineAt = Date.now() + finalShuffled.length * SEC_PER_QUESTION * 1000;
         state.mixMeta = {
           id: mixId,
           badge: 'Aralash imtihon',
@@ -2438,7 +2532,7 @@
           questionCount: finalShuffled.length
         };
         state.topicDataCache[mixId] = { questions: finalShuffled, glossary: combinedGloss };
-        state.progressByTopic[mixId] = { answers: {}, wrongIds: [], bestScore: 0, secPerQ, deadlineAt };
+        state.progressByTopic[mixId] = { answers: {}, wrongIds: [], bestScore: 0, finished: false, deadlineAt };
         state.activeTopicId = mixId;
         state.activeCat = 'all';
         state.order = finalShuffled.map((q) => q.id);
