@@ -15,6 +15,16 @@
     body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
     .fade-in { animation: fadeIn 0.22s ease-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .apple-glass {
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
+    }
+    .dark .apple-glass {
+      background: rgba(15, 23, 42, 0.72);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
+    }
   </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200">
@@ -32,7 +42,12 @@
         </button>
       </div>
 
-      <div class="flex items-center gap-2.5 shrink-0">
+      <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
+        <button id="btn-open-leaderboard" type="button" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8m-4-4v4m-5-9a5 5 0 0010 0V5H7v7zm-3-5h3v3a3 3 0 01-3-3V7zm16 0h-3v3a3 3 0 003-3V7z"/></svg>
+          <span class="hidden sm:inline">Reyting</span>
+        </button>
+
         <button id="btn-open-admin" type="button" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition">
           <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           Admin
@@ -96,6 +111,22 @@
       <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">Ma’lumotlar yuklanmoqda...</p>
     </div>
 
+    <!-- Auth Required Gate (No Guest Mode) -->
+    <section id="view-auth-gate" class="hidden fade-in py-10">
+      <div class="max-w-md mx-auto bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 sm:p-8 text-center">
+        <div class="w-14 h-14 rounded-2xl bg-violet-100 dark:bg-violet-950/60 text-violet-600 dark:text-violet-400 flex items-center justify-center mx-auto mb-4">
+          <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </div>
+        <h1 class="text-xl font-extrabold text-slate-900 dark:text-white">StudyPrep portaliga xush kelibsiz!</h1>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">
+          Testlarni yechish, natijalaringizni saqlash va reytingda qatnashish uchun akkauntingizga kiring yoki ro‘yxatdan o‘ting.
+        </p>
+        <button id="btn-gate-signin" type="button" class="mt-5 w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+          Kirish / Ro‘yxatdan o‘tish
+        </button>
+      </div>
+    </section>
+
     <!-- VIEW 1: SUBJECTS HOME -->
     <section id="view-subjects" class="hidden fade-in">
       <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 mb-6">
@@ -106,7 +137,7 @@
             </span>
             <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">Fanlar katalogi</h1>
             <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-              Kerakli fanni tanlang va imtihonlarga tayyorgarlikni boshlang — barcha natijalaringiz avtomatik saqlanib boradi.
+              Kerakli fanni tanlang va imtihonlarga tayyorgarlikni boshlang — eng yaxshi natijalaringiz doim saqlanadi.
             </p>
           </div>
           <div class="grid grid-cols-3 gap-2.5 shrink-0 text-center">
@@ -144,22 +175,80 @@
       <div id="topics-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </section>
 
-    <!-- VIEW 4: QUIZ RUNNER WITH TIMER -->
+    <!-- VIEW 3: LEADERBOARD -->
+    <section id="view-leaderboard" class="hidden fade-in space-y-5">
+      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 mb-2">
+            Talabalar reytingi
+          </span>
+          <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">Umumiy Leaderboard</h1>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Barcha fanlar bo‘yicha eng yaxshi natijalar (best score) asosida reyting.</p>
+        </div>
+        <button id="btn-refresh-leaderboard" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shrink-0">
+          Yangilash
+        </button>
+      </div>
+
+      <div id="my-rank-card" class="hidden bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl p-5 shadow-sm flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <div class="text-xs font-semibold text-violet-100 uppercase tracking-wider">Sizning natijangiz</div>
+          <div id="my-rank-title" class="text-lg sm:text-xl font-extrabold mt-0.5"></div>
+        </div>
+        <div class="flex items-center gap-5 text-center">
+          <div>
+            <div id="my-rank-correct" class="text-xl font-extrabold">0</div>
+            <div class="text-[11px] text-violet-100">Eng yaxshi ball</div>
+          </div>
+          <div>
+            <div id="my-rank-acc" class="text-xl font-extrabold">0%</div>
+            <div class="text-[11px] text-violet-100">Aniqlik</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="leaderboard-list" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden"></div>
+    </section>
+
+    <!-- VIEW 4: QUIZ RUNNER WITH APPLE GLASS FLOATING TIMER HUD -->
     <section id="view-quiz" class="hidden fade-in">
+      <!-- Sticky Apple Glass Floating Timer & Live Progress Bar under Header -->
+      <div class="sticky top-[70px] z-20 mb-4">
+        <div id="glass-timer-bar" class="apple-glass rounded-2xl border border-white/60 dark:border-slate-700/70 shadow-lg shadow-slate-900/5 dark:shadow-black/30 px-4 py-2.5 flex items-center justify-between gap-3 transition-all">
+          <div class="flex items-center gap-3 min-w-0">
+            <div id="timer-box" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-extrabold bg-white/80 dark:bg-slate-800/80 text-slate-900 dark:text-white border border-slate-200/70 dark:border-slate-700/70 tabular-nums shadow-sm shrink-0">
+              <span id="timer-dot" class="w-2 h-2 rounded-full bg-violet-500 animate-pulse"></span>
+              <svg class="w-4 h-4 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span id="timer-display">00:00</span>
+            </div>
+            <div class="hidden sm:flex items-center gap-3 text-xs font-semibold text-slate-600 dark:text-slate-300 truncate">
+              <span>Yechilgan: <b id="hud-answered" class="text-slate-900 dark:text-white">0/0</b></span>
+              <span class="text-emerald-600 dark:text-emerald-400">✓ <b id="hud-correct">0</b></span>
+              <span class="text-rose-600 dark:text-rose-400">✕ <b id="hud-wrong">0</b></span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <span id="hud-pct" class="text-xs font-extrabold text-violet-700 dark:text-violet-300 sm:hidden">0%</span>
+            <button id="btn-glossary-mini" type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-white/75 dark:bg-slate-800/75 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700/60 transition">
+              Konspekt
+            </button>
+            <button id="btn-reset-mini" type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-violet-600 hover:bg-violet-700 text-white shadow-sm transition">
+              Qayta
+            </button>
+          </div>
+        </div>
+      </div>
+
       <header class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6 mb-5 transition-colors">
         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
             <span id="quiz-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-2"></span>
             <h1 id="quiz-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-tight"></h1>
             <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-              Javobni belgilashingiz bilan to‘g‘ri javob, tushuntirish ochiladi va natija saqlanadi.
+              Javobni belgilashingiz bilan to‘g‘ri javob, tushuntirish ochiladi va eng yaxshi natijangiz saqlanadi.
             </p>
           </div>
           <div class="flex flex-wrap items-center gap-2 shrink-0">
-            <div id="timer-box" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 tabular-nums">
-              <svg class="w-4 h-4 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <span id="timer-display">00:00</span>
-            </div>
             <button id="btn-glossary" type="button" class="px-3.5 py-2 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition">
               Tezkor konspekt
             </button>
@@ -354,6 +443,74 @@
     </section>
   </div>
 
+  <!-- Pre-Start / Resume Topic Modal (Always Timed) -->
+  <div id="quiz-start-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
+      <div class="flex items-start justify-between gap-3 mb-3">
+        <div>
+          <span id="qs-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-1.5"></span>
+          <h3 id="qs-title" class="text-lg font-extrabold text-slate-900 dark:text-white leading-snug"></h3>
+        </div>
+        <button id="btn-close-qs" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold shrink-0">✕</button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2.5 mb-4 text-center">
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
+          <div id="qs-progress-val" class="text-base font-extrabold text-slate-900 dark:text-white">0 / 0</div>
+          <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Joriy jarayon</div>
+        </div>
+        <div class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800">
+          <div id="qs-best-val" class="text-base font-extrabold text-emerald-700 dark:text-emerald-300">0 / 0</div>
+          <div class="text-[11px] font-medium text-emerald-600 dark:text-emerald-400">Eng yaxshi natija</div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <div class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2">Har bir savol uchun vaqt (taymer doim yoqilgan):</div>
+        <div class="grid grid-cols-3 gap-2">
+          <button type="button" data-sec-q="60" class="qs-pace-btn py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition">60s / savol</button>
+          <button type="button" data-sec-q="90" class="qs-pace-btn py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition">90s / savol</button>
+          <button type="button" data-sec-q="120" class="qs-pace-btn py-2 rounded-xl text-xs font-bold border-2 border-violet-600 bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 transition">120s / savol</button>
+        </div>
+      </div>
+
+      <div id="qs-actions" class="space-y-2">
+        <button id="btn-qs-resume" type="button" class="hidden w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+          Testni davom ettirish
+        </button>
+        <button id="btn-qs-wrong" type="button" class="hidden w-full py-2.5 rounded-xl text-sm font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition">
+          Faqat xatolarni qayta ishlash
+        </button>
+        <button id="btn-qs-fresh" type="button" class="w-full py-2.5 rounded-xl text-sm font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:opacity-90 transition">
+          Testni boshlash
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset Options Modal (Preserves Best Score) -->
+  <div id="reset-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Qayta boshlash rejimini tanlang</h3>
+        <button id="btn-close-reset" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-4">
+        Xavotir olmang: qayta boshlaganda ham eng yaxshi natijangiz (<b>Best Score</b>) va reytingdagi ballingiz saqlanib qoladi.
+      </p>
+      <div class="space-y-2.5">
+        <button id="btn-reset-wrong-only" type="button" class="w-full py-3 px-4 rounded-xl text-left border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition">
+          <div class="text-sm font-bold text-amber-900 dark:text-amber-200">Faqat xatolarni qayta ishlash</div>
+          <div id="reset-wrong-sub" class="text-xs text-amber-700 dark:text-amber-400 mt-0.5">To‘g‘ri javoblaringiz saqlanadi, faqat xato savollar qayta ochiladi.</div>
+        </button>
+        <button id="btn-reset-full" type="button" class="w-full py-3 px-4 rounded-xl text-left border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/70 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <div class="text-sm font-bold text-slate-900 dark:text-white">Barchasini noldan boshlash</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Savollar va variantlar aralashtirilib, taymer yangidan boshlanadi.</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Time Up Modal -->
   <div id="timeup-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl text-center fade-in">
@@ -369,7 +526,7 @@
     </div>
   </div>
 
-  <!-- Auth Modal -->
+  <!-- Auth Modal (No Guest Mode) -->
   <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
       <div class="flex items-center justify-between mb-4">
@@ -421,7 +578,7 @@
           <div class="relative">
             <input id="auth-password" type="password" required minlength="6" placeholder="••••••" class="w-full pl-3.5 pr-10 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
             <button id="btn-toggle-pass" type="button" aria-label="Parolni ko‘rsatish" class="absolute inset-y-0 right-0 px-3 flex items-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
-              <svg id="eye-open" class="w-4.5 h-4.5 w-5 h-5 block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              <svg id="eye-open" class="w-5 h-5 block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
               <svg id="eye-closed" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
             </button>
           </div>
@@ -431,12 +588,6 @@
           Kirish
         </button>
       </form>
-
-      <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
-        <button id="btn-guest-mode" type="button" class="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
-          Mehmon sifatida davom etish
-        </button>
-      </div>
     </div>
   </div>
 
@@ -488,15 +639,30 @@
     </div>
   </div>
 
-  <!-- Mix Topics Modal -->
+  <!-- Mix Topics Modal (With Balanced Random Question Count) -->
   <div id="mix-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-xl fade-in">
       <div class="flex items-center justify-between mb-3">
         <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Mavzularni aralashtirish</h3>
         <button id="btn-close-mix" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
       </div>
-      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-3">Aralash imtihon uchun kerakli mavzu raqamlarini tanlang:</p>
-      <div id="mix-topics-list" class="space-y-2 max-h-64 overflow-y-auto mb-4"></div>
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-3">Aralash imtihon uchun mavzularni tanlang — savollar har bir mavzudan teng taqsimlab random olinadi:</p>
+      <div id="mix-topics-list" class="space-y-2 max-h-56 overflow-y-auto mb-4"></div>
+
+      <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 mb-4 space-y-2.5">
+        <div class="flex items-center justify-between gap-3">
+          <label for="mix-q-count" class="text-xs font-bold text-slate-700 dark:text-slate-300">Savollar soni:</label>
+          <input id="mix-q-count" type="number" min="1" value="30" class="w-24 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-bold text-center focus:outline-none focus:ring-2 focus:ring-violet-500">
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" data-mix-preset="15" class="mix-preset-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-violet-400 transition">15 ta</button>
+          <button type="button" data-mix-preset="25" class="mix-preset-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-violet-400 transition">25 ta</button>
+          <button type="button" data-mix-preset="35" class="mix-preset-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-violet-400 transition">35 ta</button>
+          <button type="button" data-mix-preset="50" class="mix-preset-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-violet-400 transition">50 ta</button>
+          <button type="button" data-mix-preset="all" class="mix-preset-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 hover:bg-violet-100 transition">Hammasi</button>
+        </div>
+      </div>
+
       <div class="flex items-center justify-between text-xs font-semibold text-slate-600 dark:text-slate-400 mb-4 px-1">
         <span id="mix-summary">0 ta savol · 0 daqiqa</span>
         <button id="btn-mix-toggle-all" type="button" class="text-violet-600 dark:text-violet-400 hover:underline">Barchasini belgilash</button>
@@ -555,19 +721,25 @@
 
     const state = {
       user: null,
+      authResolved: false,
       theme: 'light',
-      view: 'subjects', // 'subjects' | 'topics' | 'ready' | 'quiz' | 'admin'
+      view: 'subjects', // 'subjects' | 'topics' | 'leaderboard' | 'quiz' | 'admin'
       subjects: [],
       topicMetas: [],
-      topicDataCache: {}, // topicId -> { questions, glossary }
+      topicDataCache: {},
+      leaderboard: [],
+      leaderboardLoading: false,
       activeSubjectId: null,
       activeTopicId: null,
+      pendingTopicId: null,
+      selectedSecPerQ: 120,
       progressByTopic: {},
       activeCat: 'all',
       order: [],
-      optionOrders: {}, // topicId -> { qid: [origIdx...] }
+      optionOrders: {},
       authMode: 'login',
       timerSecondsLeft: 0,
+      timerDeadlineAt: 0,
       timerInterval: null,
       loading: true,
       adminTab: 'subjects'
@@ -575,6 +747,23 @@
 
     function isAdmin() {
       return Boolean(state.user && state.user.email && state.user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatQuizText(str) {
+      const escaped = escapeHtml(str);
+      return escaped
+        .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-mono text-[0.9em] text-violet-700 dark:text-violet-300">$1</code>')
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
     }
 
     function normalizeGlossary(gloss) {
@@ -623,6 +812,7 @@
           const u = JSON.parse(rawUser);
           if (u && u.uid) {
             state.user = u;
+            state.authResolved = true;
             state.progressByTopic = loadLocalProgress(u.uid);
           }
         }
@@ -630,7 +820,6 @@
       if (!state.loading || state.user) renderAll();
     }
 
-    // Optimal Lazy Loading + instant local cache sync
     async function loadCatalogMeta() {
       if (!state.subjects.length) state.loading = true;
       try {
@@ -660,7 +849,6 @@
       renderAll();
     }
 
-    // Fetch topic_data/{topicId} ONLY when user clicks "Testni boshlash" (or in Admin)
     async function loadTopicData(topicId) {
       if (state.topicDataCache[topicId]) return state.topicDataCache[topicId];
       const snap = await getDoc(doc(db, 'topic_data', topicId));
@@ -680,6 +868,57 @@
       lsSet('studyprep_progress_' + uid, JSON.stringify(state.progressByTopic));
     }
 
+    function computeUserTotals() {
+      let totalCorrect = 0;
+      let totalAnswered = 0;
+      let topicsActive = 0;
+      Object.entries(state.progressByTopic).forEach(([tid, prog]) => {
+        if (tid.startsWith('mix_')) return;
+        const entries = Object.values((prog && prog.answers) || {});
+        const curCorrect = entries.filter((x) => x.isCorrect).length;
+        const best = Math.max(curCorrect, (prog && prog.bestScore) || 0);
+        if (entries.length > 0 || best > 0) topicsActive++;
+        totalAnswered += Math.max(entries.length, best);
+        totalCorrect += best;
+      });
+      const accuracy = totalAnswered ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+      return { totalCorrect, totalAnswered, topicsActive, accuracy };
+    }
+
+    async function syncLeaderboardEntry() {
+      if (!state.user) return;
+      const stats = computeUserTotals();
+      try {
+        await setDoc(doc(db, 'leaderboard', state.user.uid), {
+          uid: state.user.uid,
+          name: state.user.name || state.user.email || 'Talaba',
+          group: state.user.group || '',
+          photoURL: state.user.photoURL || null,
+          totalCorrect: stats.totalCorrect,
+          totalAnswered: stats.totalAnswered,
+          topicsActive: stats.topicsActive,
+          accuracy: stats.accuracy,
+          updatedAt: new Date().toISOString()
+        }, { merge: true });
+      } catch (e) {}
+    }
+
+    async function loadLeaderboard() {
+      state.leaderboardLoading = true;
+      renderLeaderboard();
+      try {
+        const snap = await getDocs(collection(db, 'leaderboard'));
+        const list = [];
+        snap.forEach((d) => list.push({ uid: d.id, ...d.data() }));
+        list.sort((a, b) => (b.totalCorrect || 0) - (a.totalCorrect || 0) || (b.accuracy || 0) - (a.accuracy || 0));
+        state.leaderboard = list;
+      } catch (e) {
+        state.leaderboard = [];
+      }
+      state.leaderboardLoading = false;
+      renderLeaderboard();
+    }
+
     async function loadUserData(userObj) {
       try {
         const [profileSnap, progSnap] = await Promise.all([
@@ -697,6 +936,7 @@
         state.progressByTopic = map;
         lsSet('studyprep_user_cache', JSON.stringify(userObj));
         saveLocalProgress(userObj.uid);
+        syncLeaderboardEntry();
       } catch (e) {
         state.progressByTopic = loadLocalProgress(userObj.uid);
       }
@@ -704,19 +944,19 @@
     }
 
     async function persistTopicProgress(topicId) {
+      if (!state.user) return;
       const prog = state.progressByTopic[topicId];
       if (!prog) return;
+      saveLocalProgress(state.user.uid);
+      if (topicId.startsWith('mix_')) return;
       const syncEl = document.getElementById('sync-status');
-      if (state.user) {
-        if (syncEl) syncEl.textContent = 'Saqlanmoqda...';
-        try {
-          await setDoc(doc(db, 'users', state.user.uid, 'progress', topicId), prog, { merge: true });
-          if (syncEl) syncEl.textContent = 'Saqlandi ✓';
-        } catch (e) {
-          if (syncEl) syncEl.textContent = 'Saqlashda xatolik';
-        }
-      } else {
-        saveLocalProgress('guest');
+      if (syncEl) syncEl.textContent = 'Saqlanmoqda...';
+      try {
+        await setDoc(doc(db, 'users', state.user.uid, 'progress', topicId), prog, { merge: true });
+        syncLeaderboardEntry();
+        if (syncEl) syncEl.textContent = 'Saqlandi ✓';
+      } catch (e) {
+        if (syncEl) syncEl.textContent = 'Saqlashda xatolik';
       }
     }
 
@@ -736,42 +976,56 @@
     function updateTimerUI() {
       const disp = document.getElementById('timer-display');
       const box = document.getElementById('timer-box');
+      const dot = document.getElementById('timer-dot');
       if (!disp || !box) return;
       disp.textContent = formatTime(state.timerSecondsLeft);
       if (state.timerSecondsLeft <= 60) {
-        box.className = 'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800 tabular-nums';
+        box.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-extrabold bg-rose-50/90 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800 tabular-nums shadow-sm shrink-0';
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-rose-500 animate-ping';
       } else if (state.timerSecondsLeft <= 300) {
-        box.className = 'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 tabular-nums';
+        box.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-extrabold bg-amber-50/90 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 tabular-nums shadow-sm shrink-0';
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-amber-500 animate-pulse';
       } else {
-        box.className = 'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 tabular-nums';
+        box.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-extrabold bg-white/80 dark:bg-slate-800/80 text-slate-900 dark:text-white border border-slate-200/70 dark:border-slate-700/70 tabular-nums shadow-sm shrink-0';
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-violet-500 animate-pulse';
       }
     }
 
-    function startTimer(questionCount) {
-      stopTimer();
-      state.timerSecondsLeft = Math.max(1, questionCount) * 120;
+    function syncTimerFromDeadline() {
+      if (!state.timerDeadlineAt) return;
+      const left = Math.max(0, Math.ceil((state.timerDeadlineAt - Date.now()) / 1000));
+      state.timerSecondsLeft = left;
       updateTimerUI();
-      state.timerInterval = setInterval(() => {
-        if (state.timerSecondsLeft > 0) {
-          state.timerSecondsLeft--;
-          updateTimerUI();
-        }
-        if (state.timerSecondsLeft <= 0) {
-          stopTimer();
-          const data = state.topicDataCache[state.activeTopicId] || { questions: [] };
-          const prog = getTopicProgress(state.activeTopicId);
-          const entries = Object.values(prog.answers || {});
-          const correct = entries.filter((x) => x.isCorrect).length;
-          document.getElementById('timeup-summary').textContent =
-            `Siz ${data.questions.length} ta savoldan ${entries.length} tasini yechdingiz. To‘g‘ri javoblar: ${correct} ta.`;
-          document.getElementById('timeup-modal').classList.remove('hidden');
-        }
-      }, 1000);
+      if (left <= 0) {
+        stopTimer();
+        const data = state.topicDataCache[state.activeTopicId] || { questions: [] };
+        const prog = getTopicProgress(state.activeTopicId);
+        const entries = Object.values(prog.answers || {});
+        const correct = entries.filter((x) => x.isCorrect).length;
+        document.getElementById('timeup-summary').textContent =
+          `Siz ${data.questions.length} ta savoldan ${entries.length} tasini yechdingiz. To‘g‘ri javoblar: ${correct} ta.`;
+        document.getElementById('timeup-modal').classList.remove('hidden');
+      }
     }
+
+    function startTimerFromDeadline(deadlineAt) {
+      stopTimer();
+      state.timerDeadlineAt = deadlineAt;
+      syncTimerFromDeadline();
+      if (state.timerSecondsLeft > 0) {
+        state.timerInterval = setInterval(syncTimerFromDeadline, 1000);
+      }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && state.view === 'quiz' && state.timerDeadlineAt) {
+        syncTimerFromDeadline();
+      }
+    });
 
     function getInitials(name, email) {
       const src = (name || email || 'U').trim();
-      const parts = src.split(/\\s+/);
+      const parts = src.split(/\s+/);
       if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
       return src.slice(0, 2).toUpperCase();
     }
@@ -782,16 +1036,24 @@
       const profileWrap = document.getElementById('profile-wrapper');
       const openAuthBtn = document.getElementById('btn-open-auth');
       const adminBtn = document.getElementById('btn-open-admin');
+      const lbBtn = document.getElementById('btn-open-leaderboard');
 
-      if (state.view === 'subjects') {
+      if (!state.user || state.view === 'subjects') {
         backBtn.classList.add('hidden');
         backBtn.classList.remove('inline-flex');
       } else {
         backBtn.classList.remove('hidden');
         backBtn.classList.add('inline-flex');
-        if (state.view === 'topics' || state.view === 'admin') backLbl.textContent = 'Fanlar';
-        
+        if (state.view === 'topics' || state.view === 'admin' || state.view === 'leaderboard') backLbl.textContent = 'Fanlar';
         else backLbl.textContent = 'Mavzular';
+      }
+
+      if (state.user) {
+        lbBtn.classList.remove('hidden');
+        lbBtn.classList.add('inline-flex');
+      } else {
+        lbBtn.classList.add('hidden');
+        lbBtn.classList.remove('inline-flex');
       }
 
       if (isAdmin()) {
@@ -851,7 +1113,7 @@
       let totalCorrect = 0;
       grid.innerHTML = state.subjects.map((subj) => {
         const subjMetas = state.topicMetas.filter((t) => t.subjectId === subj.id);
-        let subjQ = 0, subjAns = 0, subjCor = 0;
+        let subjQ = 0, subjAns = 0, subjBest = 0;
         subjMetas.forEach((t) => {
           const qc = t.questionCount || 0;
           subjQ += qc;
@@ -859,31 +1121,31 @@
           const entries = Object.values(prog.answers || {});
           subjAns += entries.length;
           const c = entries.filter((x) => x.isCorrect).length;
-          subjCor += Math.max(c, prog.bestScore || 0);
+          subjBest += Math.max(c, prog.bestScore || 0);
         });
         totalQ += subjQ;
-        totalCorrect += subjCor;
+        totalCorrect += subjBest;
         const pct = subjQ ? Math.round((subjAns / subjQ) * 100) : 0;
 
         return `
           <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col justify-between hover:border-violet-400 dark:hover:border-violet-600 transition">
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800">${subj.code || 'Fan'}</span>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800">${escapeHtml(subj.code || 'Fan')}</span>
                 <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">${subjMetas.length} ta mavzu · ${subjQ} ta savol</span>
               </div>
-              <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">${subj.title}</h2>
-              <p class="text-sm text-slate-600 dark:text-slate-400 mt-1.5">${subj.desc || ''}</p>
+              <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">${escapeHtml(subj.title)}</h2>
+              <p class="text-sm text-slate-600 dark:text-slate-400 mt-1.5">${escapeHtml(subj.desc || '')}</p>
             </div>
             <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
               <div class="flex items-center justify-between text-xs mb-1.5">
-                <span class="font-semibold text-slate-600 dark:text-slate-400">Umumiy jarayon: ${subjAns} / ${subjQ} (${pct}%)</span>
-                <span class="font-bold text-emerald-600 dark:text-emerald-400">To‘g‘ri: ${subjCor}</span>
+                <span class="font-semibold text-slate-600 dark:text-slate-400">Jarayon: ${subjAns} / ${subjQ} (${pct}%)</span>
+                <span class="font-bold text-emerald-600 dark:text-emerald-400">Eng yaxshi: ${subjBest}</span>
               </div>
               <div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mb-4">
                 <div class="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-300" style="width: ${pct}%"></div>
               </div>
-              <button type="button" data-open-subject="${subj.id}" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+              <button type="button" data-open-subject="${escapeHtml(subj.id)}" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
                 Mavzularni ochish
               </button>
             </div>
@@ -927,31 +1189,87 @@
         const prog = state.progressByTopic[t.id] || { answers: {}, bestScore: 0 };
         const entries = Object.values(prog.answers || {});
         const answered = entries.length;
-        const correct = entries.filter((x) => x.isCorrect).length;
+        const curCorrect = entries.filter((x) => x.isCorrect).length;
+        const bestScore = Math.max(curCorrect, prog.bestScore || 0);
+        const bestPct = qc ? Math.round((bestScore / qc) * 100) : 0;
         const pct = qc ? Math.round((answered / qc) * 100) : 0;
-        const acc = answered ? Math.round((correct / answered) * 100) : 0;
 
         return `
           <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 flex flex-col justify-between hover:border-violet-400 dark:hover:border-violet-600 transition">
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800">${t.badge || 'Mavzu'}</span>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800">${escapeHtml(t.badge || 'Mavzu')}</span>
                 <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">${qc} savol · ${qc * 2} daqiqa</span>
               </div>
-              <h3 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white leading-snug">${t.title}</h3>
-              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1.5">${t.desc || ''}</p>
+              <h3 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white leading-snug">${escapeHtml(t.title)}</h3>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1.5">${escapeHtml(t.desc || '')}</p>
             </div>
             <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
               <div class="flex items-center justify-between text-xs mb-1.5">
                 <span class="font-semibold text-slate-600 dark:text-slate-400">Yechilgan: ${answered} / ${qc} (${pct}%)</span>
-                <span class="font-bold text-emerald-600 dark:text-emerald-400">Aniqlik: ${acc}%</span>
+                <span class="font-bold text-emerald-600 dark:text-emerald-400">Best: ${bestScore}/${qc} (${bestPct}%)</span>
               </div>
               <div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mb-4">
                 <div class="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-300" style="width: ${pct}%"></div>
               </div>
-              <button type="button" data-open-quiz="${t.id}" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
-                ${answered > 0 ? "Testni davom ettirish" : "Testni boshlash"}
+              <button type="button" data-open-quiz="${escapeHtml(t.id)}" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+                ${answered > 0 ? "Davom ettirish / Qayta" : "Testni boshlash"}
               </button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderLeaderboard() {
+      const listEl = document.getElementById('leaderboard-list');
+      const myCard = document.getElementById('my-rank-card');
+      if (state.leaderboardLoading) {
+        myCard.classList.add('hidden');
+        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Reyting yuklanmoqda...</div>`;
+        return;
+      }
+      if (!state.leaderboard.length) {
+        myCard.classList.add('hidden');
+        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Hozircha reytingda ma’lumot yo‘q. Test yechib birinchi bo‘ling!</div>`;
+        return;
+      }
+      const myIdx = state.user ? state.leaderboard.findIndex((u) => u.uid === state.user.uid) : -1;
+      if (myIdx >= 0) {
+        const me = state.leaderboard[myIdx];
+        myCard.classList.remove('hidden');
+        document.getElementById('my-rank-title').textContent = `#${myIdx + 1}-o‘rin · ${me.name || 'Talaba'}`;
+        document.getElementById('my-rank-correct').textContent = me.totalCorrect || 0;
+        document.getElementById('my-rank-acc').textContent = (me.accuracy || 0) + '%';
+      } else {
+        myCard.classList.add('hidden');
+      }
+
+      const medals = ['🥇', '🥈', '🥉'];
+      listEl.innerHTML = state.leaderboard.map((u, idx) => {
+        const isMe = state.user && u.uid === state.user.uid;
+        const rankDisplay = idx < 3 ? `<span class="text-lg">${medals[idx]}</span>` : `<span class="text-xs font-extrabold text-slate-500 dark:text-slate-400">#${idx + 1}</span>`;
+        const initials = getInitials(u.name, '');
+        const avatarHtml = u.photoURL
+          ? `<img src="${escapeHtml(u.photoURL)}" class="w-9 h-9 rounded-full object-cover shrink-0" alt="">`
+          : `<div class="w-9 h-9 rounded-full bg-violet-600 text-white font-bold text-xs flex items-center justify-center shrink-0">${escapeHtml(initials)}</div>`;
+
+        return `
+          <div class="p-4 flex items-center justify-between gap-3 ${isMe ? 'bg-violet-50/70 dark:bg-violet-950/30' : ''}">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-8 text-center shrink-0">${rankDisplay}</div>
+              ${avatarHtml}
+              <div class="min-w-0">
+                <div class="font-bold text-sm text-slate-900 dark:text-white truncate">
+                  ${escapeHtml(u.name || 'Talaba')} ${isMe ? '<span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-violet-600 text-white">Siz</span>' : ''}
+                </div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 truncate">
+                  ${u.group ? escapeHtml(u.group) + ' · ' : ''}${u.totalAnswered || 0} ta savol yechilgan
+                </div>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">${u.totalCorrect || 0} ball</div>
+              <div class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">${u.accuracy || 0}% aniqlik</div>
             </div>
           </div>`;
       }).join('');
@@ -992,20 +1310,106 @@
       });
     }
 
-    async function startQuizForTopic(topicId, btnEl) {
-      if (btnEl) { btnEl.disabled = true; btnEl.textContent = 'Yuklanmoqda...'; }
+    // Open Pre-Start Modal for Topic
+    function openQuizStartModal(topicId) {
+      const meta = state.topicMetas.find((t) => t.id === topicId);
+      if (!meta) return;
+      state.pendingTopicId = topicId;
+      const qc = meta.questionCount || 0;
+      const prog = getTopicProgress(topicId);
+      const entries = Object.values(prog.answers || {});
+      const answered = entries.length;
+      const curCorrect = entries.filter((x) => x.isCorrect).length;
+      const wrongCount = answered - curCorrect;
+      const best = Math.max(curCorrect, prog.bestScore || 0);
+
+      document.getElementById('qs-badge').textContent = meta.badge || 'Mavzu';
+      document.getElementById('qs-title').textContent = meta.title;
+      document.getElementById('qs-progress-val').textContent = `${answered} / ${qc}`;
+      document.getElementById('qs-best-val').textContent = `${best} / ${qc}`;
+
+      const resumeBtn = document.getElementById('btn-qs-resume');
+      const wrongBtn = document.getElementById('btn-qs-wrong');
+      const freshBtn = document.getElementById('btn-qs-fresh');
+
+      if (answered > 0) {
+        resumeBtn.classList.remove('hidden');
+        resumeBtn.textContent = answered < qc ? `Davom ettirish (${qc - answered} ta qoldi)` : 'Natijalarni ko‘rish / Davom ettirish';
+        freshBtn.textContent = 'Noldan qayta boshlash';
+      } else {
+        resumeBtn.classList.add('hidden');
+        freshBtn.textContent = 'Testni boshlash';
+      }
+
+      if (wrongCount > 0) {
+        wrongBtn.classList.remove('hidden');
+        wrongBtn.textContent = `Faqat xatolarni qayta ishlash (${wrongCount} ta)`;
+      } else {
+        wrongBtn.classList.add('hidden');
+      }
+
+      document.getElementById('quiz-start-modal').classList.remove('hidden');
+    }
+
+    async function launchTopicQuiz(topicId, mode = 'resume', btnEl = null) {
+      if (btnEl) { btnEl.disabled = true; btnEl.dataset.origText = btnEl.textContent; btnEl.textContent = 'Yuklanmoqda...'; }
       try {
         state.activeTopicId = topicId;
         const data = await loadTopicData(topicId);
-        state.activeCat = 'all';
-        state.order = (data.questions || []).map((q) => q.id);
-        buildOptionOrders(topicId, data.questions || [], false);
+        const qs = data.questions || [];
+        const prog = getTopicProgress(topicId);
+        const secPerQ = state.selectedSecPerQ || 120;
+
+        if (mode === 'fresh') {
+          const prevBest = Math.max(
+            prog.bestScore || 0,
+            Object.values(prog.answers || {}).filter((x) => x.isCorrect).length
+          );
+          state.progressByTopic[topicId] = {
+            answers: {},
+            wrongIds: [],
+            bestScore: prevBest,
+            secPerQ,
+            deadlineAt: Date.now() + Math.max(1, qs.length) * secPerQ * 1000,
+            updatedAt: new Date().toISOString()
+          };
+          state.order = shuffleArray(qs.map((q) => q.id));
+          buildOptionOrders(topicId, qs, false);
+          persistTopicProgress(topicId);
+        } else if (mode === 'wrong') {
+          const prevBest = Math.max(
+            prog.bestScore || 0,
+            Object.values(prog.answers || {}).filter((x) => x.isCorrect).length
+          );
+          const wrongQs = qs.filter((q) => prog.answers[q.id] && !prog.answers[q.id].isCorrect);
+          wrongQs.forEach((q) => { delete prog.answers[q.id]; });
+          prog.bestScore = prevBest;
+          prog.wrongIds = [];
+          prog.secPerQ = secPerQ;
+          prog.deadlineAt = Date.now() + Math.max(1, wrongQs.length) * secPerQ * 1000;
+          prog.updatedAt = new Date().toISOString();
+          state.order = shuffleArray(qs.map((q) => q.id));
+          buildOptionOrders(topicId, wrongQs, false);
+          persistTopicProgress(topicId);
+        } else {
+          // resume
+          state.order = qs.map((q) => q.id);
+          buildOptionOrders(topicId, qs, true);
+          const remainingCount = Math.max(1, qs.length - Object.keys(prog.answers || {}).length);
+          if (!prog.deadlineAt || prog.deadlineAt <= Date.now()) {
+            prog.deadlineAt = Date.now() + remainingCount * (prog.secPerQ || secPerQ) * 1000;
+            persistTopicProgress(topicId);
+          }
+        }
+
+        state.activeCat = mode === 'wrong' ? 'all' : 'all';
+        document.getElementById('quiz-start-modal').classList.add('hidden');
         state.view = 'quiz';
         renderAll();
-        startTimer((data.questions || []).length);
+        startTimerFromDeadline(state.progressByTopic[topicId].deadlineAt);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } finally {
-        if (btnEl) { btnEl.disabled = false; }
+        if (btnEl) { btnEl.disabled = false; btnEl.textContent = btnEl.dataset.origText || 'Boshlash'; }
       }
     }
 
@@ -1028,6 +1432,14 @@
       document.getElementById('stat-pct').textContent = answered ? `${Math.round((correct / answered) * 100)}% aniqlik` : '0% natija';
       document.getElementById('progress-bar').style.width = pct + '%';
 
+      // Sync Apple Glass HUD
+      document.getElementById('hud-answered').textContent = `${answered}/${total}`;
+      document.getElementById('hud-correct').textContent = correct;
+      document.getElementById('hud-wrong').textContent = wrong;
+      document.getElementById('hud-pct').textContent = `${pct}%`;
+
+      if (total > 0 && answered >= total) stopTimer();
+
       const tabsEl = document.getElementById('filter-tabs');
       const catCounts = {};
       qs.forEach((q) => { catCounts[q.cat] = (catCounts[q.cat] || 0) + 1; });
@@ -1037,7 +1449,7 @@
         const count = c.id === 'all' ? total : (catCounts[c.id] || 0);
         const isActive = state.activeCat === c.id;
         const cls = isActive ? 'bg-violet-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700';
-        return `<button type="button" data-cat="${c.id}" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition ${cls}">${c.label} (${count})</button>`;
+        return `<button type="button" data-cat="${escapeHtml(c.id)}" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition ${cls}">${escapeHtml(c.label)} (${count})</button>`;
       });
 
       const isWrongActive = state.activeCat === 'wrong';
@@ -1087,7 +1499,7 @@
         const correctDispIdx = optPerm.indexOf(q.ans);
 
         const optsHtml = optPerm.map((origIdx, dispIdx) => {
-          const optText = q.opts[origIdx];
+          const optText = formatQuizText(q.opts[origIdx]);
           let btnCls = 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/70 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-violet-300 dark:hover:border-violet-600 text-slate-800 dark:text-slate-200';
           let badgeCls = 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200';
 
@@ -1105,7 +1517,7 @@
           }
 
           return `
-            <button type="button" data-qid="${q.id}" data-oidx="${origIdx}" ${isAnswered ? 'disabled' : ''}
+            <button type="button" data-qid="${escapeHtml(q.id)}" data-oidx="${origIdx}" ${isAnswered ? 'disabled' : ''}
               class="opt-btn w-full text-left px-4 py-3 rounded-xl border text-sm flex items-start gap-3 transition ${btnCls}">
               <span class="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${badgeCls}">${letters[dispIdx]}</span>
               <span class="leading-relaxed">${optText}</span>
@@ -1117,16 +1529,16 @@
             <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wide mb-1 ${st.isCorrect ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-800 dark:text-amber-400'}">
               ${st.isCorrect ? '✓ To‘g‘ri javob!' : '✕ Noto‘g‘ri. To‘g‘ri javob: ' + letters[correctDispIdx >= 0 ? correctDispIdx : q.ans]}
             </div>
-            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${q.exp}</p>
+            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${formatQuizText(q.exp)}</p>
           </div>` : '';
 
         return `
           <article class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-6">
             <div class="flex items-center justify-between gap-2 mb-3">
               <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Savol #${idx + 1}</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${q.catLabel || 'Umumiy'}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${escapeHtml(q.catLabel || 'Umumiy')}</span>
             </div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-snug mb-4">${q.q}</h3>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-snug mb-4">${formatQuizText(q.q)}</h3>
             <div class="space-y-2.5">${optsHtml}</div>
             ${expHtml}
           </article>`;
@@ -1135,16 +1547,31 @@
 
     function renderAll() {
       updateNavbar();
-      if (state.loading) return;
-      ['view-subjects', 'view-topics', 'view-quiz', 'view-admin'].forEach((id) => {
+      ['view-auth-gate', 'view-subjects', 'view-topics', 'view-leaderboard', 'view-quiz', 'view-admin'].forEach((id) => {
         document.getElementById(id).classList.add('hidden');
       });
+
+      const closeAuthBtn = document.getElementById('btn-close-auth');
+      if (!state.user) {
+        if (state.authResolved) {
+          document.getElementById('loading-banner').classList.add('hidden');
+          document.getElementById('view-auth-gate').classList.remove('hidden');
+          closeAuthBtn.classList.add('hidden');
+        }
+        return;
+      }
+      closeAuthBtn.classList.remove('hidden');
+
+      if (state.loading) return;
       if (state.view === 'subjects') {
         document.getElementById('view-subjects').classList.remove('hidden');
         renderSubjects();
       } else if (state.view === 'topics') {
         document.getElementById('view-topics').classList.remove('hidden');
         renderTopics();
+      } else if (state.view === 'leaderboard') {
+        document.getElementById('view-leaderboard').classList.remove('hidden');
+        renderLeaderboard();
       } else if (state.view === 'quiz') {
         document.getElementById('view-quiz').classList.remove('hidden');
         renderQuiz();
@@ -1181,39 +1608,36 @@
     }
 
     async function renderAdminPage() {
-      // Populate selects
-      document.getElementById('adm-topic-subj').innerHTML = state.subjects.map((s) => `<option value="${s.id}">${s.title}</option>`).join('');
+      document.getElementById('adm-topic-subj').innerHTML = state.subjects.map((s) => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.title)}</option>`).join('');
       const qTopicSel = document.getElementById('adm-q-topic');
       const prevVal = qTopicSel.value;
-      qTopicSel.innerHTML = state.topicMetas.map((t) => `<option value="${t.id}">${t.title}</option>`).join('');
+      qTopicSel.innerHTML = state.topicMetas.map((t) => `<option value="${escapeHtml(t.id)}">${escapeHtml(t.title)}</option>`).join('');
       if (prevVal && state.topicMetas.some((t) => t.id === prevVal)) qTopicSel.value = prevVal;
 
-      // Render Subjects List
       document.getElementById('admin-subjects-list').innerHTML = state.subjects.length
         ? state.subjects.map((s) => `
             <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between gap-3">
               <div class="min-w-0">
-                <div class="text-xs font-semibold text-violet-600 dark:text-violet-400">${s.id} · ${s.code}</div>
-                <div class="font-bold text-slate-900 dark:text-white truncate">${s.title}</div>
+                <div class="text-xs font-semibold text-violet-600 dark:text-violet-400">${escapeHtml(s.id)} · ${escapeHtml(s.code)}</div>
+                <div class="font-bold text-slate-900 dark:text-white truncate">${escapeHtml(s.title)}</div>
               </div>
               <div class="flex items-center gap-2 shrink-0">
-                <button type="button" data-edit-subj="${s.id}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">Tahrirlash</button>
-                <button type="button" data-del-subj="${s.id}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-100">O‘chirish</button>
+                <button type="button" data-edit-subj="${escapeHtml(s.id)}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">Tahrirlash</button>
+                <button type="button" data-del-subj="${escapeHtml(s.id)}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-100">O‘chirish</button>
               </div>
             </div>`).join('')
         : '<p class="text-sm text-slate-500">Fanlar yo‘q.</p>';
 
-      // Render Topics List
       document.getElementById('admin-topics-list').innerHTML = state.topicMetas.length
         ? state.topicMetas.map((t) => `
             <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between gap-3">
               <div class="min-w-0">
-                <div class="text-xs font-semibold text-violet-600 dark:text-violet-400">${t.id} · ${t.questionCount || 0} savol</div>
-                <div class="font-bold text-slate-900 dark:text-white truncate">${t.title}</div>
+                <div class="text-xs font-semibold text-violet-600 dark:text-violet-400">${escapeHtml(t.id)} · ${t.questionCount || 0} savol</div>
+                <div class="font-bold text-slate-900 dark:text-white truncate">${escapeHtml(t.title)}</div>
               </div>
               <div class="flex items-center gap-2 shrink-0">
-                <button type="button" data-edit-topic="${t.id}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">Tahrirlash</button>
-                <button type="button" data-del-topic="${t.id}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-100">O‘chirish</button>
+                <button type="button" data-edit-topic="${escapeHtml(t.id)}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">Tahrirlash</button>
+                <button type="button" data-del-topic="${escapeHtml(t.id)}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-100">O‘chirish</button>
               </div>
             </div>`).join('')
         : '<p class="text-sm text-slate-500">Mavzular yo‘q.</p>';
@@ -1232,12 +1656,12 @@
             <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4">
               <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
-                  <span class="text-xs font-bold text-slate-400">#${idx + 1} · ${q.catLabel || 'Umumiy'}</span>
-                  <div class="font-bold text-sm text-slate-900 dark:text-white mt-0.5">${q.q}</div>
+                  <span class="text-xs font-bold text-slate-400">#${idx + 1} · ${escapeHtml(q.catLabel || 'Umumiy')}</span>
+                  <div class="font-bold text-sm text-slate-900 dark:text-white mt-0.5">${formatQuizText(q.q)}</div>
                 </div>
                 <div class="flex items-center gap-1.5 shrink-0">
-                  <button type="button" data-edit-q="${q.id}" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200">Tahrirlash</button>
-                  <button type="button" data-del-q="${q.id}" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 dark:bg-rose-950/60 text-rose-600 hover:bg-rose-100">O‘chirish</button>
+                  <button type="button" data-edit-q="${escapeHtml(q.id)}" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200">Tahrirlash</button>
+                  <button type="button" data-del-q="${escapeHtml(q.id)}" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 dark:bg-rose-950/60 text-rose-600 hover:bg-rose-100">O‘chirish</button>
                 </div>
               </div>
             </div>`).join('')
@@ -1252,6 +1676,15 @@
       renderAll();
     });
 
+    document.getElementById('btn-open-leaderboard').addEventListener('click', () => {
+      if (!state.user) return;
+      stopTimer();
+      state.view = 'leaderboard';
+      renderAll();
+      loadLeaderboard();
+    });
+    document.getElementById('btn-refresh-leaderboard').addEventListener('click', loadLeaderboard);
+
     document.querySelectorAll('.admin-tab').forEach((b) => {
       b.addEventListener('click', () => setAdminTab(b.dataset.adminTab));
     });
@@ -1260,7 +1693,6 @@
       if (e.target.value) renderAdminQuestions(e.target.value);
     });
 
-    // JSON File Upload (handles subjects + topics, converting nested glossary arrays cleanly)
     document.getElementById('adm-file-import').addEventListener('change', async (e) => {
       const file = e.target.files[0];
       if (!file || !isAdmin()) return;
@@ -1301,7 +1733,6 @@
       e.target.value = '';
     });
 
-    // Subject CRUD
     document.getElementById('form-subj-crud').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!isAdmin()) return;
@@ -1357,7 +1788,6 @@
       }
     });
 
-    // Topic CRUD
     document.getElementById('form-topic-crud').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!isAdmin()) return;
@@ -1423,7 +1853,6 @@
       }
     });
 
-    // Question CRUD
     async function appendQuestionsToTopic(topicId, newQuestions) {
       const meta = state.topicMetas.find((t) => t.id === topicId);
       const data = await loadTopicData(topicId);
@@ -1545,10 +1974,15 @@
 
     // Standard Events
     document.getElementById('btn-theme').addEventListener('click', toggleTheme);
-    document.getElementById('btn-home').addEventListener('click', () => { stopTimer(); state.view = 'subjects'; renderAll(); });
+    document.getElementById('btn-home').addEventListener('click', () => {
+      if (!state.user) return;
+      stopTimer();
+      state.view = 'subjects';
+      renderAll();
+    });
     document.getElementById('btn-back').addEventListener('click', () => {
       stopTimer();
-      if (state.view === 'quiz' || state.view === 'ready') state.view = 'topics';
+      if (state.view === 'quiz') state.view = 'topics';
       else state.view = 'subjects';
       renderAll();
     });
@@ -1558,8 +1992,27 @@
     });
     document.getElementById('topics-grid').addEventListener('click', (e) => {
       const btn = e.target.closest('[data-open-quiz]');
-      if (btn) startQuizForTopic(btn.dataset.openQuiz, btn);
+      if (btn) openQuizStartModal(btn.dataset.openQuiz);
     });
+
+    // Pre-start modal controls
+    document.getElementById('btn-close-qs').addEventListener('click', () => {
+      document.getElementById('quiz-start-modal').classList.add('hidden');
+    });
+    document.querySelectorAll('.qs-pace-btn').forEach((b) => {
+      b.addEventListener('click', () => {
+        state.selectedSecPerQ = Number(b.dataset.secQ || 120);
+        document.querySelectorAll('.qs-pace-btn').forEach((btn) => {
+          const active = Number(btn.dataset.secQ) === state.selectedSecPerQ;
+          btn.className = active
+            ? 'qs-pace-btn py-2 rounded-xl text-xs font-bold border-2 border-violet-600 bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 transition'
+            : 'qs-pace-btn py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition';
+        });
+      });
+    });
+    document.getElementById('btn-qs-resume').addEventListener('click', (e) => launchTopicQuiz(state.pendingTopicId, 'resume', e.currentTarget));
+    document.getElementById('btn-qs-wrong').addEventListener('click', (e) => launchTopicQuiz(state.pendingTopicId, 'wrong', e.currentTarget));
+    document.getElementById('btn-qs-fresh').addEventListener('click', (e) => launchTopicQuiz(state.pendingTopicId, 'fresh', e.currentTarget));
 
     document.getElementById('filter-tabs').addEventListener('click', (e) => {
       const btn = e.target.closest('[data-cat]');
@@ -1593,22 +2046,79 @@
       buildOptionOrders(state.activeTopicId, data.questions || [], true);
       renderQuiz();
     });
-    async function resetActiveQuiz() {
-      const data = state.topicDataCache[state.activeTopicId] || { questions: [] };
-      const qs = data.questions || [];
-      state.progressByTopic[state.activeTopicId] = { answers: {}, wrongIds: [], bestScore: 0, updatedAt: new Date().toISOString() };
-      state.activeCat = 'all';
-      state.order = qs.map((q) => q.id);
-      buildOptionOrders(state.activeTopicId, qs, false);
-      renderQuiz();
-      startTimer(qs.length);
-      await persistTopicProgress(state.activeTopicId);
+
+    // Reset Modal & Safe Best-Score-Preserving Reset
+    function openResetModal() {
+      const prog = getTopicProgress(state.activeTopicId);
+      const wrongCount = Object.values(prog.answers || {}).filter((x) => !x.isCorrect).length;
+      const wrongBtn = document.getElementById('btn-reset-wrong-only');
+      const wrongSub = document.getElementById('reset-wrong-sub');
+      if (wrongCount > 0) {
+        wrongBtn.disabled = false;
+        wrongBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        wrongSub.textContent = `${wrongCount} ta xato savol qayta ochiladi, to‘g‘ri javoblaringiz saqlanadi.`;
+      } else {
+        wrongBtn.disabled = true;
+        wrongBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        wrongSub.textContent = 'Hozircha xato qilingan savollar yo‘q.';
+      }
+      document.getElementById('reset-modal').classList.remove('hidden');
     }
-    document.getElementById('btn-reset').addEventListener('click', resetActiveQuiz);
+
+    async function executeReset(mode) {
+      document.getElementById('reset-modal').classList.add('hidden');
+      const tid = state.activeTopicId;
+      const data = state.topicDataCache[tid] || { questions: [] };
+      const qs = data.questions || [];
+      const prog = getTopicProgress(tid);
+      const prevBest = Math.max(
+        prog.bestScore || 0,
+        Object.values(prog.answers || {}).filter((x) => x.isCorrect).length
+      );
+      const secPerQ = prog.secPerQ || state.selectedSecPerQ || 120;
+
+      if (mode === 'wrong') {
+        const wrongQs = qs.filter((q) => prog.answers[q.id] && !prog.answers[q.id].isCorrect);
+        if (!wrongQs.length) return;
+        wrongQs.forEach((q) => { delete prog.answers[q.id]; });
+        prog.bestScore = prevBest;
+        prog.wrongIds = [];
+        prog.deadlineAt = Date.now() + wrongQs.length * secPerQ * 1000;
+        prog.updatedAt = new Date().toISOString();
+        state.activeCat = 'all';
+        state.order = shuffleArray(qs.map((q) => q.id));
+        buildOptionOrders(tid, wrongQs, false);
+        renderQuiz();
+        startTimerFromDeadline(prog.deadlineAt);
+        await persistTopicProgress(tid);
+      } else {
+        state.progressByTopic[tid] = {
+          answers: {},
+          wrongIds: [],
+          bestScore: prevBest,
+          secPerQ,
+          deadlineAt: Date.now() + Math.max(1, qs.length) * secPerQ * 1000,
+          updatedAt: new Date().toISOString()
+        };
+        state.activeCat = 'all';
+        state.order = shuffleArray(qs.map((q) => q.id));
+        buildOptionOrders(tid, qs, false);
+        renderQuiz();
+        startTimerFromDeadline(state.progressByTopic[tid].deadlineAt);
+        await persistTopicProgress(tid);
+      }
+    }
+
+    document.getElementById('btn-reset').addEventListener('click', openResetModal);
+    document.getElementById('btn-reset-mini').addEventListener('click', openResetModal);
+    document.getElementById('btn-close-reset').addEventListener('click', () => document.getElementById('reset-modal').classList.add('hidden'));
+    document.getElementById('btn-reset-wrong-only').addEventListener('click', () => executeReset('wrong'));
+    document.getElementById('btn-reset-full').addEventListener('click', () => executeReset('full'));
+
     document.getElementById('btn-timeup-close').addEventListener('click', () => document.getElementById('timeup-modal').classList.add('hidden'));
-    document.getElementById('btn-timeup-retry').addEventListener('click', async () => {
+    document.getElementById('btn-timeup-retry').addEventListener('click', () => {
       document.getElementById('timeup-modal').classList.add('hidden');
-      await resetActiveQuiz();
+      openResetModal();
     });
 
     const profileMenu = document.getElementById('profile-menu');
@@ -1620,16 +2130,18 @@
       if (!e.target.closest('#profile-wrapper')) profileMenu.classList.add('hidden');
     });
 
-    document.getElementById('btn-glossary').addEventListener('click', () => {
+    function openGlossaryModal() {
       const meta = getActiveTopicMeta();
       const data = state.topicDataCache[meta.id] || { glossary: [] };
       const gloss = normalizeGlossary(data.glossary);
       document.getElementById('glossary-title').textContent = `Tezkor konspekt — ${meta.title}`;
       document.getElementById('glossary-body').innerHTML = gloss.length
-        ? gloss.map((g) => `<div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700"><div class="font-bold text-slate-900 dark:text-white">${g.term}</div><div class="text-slate-600 dark:text-slate-300 mt-0.5">${g.def}</div></div>`).join('')
+        ? gloss.map((g) => `<div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700"><div class="font-bold text-slate-900 dark:text-white">${formatQuizText(g.term)}</div><div class="text-slate-600 dark:text-slate-300 mt-0.5">${formatQuizText(g.def)}</div></div>`).join('')
         : '<p class="text-slate-500">Bu mavzu uchun konspekt hali qo‘shilmagan.</p>';
       document.getElementById('glossary-modal').classList.remove('hidden');
-    });
+    }
+    document.getElementById('btn-glossary').addEventListener('click', openGlossaryModal);
+    document.getElementById('btn-glossary-mini').addEventListener('click', openGlossaryModal);
     document.getElementById('btn-close-glossary').addEventListener('click', () => document.getElementById('glossary-modal').classList.add('hidden'));
 
     const authModal = document.getElementById('auth-modal');
@@ -1659,10 +2171,13 @@
     }
 
     document.getElementById('btn-open-auth').addEventListener('click', () => { setAuthMode('login'); authModal.classList.remove('hidden'); });
-    document.getElementById('btn-close-auth').addEventListener('click', () => authModal.classList.add('hidden'));
+    document.getElementById('btn-gate-signin').addEventListener('click', () => { setAuthMode('login'); authModal.classList.remove('hidden'); });
+    document.getElementById('btn-close-auth').addEventListener('click', () => {
+      if (!state.user) return;
+      authModal.classList.add('hidden');
+    });
     document.getElementById('tab-login').addEventListener('click', () => setAuthMode('login'));
     document.getElementById('tab-register').addEventListener('click', () => setAuthMode('register'));
-    document.getElementById('btn-guest-mode').addEventListener('click', () => authModal.classList.add('hidden'));
 
     document.getElementById('btn-toggle-pass').addEventListener('click', () => {
       const inp = document.getElementById('auth-password');
@@ -1750,11 +2265,11 @@
 
     document.getElementById('btn-logout').addEventListener('click', async () => {
       profileMenu.classList.add('hidden');
+      stopTimer();
       try { localStorage.removeItem('studyprep_user_cache'); } catch (e) {}
       await signOut(auth);
     });
 
-    // Edit Profile & Support
     const openSupport = () => {
       profileMenu.classList.add('hidden');
       document.getElementById('support-modal').classList.remove('hidden');
@@ -1781,24 +2296,45 @@
       const newGroup = document.getElementById('edit-prof-group').value.trim();
       state.user.name = newName;
       state.user.group = newGroup;
+      lsSet('studyprep_user_cache', JSON.stringify(state.user));
       if (auth.currentUser) {
         try { await updateProfile(auth.currentUser, { displayName: newName }); } catch (err) {}
       }
       try {
         await setDoc(doc(db, 'users', state.user.uid), { name: newName, group: newGroup }, { merge: true });
+        await syncLeaderboardEntry();
       } catch (err) {}
       document.getElementById('edit-profile-modal').classList.add('hidden');
       updateNavbar();
+      if (state.view === 'leaderboard') loadLeaderboard();
     });
 
-    // Mix Topics Modal
-    function updateMixSummary() {
+    // Mix Topics Modal (with Balanced Question Count Sampling)
+    function getMixTotalAvailable() {
       const checked = [...document.querySelectorAll('.mix-topic-cb:checked')];
-      const totalQ = checked.reduce((sum, cb) => sum + Number(cb.dataset.qcount || 0), 0);
-      document.getElementById('mix-summary').textContent = `${totalQ} ta savol · ${totalQ * 2} daqiqa`;
+      return checked.reduce((sum, cb) => sum + Number(cb.dataset.qcount || 0), 0);
+    }
+
+    function updateMixSummary(clampInput = true) {
+      const totalAvailable = getMixTotalAvailable();
+      const countInp = document.getElementById('mix-q-count');
+      countInp.max = Math.max(1, totalAvailable);
+      let chosen = Number(countInp.value || 0);
+      if (clampInput) {
+        if (totalAvailable === 0) chosen = 0;
+        else if (chosen < 1) chosen = Math.min(30, totalAvailable);
+        else if (chosen > totalAvailable) chosen = totalAvailable;
+        countInp.value = chosen;
+      } else {
+        chosen = Math.max(0, Math.min(chosen, totalAvailable));
+      }
+
+      document.getElementById('mix-summary').textContent =
+        `${chosen} ta savol · ${chosen * 2} daqiqa (mavjud: ${totalAvailable} ta)`;
       const startBtn = document.getElementById('btn-start-mix');
-      startBtn.disabled = totalQ === 0;
-      startBtn.classList.toggle('opacity-50', totalQ === 0);
+      const disabled = totalAvailable === 0 || chosen < 1;
+      startBtn.disabled = disabled;
+      startBtn.classList.toggle('opacity-50', disabled);
     }
 
     document.getElementById('btn-open-mix').addEventListener('click', () => {
@@ -1807,18 +2343,30 @@
       document.getElementById('mix-topics-list').innerHTML = subjMetas.map((t, idx) => `
         <label class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-violet-400 transition">
           <div class="flex items-center gap-3 min-w-0">
-            <input type="checkbox" checked value="${t.id}" data-num="${t.order || idx + 1}" data-qcount="${t.questionCount || 0}" class="mix-topic-cb w-4 h-4 accent-violet-600 rounded">
+            <input type="checkbox" checked value="${escapeHtml(t.id)}" data-num="${t.order || idx + 1}" data-qcount="${t.questionCount || 0}" class="mix-topic-cb w-4 h-4 accent-violet-600 rounded">
             <span class="w-7 h-7 rounded-lg bg-violet-100 dark:bg-violet-950 text-violet-700 dark:text-violet-300 font-extrabold text-xs flex items-center justify-center shrink-0">${t.order || idx + 1}</span>
-            <span class="text-sm font-bold text-slate-900 dark:text-white truncate">${t.title}</span>
+            <span class="text-sm font-bold text-slate-900 dark:text-white truncate">${escapeHtml(t.title)}</span>
           </div>
           <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 shrink-0">${t.questionCount || 0} savol</span>
         </label>
       `).join('');
-      updateMixSummary();
+      const totalAvail = getMixTotalAvailable();
+      document.getElementById('mix-q-count').value = Math.min(30, totalAvail) || 1;
+      updateMixSummary(true);
       document.getElementById('mix-modal').classList.remove('hidden');
     });
 
-    document.getElementById('mix-topics-list').addEventListener('change', updateMixSummary);
+    document.getElementById('mix-topics-list').addEventListener('change', () => updateMixSummary(true));
+    document.getElementById('mix-q-count').addEventListener('input', () => updateMixSummary(false));
+    document.querySelectorAll('.mix-preset-btn').forEach((b) => {
+      b.addEventListener('click', () => {
+        const totalAvail = getMixTotalAvailable();
+        const preset = b.dataset.mixPreset;
+        document.getElementById('mix-q-count').value = preset === 'all' ? totalAvail : Math.min(Number(preset), totalAvail);
+        updateMixSummary(true);
+      });
+    });
+
     document.getElementById('btn-close-mix').addEventListener('click', () => {
       document.getElementById('mix-modal').classList.add('hidden');
     });
@@ -1826,12 +2374,14 @@
       const cbs = [...document.querySelectorAll('.mix-topic-cb')];
       const allChecked = cbs.every((c) => c.checked);
       cbs.forEach((c) => { c.checked = !allChecked; });
-      updateMixSummary();
+      updateMixSummary(true);
     });
 
     document.getElementById('btn-start-mix').addEventListener('click', async () => {
       const checked = [...document.querySelectorAll('.mix-topic-cb:checked')];
       if (!checked.length) return;
+      const totalAvail = getMixTotalAvailable();
+      const targetCount = Math.max(1, Math.min(Number(document.getElementById('mix-q-count').value || totalAvail), totalAvail));
       const btn = document.getElementById('btn-start-mix');
       btn.disabled = true;
       btn.textContent = 'Savollar yuklanmoqda...';
@@ -1840,49 +2390,63 @@
         const topicIds = checked.map((c) => c.value);
         const nums = checked.map((c) => c.dataset.num).join(', ');
         const datas = await Promise.all(topicIds.map((id) => loadTopicData(id)));
-        const combinedQs = [];
-        const combinedGloss = [];
-        const mixCats = [{ id: 'all', label: 'Barchasi' }];
 
-        topicIds.forEach((tid, idx) => {
-          const meta = state.topicMetas.find((m) => m.id === tid);
+        const pools = topicIds.map((tid, idx) => {
           const num = checked[idx].dataset.num;
           const catId = 't_' + tid;
-          mixCats.push({ id: catId, label: `${num}-mavzu` });
-          (datas[idx].questions || []).forEach((q) => {
-            combinedQs.push({
-              ...q,
-              id: `${tid}__${q.id}`,
-              cat: catId,
-              catLabel: `${num}-mavzu · ${q.catLabel || ''}`
-            });
-          });
+          const qs = shuffleArray(datas[idx].questions || []).map((q) => ({
+            ...q,
+            id: `${tid}__${q.id}`,
+            cat: catId,
+            catLabel: `${num}-mavzu · ${q.catLabel || ''}`
+          }));
+          return { tid, num, catId, qs, cursor: 0 };
+        });
+
+        const combinedQs = [];
+        let remaining = targetCount;
+        let roundStartIdx = Math.floor(Math.random() * pools.length);
+        while (remaining > 0) {
+          let pickedInRound = false;
+          for (let step = 0; step < pools.length && remaining > 0; step++) {
+            const p = pools[(roundStartIdx + step) % pools.length];
+            if (p.cursor < p.qs.length) {
+              combinedQs.push(p.qs[p.cursor++]);
+              remaining--;
+              pickedInRound = true;
+            }
+          }
+          if (!pickedInRound) break;
+        }
+
+        const combinedGloss = [];
+        const mixCats = [{ id: 'all', label: 'Barchasi' }];
+        pools.forEach((p, idx) => {
+          mixCats.push({ id: p.catId, label: `${p.num}-mavzu` });
           (datas[idx].glossary || []).forEach((g) => combinedGloss.push(g));
         });
 
-        for (let i = combinedQs.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [combinedQs[i], combinedQs[j]] = [combinedQs[j], combinedQs[i]];
-        }
-
+        const finalShuffled = shuffleArray(combinedQs);
         const mixId = 'mix_' + subj.id;
+        const secPerQ = state.selectedSecPerQ || 120;
+        const deadlineAt = Date.now() + finalShuffled.length * secPerQ * 1000;
         state.mixMeta = {
           id: mixId,
           badge: 'Aralash imtihon',
-          title: `${subj.title} (${nums}-mavzular)`,
+          title: `${subj.title} (${nums}-mavzular · ${finalShuffled.length} savol)`,
           categories: mixCats,
-          questionCount: combinedQs.length
+          questionCount: finalShuffled.length
         };
-        state.topicDataCache[mixId] = { questions: combinedQs, glossary: combinedGloss };
-        state.progressByTopic[mixId] = { answers: {}, wrongIds: [], bestScore: 0 };
+        state.topicDataCache[mixId] = { questions: finalShuffled, glossary: combinedGloss };
+        state.progressByTopic[mixId] = { answers: {}, wrongIds: [], bestScore: 0, secPerQ, deadlineAt };
         state.activeTopicId = mixId;
         state.activeCat = 'all';
-        state.order = combinedQs.map((q) => q.id);
-        buildOptionOrders(mixId, combinedQs, false);
+        state.order = finalShuffled.map((q) => q.id);
+        buildOptionOrders(mixId, finalShuffled, false);
         state.view = 'quiz';
         document.getElementById('mix-modal').classList.add('hidden');
         renderAll();
-        startTimer(combinedQs.length);
+        startTimerFromDeadline(deadlineAt);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } finally {
         btn.disabled = false;
@@ -1894,16 +2458,20 @@
     hydrateFromLocalCache();
     loadCatalogMeta();
     onAuthStateChanged(auth, async (fbUser) => {
+      state.authResolved = true;
       if (fbUser) {
         state.user = { uid: fbUser.uid, name: fbUser.displayName || fbUser.email, email: fbUser.email, photoURL: fbUser.photoURL || null };
         lsSet('studyprep_user_cache', JSON.stringify(state.user));
+        authModal.classList.add('hidden');
         renderAll();
         await loadUserData(state.user);
       } else {
         state.user = null;
         try { localStorage.removeItem('studyprep_user_cache'); } catch (e) {}
-        state.progressByTopic = loadLocalProgress('guest');
+        state.progressByTopic = {};
+        state.view = 'subjects';
         renderAll();
+        authModal.classList.remove('hidden');
       }
     });
   </script>
