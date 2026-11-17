@@ -1057,12 +1057,12 @@
         const q = query(
           collection(db, 'leaderboard'),
           orderBy('totalCorrect', 'desc'),
-          orderBy('accuracy', 'desc'),
           limit(20)
         );
         const snap = await getDocs(q);
         const list = [];
         snap.forEach((d) => list.push({ uid: d.id, ...d.data() }));
+        list.sort((a, b) => (b.totalCorrect || 0) - (a.totalCorrect || 0) || (b.accuracy || 0) - (a.accuracy || 0));
         state.leaderboard = list;
 
         let myEntry = null;
@@ -1073,6 +1073,7 @@
         state.leaderboardMyEntry = myEntry;
         state.leaderboardFetchedAt = Date.now();
       } catch (e) {
+        console.error('Leaderboard error:', e);
         state.leaderboard = [];
         state.leaderboardMyEntry = null;
         state.leaderboardError = e && e.code === 'permission-denied'
