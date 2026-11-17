@@ -1004,8 +1004,10 @@
 
     async function loadLeaderboard() {
       state.leaderboardLoading = true;
+      state.leaderboardError = '';
       renderLeaderboard();
       try {
+        await syncLeaderboardEntry();
         const snap = await getDocs(collection(db, 'leaderboard'));
         const list = [];
         snap.forEach((d) => list.push({ uid: d.id, ...d.data() }));
@@ -1013,6 +1015,9 @@
         state.leaderboard = list;
       } catch (e) {
         state.leaderboard = [];
+        state.leaderboardError = e && e.code === 'permission-denied'
+          ? 'Firestore Rules da "leaderboard" kolleksiyasi uchun ruxsat (read/write) yoqilmagan.'
+          : 'Reytingni yuklashda xatolik yuz berdi.';
       }
       state.leaderboardLoading = false;
       renderLeaderboard();
@@ -1371,7 +1376,7 @@
       if (!state.leaderboard.length) {
         myCard.classList.add('hidden');
         podiumEl.classList.add('hidden');
-        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Hozircha natijalar yo‘q.</div>`;
+        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">${escapeHtml(state.leaderboardError || "Hozircha natijalar yo‘q.")}</div>`;
         return;
       }
       const myIdx = state.user ? state.leaderboard.findIndex((u) => u.uid === state.user.uid) : -1;
