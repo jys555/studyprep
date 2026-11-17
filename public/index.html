@@ -320,25 +320,32 @@
     </section>
 
     <!-- VIEW 5: FULL DEDICATED ADMIN PAGE -->
-    <section id="view-admin" class="hidden fade-in space-y-6">
-      <div class="glass-card rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <section id="view-admin" class="hidden fade-in space-y-5">
+      <div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-2.5">
           <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50/80 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">Admin</span>
           <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">Boshqaruv</h1>
         </div>
-        <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition shrink-0">
-          JSON fayl yuklash (.json)
-          <input id="adm-file-import" type="file" accept=".json,application/json" class="hidden">
-        </label>
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="btn-export-all" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold glass-icon-btn text-slate-700 dark:text-slate-200 transition">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/></svg>
+            Eksport (.json)
+          </button>
+          <label class="cursor-pointer inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-50/85 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M17 8l-5-5-5 5M12 3v12"/></svg>
+            JSON yuklash
+            <input id="adm-file-import" type="file" accept=".json,application/json" class="hidden">
+          </label>
+        </div>
       </div>
 
-      <div id="admin-msg" class="hidden text-xs sm:text-sm font-semibold px-4 py-3 rounded-xl border"></div>
+      <div id="admin-msg" class="hidden text-xs sm:text-sm font-semibold px-4 py-3 rounded-xl border glass-card fade-in"></div>
 
       <!-- Admin Section Tabs -->
       <div class="flex flex-wrap gap-2">
         <button type="button" data-admin-tab="subjects" class="admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-violet-600 text-white shadow-sm">1. Fanlar</button>
-        <button type="button" data-admin-tab="topics" class="admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800">2. Mavzular</button>
-        <button type="button" data-admin-tab="questions" class="admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800">3. Savollar</button>
+        <button type="button" data-admin-tab="topics" class="admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold glass-card text-slate-700 dark:text-slate-300">2. Mavzular</button>
+        <button type="button" data-admin-tab="questions" class="admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold glass-card text-slate-700 dark:text-slate-300">3. Savollar & Konspekt</button>
       </div>
 
       <!-- ADMIN TAB 1: SUBJECTS CRUD -->
@@ -349,25 +356,24 @@
             <button id="btn-subj-cancel" type="button" class="hidden text-xs font-semibold text-slate-500 hover:underline">Bekor qilish</button>
           </div>
           <div>
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Fan nomi</label>
+            <input id="adm-subj-title" type="text" required placeholder="Kompyuter arxitekturasi" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
+          </div>
+          <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Fan ID (lotincha)</label>
-            <input id="adm-subj-id" type="text" required placeholder="comp-arch" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
+            <input id="adm-subj-id" type="text" required placeholder="comp-arch" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm font-mono">
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Kod / Kurs</label>
-            <input id="adm-subj-code" type="text" required placeholder="IT · 1-kurs" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Fan nomi</label>
-            <input id="adm-subj-title" type="text" required placeholder="Kompyuter arxitekturasi" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
+            <input id="adm-subj-code" type="text" required placeholder="IT · 1-kurs" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Qisqa tavsif</label>
-            <textarea id="adm-subj-desc" rows="2" required placeholder="Fan tavsifi..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"></textarea>
+            <textarea id="adm-subj-desc" rows="2" placeholder="Fan tavsifi..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm"></textarea>
           </div>
           <button type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition">Saqlash</button>
         </form>
         <div class="lg:col-span-3 space-y-3">
-          <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500">Mavjud fanlar</h2>
           <div id="admin-subjects-list" class="space-y-3"></div>
         </div>
       </div>
@@ -381,40 +387,47 @@
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Fan</label>
-            <select id="adm-topic-subj" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"></select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Mavzu ID (lotincha)</label>
-            <input id="adm-topic-id" type="text" required placeholder="it-03" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Badge</label>
-            <input id="adm-topic-badge" type="text" required placeholder="3-mavzu · Imtihon testi" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
+            <select id="adm-topic-subj" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm"></select>
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Mavzu nomi</label>
-            <input id="adm-topic-title" type="text" required placeholder="Mavzu nomi" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
+            <input id="adm-topic-title" type="text" required placeholder="Mavzu nomi" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Mavzu ID (lotincha)</label>
+            <input id="adm-topic-id" type="text" required placeholder="it-03" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm font-mono">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Badge</label>
+            <input id="adm-topic-badge" type="text" required placeholder="3-mavzu · Imtihon testi" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Qisqa tavsif</label>
-            <textarea id="adm-topic-desc" rows="2" required placeholder="Mavzu tavsifi..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"></textarea>
+            <textarea id="adm-topic-desc" rows="2" placeholder="Mavzu tavsifi..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm"></textarea>
           </div>
           <button type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition">Saqlash</button>
         </form>
         <div class="lg:col-span-3 space-y-3">
-          <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500">Mavjud mavzular</h2>
+          <div class="glass-card rounded-xl p-3 flex items-center justify-between gap-3">
+            <span class="text-xs font-bold text-slate-500 dark:text-slate-400">Fan bo‘yicha filtr:</span>
+            <select id="adm-topic-filter-subj" class="flex-1 max-w-xs px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-xs font-semibold"></select>
+          </div>
           <div id="admin-topics-list" class="space-y-3"></div>
         </div>
       </div>
 
-      <!-- ADMIN TAB 3: QUESTIONS CRUD -->
-      <div id="admin-sec-questions" class="hidden space-y-6">
-        <div class="glass-card rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-3">
-          <label class="text-xs font-bold uppercase tracking-wider text-slate-500 shrink-0">Mavzuni tanlang:</label>
-          <select id="adm-q-topic" class="flex-1 px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-semibold"></select>
+      <!-- ADMIN TAB 3: QUESTIONS & GLOSSARY CRUD -->
+      <div id="admin-sec-questions" class="hidden space-y-5">
+        <div class="glass-card rounded-2xl p-4 flex flex-wrap items-center gap-3">
+          <select id="adm-q-topic" class="flex-1 min-w-[200px] px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm font-semibold"></select>
+          <div class="flex gap-1 p-1 glass-sub rounded-xl">
+            <button id="btn-subtab-q" type="button" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm">Savollar (<span id="adm-q-count">0</span>)</button>
+            <button id="btn-subtab-g" type="button" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300">Konspekt (<span id="adm-g-count">0</span>)</button>
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <!-- Questions Sub-tab -->
+        <div id="adm-panel-q" class="grid grid-cols-1 lg:grid-cols-5 gap-6">
           <div class="lg:col-span-2 space-y-4">
             <form id="form-q-crud" class="glass-card rounded-2xl p-5 space-y-3">
               <div class="flex items-center justify-between">
@@ -424,21 +437,21 @@
               <input id="adm-q-edit-id" type="hidden" value="">
               <div>
                 <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Bo‘lim nomi</label>
-                <input id="adm-q-cat" type="text" required placeholder="Asoslar" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
+                <input id="adm-q-cat" type="text" required placeholder="Asoslar" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Savol matni</label>
-                <textarea id="adm-q-text" rows="2" required placeholder="Savolni yozing..." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"></textarea>
+                <textarea id="adm-q-text" rows="2" required placeholder="Savolni yozing..." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm"></textarea>
               </div>
               <div class="space-y-2">
-                <input id="adm-q-a" type="text" required placeholder="Variant A" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
-                <input id="adm-q-b" type="text" required placeholder="Variant B" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
-                <input id="adm-q-c" type="text" required placeholder="Variant C" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
-                <input id="adm-q-d" type="text" required placeholder="Variant D" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
+                <input id="adm-q-a" type="text" required placeholder="Variant A" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
+                <input id="adm-q-b" type="text" required placeholder="Variant B" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
+                <input id="adm-q-c" type="text" required placeholder="Variant C" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
+                <input id="adm-q-d" type="text" required placeholder="Variant D" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">To‘g‘ri javob</label>
-                <select id="adm-q-ans" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
+                <select id="adm-q-ans" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
                   <option value="0">A</option>
                   <option value="1">B</option>
                   <option value="2">C</option>
@@ -447,25 +460,83 @@
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Izoh (Explanation)</label>
-                <textarea id="adm-q-exp" rows="2" required placeholder="Tushuntirish..." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"></textarea>
+                <textarea id="adm-q-exp" rows="2" required placeholder="Tushuntirish..." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm"></textarea>
               </div>
               <button type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition">Savolni saqlash</button>
             </form>
 
             <div class="glass-card rounded-2xl p-5 space-y-2">
-              <div class="text-xs font-bold uppercase tracking-wider text-slate-500">JSON massivdan ko‘p savol qo‘shish</div>
-              <textarea id="adm-q-json" rows="3" placeholder='[{"catLabel":"Asoslar","q":"...","opts":["A","B","C","D"],"ans":0,"exp":"..."}]' class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-mono"></textarea>
+              <div class="text-xs font-bold uppercase tracking-wider text-slate-500">JSON massivdan qo‘shish</div>
+              <textarea id="adm-q-json" rows="3" placeholder='[{"catLabel":"Asoslar","q":"...","opts":["A","B","C","D"],"ans":0,"exp":"..."}]' class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-xs font-mono"></textarea>
               <button id="btn-import-json" type="button" class="w-full py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition">JSON dan import qilish</button>
             </div>
           </div>
 
           <div class="lg:col-span-3 space-y-3">
-            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500">Tanlangan mavzu savollari (<span id="adm-q-count">0</span>)</h2>
+            <div class="glass-card rounded-xl p-3 flex flex-wrap gap-2">
+              <input id="adm-q-search" type="search" placeholder="Savol qidirish..." class="flex-1 min-w-[160px] px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-xs">
+              <select id="adm-q-cat-filter" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-xs font-semibold">
+                <option value="all">Barcha bo‘limlar</option>
+              </select>
+            </div>
             <div id="admin-questions-list" class="space-y-3"></div>
+          </div>
+        </div>
+
+        <!-- Glossary Sub-tab -->
+        <div id="adm-panel-g" class="hidden grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <form id="form-g-crud" class="lg:col-span-2 glass-card rounded-2xl p-5 space-y-3 h-fit">
+            <div class="flex items-center justify-between">
+              <h2 id="g-form-title" class="text-base font-extrabold text-slate-900 dark:text-white">Yangi atama</h2>
+              <button id="btn-g-cancel" type="button" class="hidden text-xs font-semibold text-slate-500 hover:underline">Bekor qilish</button>
+            </div>
+            <input id="adm-g-edit-idx" type="hidden" value="">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Atama</label>
+              <input id="adm-g-term" type="text" required placeholder="RAM" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Ta’rif</label>
+              <textarea id="adm-g-def" rows="3" required placeholder="Tezkor xotira..." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm"></textarea>
+            </div>
+            <button type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition">Saqlash</button>
+          </form>
+          <div class="lg:col-span-3 space-y-3">
+            <div id="admin-glossary-list" class="space-y-2.5"></div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Admin Confirm Delete Modal -->
+    <div id="admin-confirm-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="glass-card rounded-2xl max-w-sm w-full p-6 text-center fade-in">
+        <div class="w-12 h-12 rounded-2xl bg-rose-100/80 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto mb-3">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        </div>
+        <h3 id="adm-confirm-title" class="text-lg font-extrabold text-slate-900 dark:text-white">O‘chirishni tasdiqlang</h3>
+        <p id="adm-confirm-desc" class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2"></p>
+        <div class="mt-5 flex gap-2">
+          <button id="btn-adm-confirm-cancel" type="button" class="flex-1 py-2.5 rounded-xl text-sm font-semibold glass-sub text-slate-700 dark:text-slate-200 transition">Bekor qilish</button>
+          <button id="btn-adm-confirm-ok" type="button" class="flex-1 py-2.5 rounded-xl text-sm font-bold bg-rose-600 hover:bg-rose-700 text-white transition">O‘chirish</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin JSON Import Preview Modal -->
+    <div id="admin-import-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="glass-card rounded-2xl max-w-md w-full p-6 fade-in">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">JSON import tekshiruvi</h3>
+          <button id="btn-adm-imp-close" type="button" class="w-7 h-7 rounded-lg flex items-center justify-center glass-icon-btn text-slate-600 dark:text-slate-300 font-bold text-xs">✕</button>
+        </div>
+        <div id="adm-imp-summary" class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 mb-5"></div>
+        <div class="flex gap-2">
+          <button id="btn-adm-imp-cancel" type="button" class="flex-1 py-2.5 rounded-xl text-sm font-semibold glass-sub text-slate-700 dark:text-slate-200 transition">Bekor qilish</button>
+          <button id="btn-adm-imp-confirm" type="button" class="flex-1 py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition">Tasdiqlash</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Minimal Pre-Start / Resume Topic Modal (90s per question automatically) -->
@@ -703,7 +774,7 @@
     } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
     import {
       getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
-      doc, getDoc, setDoc, deleteDoc, collection, getDocs
+      doc, getDoc, setDoc, deleteDoc, collection, getDocs, writeBatch
     } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js';
 
     const ADMIN_EMAIL = "jumanovyashnarbek55@gmail.com";
@@ -1703,15 +1774,66 @@
     }
 
     // =========================================================================
-    // ADMIN PAGE CRUD LOGIC
+    // ADMIN PAGE CRUD LOGIC (Cascade Delete, Batch Write, Preview, Export, Search)
     // =========================================================================
+    let adminMsgTimer = null;
+    let adminConfirmAction = null;
+    let pendingImportData = null;
+    let adminSubTab = 'q';
+
+    function slugifyId(str) {
+      return String(str || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 48);
+    }
+
     function showAdminMsg(text, ok = true) {
       const el = document.getElementById('admin-msg');
       el.textContent = text;
       el.className = ok
-        ? 'text-xs sm:text-sm font-semibold px-4 py-3 rounded-xl border bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
-        : 'text-xs sm:text-sm font-semibold px-4 py-3 rounded-xl border bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800';
+        ? 'text-xs sm:text-sm font-semibold px-4 py-3 rounded-xl border bg-emerald-50/90 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800 glass-card fade-in'
+        : 'text-xs sm:text-sm font-semibold px-4 py-3 rounded-xl border bg-rose-50/90 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800 glass-card fade-in';
       el.classList.remove('hidden');
+      if (adminMsgTimer) clearTimeout(adminMsgTimer);
+      adminMsgTimer = setTimeout(() => el.classList.add('hidden'), 3500);
+    }
+
+    function openAdminConfirm(title, desc, onConfirm) {
+      document.getElementById('adm-confirm-title').textContent = title;
+      document.getElementById('adm-confirm-desc').textContent = desc;
+      adminConfirmAction = onConfirm;
+      document.getElementById('admin-confirm-modal').classList.remove('hidden');
+    }
+
+    document.getElementById('btn-adm-confirm-cancel').addEventListener('click', () => {
+      document.getElementById('admin-confirm-modal').classList.add('hidden');
+      adminConfirmAction = null;
+    });
+    document.getElementById('btn-adm-confirm-ok').addEventListener('click', async () => {
+      const fn = adminConfirmAction;
+      adminConfirmAction = null;
+      const btn = document.getElementById('btn-adm-confirm-ok');
+      btn.disabled = true;
+      btn.textContent = 'O‘chirilmoqda...';
+      try {
+        if (fn) await fn();
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'O‘chirish';
+        document.getElementById('admin-confirm-modal').classList.add('hidden');
+      }
+    });
+
+    function downloadJson(filename, obj) {
+      const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
     }
 
     function setAdminTab(tab) {
@@ -1723,42 +1845,80 @@
       document.querySelectorAll('.admin-tab').forEach((b) => {
         b.className = b.dataset.adminTab === tab
           ? 'admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-violet-600 text-white shadow-sm'
-          : 'admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800';
+          : 'admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold glass-card text-slate-700 dark:text-slate-300';
       });
       renderAdminPage();
     }
 
+    function setAdminSubTab(sub) {
+      adminSubTab = sub;
+      document.getElementById('adm-panel-q').classList.toggle('hidden', sub !== 'q');
+      document.getElementById('adm-panel-g').classList.toggle('hidden', sub !== 'g');
+      document.getElementById('btn-subtab-q').className = sub === 'q'
+        ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm'
+        : 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300';
+      document.getElementById('btn-subtab-g').className = sub === 'g'
+        ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm'
+        : 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300';
+    }
+    document.getElementById('btn-subtab-q').addEventListener('click', () => setAdminSubTab('q'));
+    document.getElementById('btn-subtab-g').addEventListener('click', () => setAdminSubTab('g'));
+
     async function renderAdminPage() {
-      document.getElementById('adm-topic-subj').innerHTML = state.subjects.map((s) => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.title)}</option>`).join('');
+      const subjOpts = state.subjects.map((s) => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.title)}</option>`).join('');
+      document.getElementById('adm-topic-subj').innerHTML = subjOpts;
+
+      const filterSel = document.getElementById('adm-topic-filter-subj');
+      const prevFilter = filterSel.value || 'all';
+      filterSel.innerHTML = `<option value="all">Barcha fanlar</option>` + subjOpts;
+      if ([...filterSel.options].some((o) => o.value === prevFilter)) filterSel.value = prevFilter;
+
       const qTopicSel = document.getElementById('adm-q-topic');
       const prevVal = qTopicSel.value;
       qTopicSel.innerHTML = state.topicMetas.map((t) => `<option value="${escapeHtml(t.id)}">${escapeHtml(t.title)}</option>`).join('');
       if (prevVal && state.topicMetas.some((t) => t.id === prevVal)) qTopicSel.value = prevVal;
 
       document.getElementById('admin-subjects-list').innerHTML = state.subjects.length
-        ? state.subjects.map((s) => `
-            <div class="glass-card rounded-xl p-4 flex items-center justify-between gap-3">
-              <div class="min-w-0">
-                <div class="text-xs font-semibold text-violet-600 dark:text-violet-400">${escapeHtml(s.id)} · ${escapeHtml(s.code)}</div>
+        ? state.subjects.map((s, idx) => {
+            const tCount = state.topicMetas.filter((t) => t.subjectId === s.id).length;
+            const qSum = state.topicMetas.filter((t) => t.subjectId === s.id).reduce((sum, t) => sum + (t.questionCount || 0), 0);
+            return `
+            <div class="glass-card rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
+              <div class="min-w-0 flex-1">
+                <div class="text-xs font-semibold text-violet-600 dark:text-violet-400">${escapeHtml(s.id)} · ${tCount} mavzu · ${qSum} savol</div>
                 <div class="font-bold text-slate-900 dark:text-white truncate">${escapeHtml(s.title)}</div>
               </div>
-              <div class="flex items-center gap-2 shrink-0">
-                <button type="button" data-edit-subj="${escapeHtml(s.id)}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">Tahrirlash</button>
-                <button type="button" data-del-subj="${escapeHtml(s.id)}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-100">O‘chirish</button>
+              <div class="flex flex-wrap items-center gap-1.5 shrink-0">
+                <button type="button" data-move-subj="${escapeHtml(s.id)}" data-dir="-1" ${idx === 0 ? 'disabled' : ''} class="w-7 h-7 rounded-lg text-xs font-bold glass-sub disabled:opacity-35">↑</button>
+                <button type="button" data-move-subj="${escapeHtml(s.id)}" data-dir="1" ${idx === state.subjects.length - 1 ? 'disabled' : ''} class="w-7 h-7 rounded-lg text-xs font-bold glass-sub disabled:opacity-35">↓</button>
+                <button type="button" data-drill-subj="${escapeHtml(s.id)}" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-violet-50/80 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300">Mavzular →</button>
+                <button type="button" data-exp-subj="${escapeHtml(s.id)}" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold glass-sub">Eksport</button>
+                <button type="button" data-edit-subj="${escapeHtml(s.id)}" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold glass-sub">Tahrirlash</button>
+                <button type="button" data-del-subj="${escapeHtml(s.id)}" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-rose-50/80 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400">O‘chirish</button>
               </div>
-            </div>`).join('')
+            </div>`;
+          }).join('')
         : '<p class="text-sm text-slate-500">Fanlar yo‘q.</p>';
 
-      document.getElementById('admin-topics-list').innerHTML = state.topicMetas.length
-        ? state.topicMetas.map((t) => `
-            <div class="glass-card rounded-xl p-4 flex items-center justify-between gap-3">
-              <div class="min-w-0">
+      const activeSubjFilter = filterSel.value;
+      const filteredTopics = activeSubjFilter === 'all'
+        ? state.topicMetas
+        : state.topicMetas.filter((t) => t.subjectId === activeSubjFilter);
+
+      document.getElementById('admin-topics-list').innerHTML = filteredTopics.length
+        ? filteredTopics.map((t, idx) => `
+            <div class="glass-card rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
+              <div class="min-w-0 flex-1">
                 <div class="text-xs font-semibold text-violet-600 dark:text-violet-400">${escapeHtml(t.id)} · ${t.questionCount || 0} savol</div>
                 <div class="font-bold text-slate-900 dark:text-white truncate">${escapeHtml(t.title)}</div>
               </div>
-              <div class="flex items-center gap-2 shrink-0">
-                <button type="button" data-edit-topic="${escapeHtml(t.id)}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">Tahrirlash</button>
-                <button type="button" data-del-topic="${escapeHtml(t.id)}" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-100">O‘chirish</button>
+              <div class="flex flex-wrap items-center gap-1.5 shrink-0">
+                <button type="button" data-move-topic="${escapeHtml(t.id)}" data-dir="-1" ${idx === 0 ? 'disabled' : ''} class="w-7 h-7 rounded-lg text-xs font-bold glass-sub disabled:opacity-35">↑</button>
+                <button type="button" data-move-topic="${escapeHtml(t.id)}" data-dir="1" ${idx === filteredTopics.length - 1 ? 'disabled' : ''} class="w-7 h-7 rounded-lg text-xs font-bold glass-sub disabled:opacity-35">↓</button>
+                <button type="button" data-drill-topic="${escapeHtml(t.id)}" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-violet-50/80 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300">Savollar →</button>
+                <button type="button" data-exp-topic="${escapeHtml(t.id)}" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold glass-sub">Eksport</button>
+                <button type="button" data-edit-topic="${escapeHtml(t.id)}" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold glass-sub">Tahrirlash</button>
+                <button type="button" data-del-topic="${escapeHtml(t.id)}" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-rose-50/80 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400">O‘chirish</button>
               </div>
             </div>`).join('')
         : '<p class="text-sm text-slate-500">Mavzular yo‘q.</p>';
@@ -1768,12 +1928,40 @@
       }
     }
 
+    function syncCategoriesFromQuestions(qs) {
+      const cats = [{ id: 'all', label: 'Barchasi' }];
+      qs.forEach((q) => {
+        const cid = q.cat || 'general';
+        if (!cats.some((c) => c.id === cid)) {
+          cats.push({ id: cid, label: q.catLabel || 'Umumiy' });
+        }
+      });
+      return cats;
+    }
+
     async function renderAdminQuestions(topicId) {
       const data = await loadTopicData(topicId);
       const qs = data.questions || [];
+      const gloss = normalizeGlossary(data.glossary);
       document.getElementById('adm-q-count').textContent = qs.length;
-      document.getElementById('admin-questions-list').innerHTML = qs.length
-        ? qs.map((q, idx) => `
+      document.getElementById('adm-g-count').textContent = gloss.length;
+
+      const catFilterSel = document.getElementById('adm-q-cat-filter');
+      const prevCat = catFilterSel.value || 'all';
+      const cats = syncCategoriesFromQuestions(qs);
+      catFilterSel.innerHTML = cats.map((c) => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.label)}</option>`).join('');
+      if (cats.some((c) => c.id === prevCat)) catFilterSel.value = prevCat;
+
+      const searchTxt = (document.getElementById('adm-q-search').value || '').trim().toLowerCase();
+      const activeCat = catFilterSel.value;
+      const filteredQs = qs.filter((q) => {
+        if (activeCat !== 'all' && q.cat !== activeCat) return false;
+        if (searchTxt && !`${q.q} ${(q.opts || []).join(' ')} ${q.catLabel || ''}`.toLowerCase().includes(searchTxt)) return false;
+        return true;
+      });
+
+      document.getElementById('admin-questions-list').innerHTML = filteredQs.length
+        ? filteredQs.map((q, idx) => `
             <div class="glass-card rounded-xl p-4">
               <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
@@ -1781,12 +1969,26 @@
                   <div class="font-bold text-sm text-slate-900 dark:text-white mt-0.5">${formatQuizText(q.q)}</div>
                 </div>
                 <div class="flex items-center gap-1.5 shrink-0">
-                  <button type="button" data-edit-q="${escapeHtml(q.id)}" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200">Tahrirlash</button>
-                  <button type="button" data-del-q="${escapeHtml(q.id)}" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 dark:bg-rose-950/60 text-rose-600 hover:bg-rose-100">O‘chirish</button>
+                  <button type="button" data-edit-q="${escapeHtml(q.id)}" class="px-2.5 py-1 rounded-lg text-xs font-semibold glass-sub">Tahrirlash</button>
+                  <button type="button" data-del-q="${escapeHtml(q.id)}" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50/80 dark:bg-rose-950/60 text-rose-600">O‘chirish</button>
                 </div>
               </div>
             </div>`).join('')
-        : '<p class="text-sm text-slate-500">Bu mavzuda hali savollar yo‘q.</p>';
+        : '<p class="text-sm text-slate-500">Mos savollar topilmadi.</p>';
+
+      document.getElementById('admin-glossary-list').innerHTML = gloss.length
+        ? gloss.map((g, idx) => `
+            <div class="glass-card rounded-xl p-3.5 flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div class="font-bold text-sm text-slate-900 dark:text-white">${formatQuizText(g.term)}</div>
+                <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">${formatQuizText(g.def)}</div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button type="button" data-edit-g="${idx}" class="px-2.5 py-1 rounded-lg text-xs font-semibold glass-sub">Tahrirlash</button>
+                <button type="button" data-del-g="${idx}" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50/80 dark:bg-rose-950/60 text-rose-600">O‘chirish</button>
+              </div>
+            </div>`).join('')
+        : '<p class="text-sm text-slate-500">Konspekt atamalari yo‘q.</p>';
     }
 
     document.getElementById('btn-open-admin').addEventListener('click', () => {
@@ -1809,41 +2011,65 @@
       b.addEventListener('click', () => setAdminTab(b.dataset.adminTab));
     });
 
+    document.getElementById('adm-topic-filter-subj').addEventListener('change', renderAdminPage);
     document.getElementById('adm-q-topic').addEventListener('change', (e) => {
       if (e.target.value) renderAdminQuestions(e.target.value);
     });
+    document.getElementById('adm-q-search').addEventListener('input', () => {
+      const tid = document.getElementById('adm-q-topic').value;
+      if (tid) renderAdminQuestions(tid);
+    });
+    document.getElementById('adm-q-cat-filter').addEventListener('change', () => {
+      const tid = document.getElementById('adm-q-topic').value;
+      if (tid) renderAdminQuestions(tid);
+    });
 
+    // Auto-slugify IDs when adding new items
+    document.getElementById('adm-subj-title').addEventListener('input', (e) => {
+      const idInp = document.getElementById('adm-subj-id');
+      if (!idInp.readOnly) idInp.value = slugifyId(e.target.value);
+    });
+    document.getElementById('adm-topic-title').addEventListener('input', (e) => {
+      const idInp = document.getElementById('adm-topic-id');
+      if (!idInp.readOnly) idInp.value = slugifyId(e.target.value);
+    });
+
+    // Export All / Subject / Topic
+    document.getElementById('btn-export-all').addEventListener('click', async () => {
+      if (!isAdmin()) return;
+      const topicsOut = [];
+      for (const m of state.topicMetas) {
+        const td = await loadTopicData(m.id);
+        topicsOut.push({ ...m, questions: td.questions || [], glossary: td.glossary || [] });
+      }
+      downloadJson('studyprep_backup.json', { subjects: state.subjects, topics: topicsOut });
+      showAdminMsg('Barcha fanlar va mavzular eksport qilindi!');
+    });
+
+    // JSON File Import with Preview Modal + Atomic writeBatch
     document.getElementById('adm-file-import').addEventListener('change', async (e) => {
       const file = e.target.files[0];
       if (!file || !isAdmin()) return;
       try {
         const data = JSON.parse(await file.text());
         if (data.subjects && data.topics) {
-          for (const s of data.subjects) {
-            await setDoc(doc(db, 'subjects', s.id), s, { merge: true });
-          }
-          for (const t of data.topics) {
-            const qs = t.questions || [];
-            const meta = {
-              id: t.id, subjectId: t.subjectId, order: t.order || 1,
-              badge: t.badge || '', title: t.title || '', desc: t.desc || '',
-              categories: t.categories || [{ id: 'all', label: 'Barchasi' }],
-              questionCount: qs.length
-            };
-            const payload = { questions: qs, glossary: normalizeGlossary(t.glossary) };
-            await setDoc(doc(db, 'topic_meta', t.id), meta, { merge: true });
-            await setDoc(doc(db, 'topic_data', t.id), payload, { merge: true });
-            state.topicDataCache[t.id] = payload;
-          }
-          await loadCatalogMeta();
-          renderAdminPage();
-          showAdminMsg(`${data.subjects.length} ta fan va ${data.topics.length} ta mavzu bazaga muvaffaqiyatli yuklandi!`);
+          pendingImportData = { type: 'bundle', data };
+          const qCount = data.topics.reduce((s, t) => s + (t.questions || []).length, 0);
+          const overwriteSubjs = data.subjects.filter((s) => state.subjects.some((x) => x.id === s.id)).length;
+          const overwriteTopics = data.topics.filter((t) => state.topicMetas.some((x) => x.id === t.id)).length;
+          document.getElementById('adm-imp-summary').innerHTML = `
+            <div class="p-3 rounded-xl glass-sub"><b>Fanlar:</b> ${data.subjects.length} ta (${overwriteSubjs} tasi yangilanadi)</div>
+            <div class="p-3 rounded-xl glass-sub"><b>Mavzular:</b> ${data.topics.length} ta (${overwriteTopics} tasi yangilanadi)</div>
+            <div class="p-3 rounded-xl glass-sub"><b>Jami savollar:</b> ${qCount} ta</div>`;
+          document.getElementById('admin-import-modal').classList.remove('hidden');
         } else if (Array.isArray(data)) {
           const topicId = document.getElementById('adm-q-topic').value;
           if (!topicId) throw new Error('Avval mavzu yarating');
-          await appendQuestionsToTopic(topicId, data);
-          await renderAdminQuestions(topicId);
-          showAdminMsg(`${data.length} ta savol yuklandi!`);
+          pendingImportData = { type: 'questions', topicId, data };
+          document.getElementById('adm-imp-summary').innerHTML = `
+            <div class="p-3 rounded-xl glass-sub"><b>Mavzu:</b> ${escapeHtml(topicId)}</div>
+            <div class="p-3 rounded-xl glass-sub"><b>Qo‘shiladigan savollar:</b> ${data.length} ta</div>`;
+          document.getElementById('admin-import-modal').classList.remove('hidden');
         } else {
           throw new Error('Noto‘g‘ri JSON format');
         }
@@ -1853,15 +2079,73 @@
       e.target.value = '';
     });
 
+    const closeImportModal = () => {
+      pendingImportData = null;
+      document.getElementById('admin-import-modal').classList.add('hidden');
+    };
+    document.getElementById('btn-adm-imp-close').addEventListener('click', closeImportModal);
+    document.getElementById('btn-adm-imp-cancel').addEventListener('click', closeImportModal);
+    document.getElementById('btn-adm-imp-confirm').addEventListener('click', async () => {
+      if (!pendingImportData || !isAdmin()) return;
+      const btn = document.getElementById('btn-adm-imp-confirm');
+      btn.disabled = true;
+      btn.textContent = 'Yuklanmoqda...';
+      try {
+        if (pendingImportData.type === 'bundle') {
+          const { subjects, topics } = pendingImportData.data;
+          let batch = writeBatch(db);
+          let ops = 0;
+          const commitIfFull = async () => {
+            if (ops >= 400) { await batch.commit(); batch = writeBatch(db); ops = 0; }
+          };
+          for (const s of subjects) {
+            batch.set(doc(db, 'subjects', s.id), s, { merge: true });
+            ops++; await commitIfFull();
+          }
+          for (const t of topics) {
+            const qs = t.questions || [];
+            const meta = {
+              id: t.id, subjectId: t.subjectId, order: t.order || 1,
+              badge: t.badge || '', title: t.title || '', desc: t.desc || '',
+              categories: t.categories || syncCategoriesFromQuestions(qs),
+              questionCount: qs.length
+            };
+            const payload = { questions: qs, glossary: normalizeGlossary(t.glossary) };
+            batch.set(doc(db, 'topic_meta', t.id), meta, { merge: true });
+            batch.set(doc(db, 'topic_data', t.id), payload, { merge: true });
+            state.topicDataCache[t.id] = payload;
+            ops += 2; await commitIfFull();
+          }
+          if (ops > 0) await batch.commit();
+          await loadCatalogMeta();
+          renderAdminPage();
+          showAdminMsg(`${subjects.length} ta fan va ${topics.length} ta mavzu bazaga yuklandi!`);
+        } else {
+          await appendQuestionsToTopic(pendingImportData.topicId, pendingImportData.data);
+          await renderAdminQuestions(pendingImportData.topicId);
+          showAdminMsg(`${pendingImportData.data.length} ta savol yuklandi!`);
+        }
+        closeImportModal();
+      } catch (err) {
+        showAdminMsg('Xatolik: ' + err.message, false);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Tasdiqlash';
+      }
+    });
+
+    // Subjects CRUD + Reorder + Cascade Delete + Drill-down
     document.getElementById('form-subj-crud').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!isAdmin()) return;
+      const sid = document.getElementById('adm-subj-id').value.trim();
+      const existing = state.subjects.find((x) => x.id === sid);
       const subj = {
-        id: document.getElementById('adm-subj-id').value.trim(),
+        id: sid,
         code: document.getElementById('adm-subj-code').value.trim(),
         title: document.getElementById('adm-subj-title').value.trim(),
         desc: document.getElementById('adm-subj-desc').value.trim(),
-        order: state.subjects.length + 1
+        order: existing ? existing.order : state.subjects.length + 1
       };
       try {
         await setDoc(doc(db, 'subjects', subj.id), subj, { merge: true });
@@ -1883,9 +2167,41 @@
     });
 
     document.getElementById('admin-subjects-list').addEventListener('click', async (e) => {
+      const moveBtn = e.target.closest('[data-move-subj]');
+      const drillBtn = e.target.closest('[data-drill-subj]');
+      const expBtn = e.target.closest('[data-exp-subj]');
       const editBtn = e.target.closest('[data-edit-subj]');
       const delBtn = e.target.closest('[data-del-subj]');
-      if (editBtn) {
+
+      if (moveBtn) {
+        const sid = moveBtn.dataset.moveSubj;
+        const dir = Number(moveBtn.dataset.dir);
+        const idx = state.subjects.findIndex((x) => x.id === sid);
+        const target = idx + dir;
+        if (idx < 0 || target < 0 || target >= state.subjects.length) return;
+        const batch = writeBatch(db);
+        const a = state.subjects[idx], b = state.subjects[target];
+        batch.set(doc(db, 'subjects', a.id), { order: target + 1 }, { merge: true });
+        batch.set(doc(db, 'subjects', b.id), { order: idx + 1 }, { merge: true });
+        await batch.commit();
+        await loadCatalogMeta();
+        renderAdminPage();
+      } else if (drillBtn) {
+        const sid = drillBtn.dataset.drillSubj;
+        document.getElementById('adm-topic-filter-subj').value = sid;
+        document.getElementById('adm-topic-subj').value = sid;
+        setAdminTab('topics');
+      } else if (expBtn) {
+        const s = state.subjects.find((x) => x.id === expBtn.dataset.expSubj);
+        if (!s) return;
+        const metas = state.topicMetas.filter((t) => t.subjectId === s.id);
+        const topicsOut = [];
+        for (const m of metas) {
+          const td = await loadTopicData(m.id);
+          topicsOut.push({ ...m, questions: td.questions || [], glossary: td.glossary || [] });
+        }
+        downloadJson(`${s.id}.json`, { subjects: [s], topics: topicsOut });
+      } else if (editBtn) {
         const s = state.subjects.find((x) => x.id === editBtn.dataset.editSubj);
         if (!s) return;
         document.getElementById('adm-subj-id').value = s.id;
@@ -1896,18 +2212,31 @@
         document.getElementById('subj-form-title').textContent = 'Fanni tahrirlash';
         document.getElementById('btn-subj-cancel').classList.remove('hidden');
       } else if (delBtn) {
-        if (delBtn.dataset.confirm !== '1') {
-          delBtn.dataset.confirm = '1';
-          delBtn.textContent = 'Tasdiqlash?';
-          return;
-        }
-        await deleteDoc(doc(db, 'subjects', delBtn.dataset.delSubj));
-        await loadCatalogMeta();
-        renderAdminPage();
-        showAdminMsg('Fan o‘chirildi.');
+        const sid = delBtn.dataset.delSubj;
+        const s = state.subjects.find((x) => x.id === sid);
+        const linked = state.topicMetas.filter((t) => t.subjectId === sid);
+        const qTotal = linked.reduce((sum, t) => sum + (t.questionCount || 0), 0);
+        openAdminConfirm(
+          `"${s ? s.title : sid}" fanini o‘chirish`,
+          `Bu fan bilan birga unga tegishli ${linked.length} ta mavzu va ${qTotal} ta savol ham butunlay o‘chadi.`,
+          async () => {
+            const batch = writeBatch(db);
+            batch.delete(doc(db, 'subjects', sid));
+            linked.forEach((t) => {
+              batch.delete(doc(db, 'topic_meta', t.id));
+              batch.delete(doc(db, 'topic_data', t.id));
+              delete state.topicDataCache[t.id];
+            });
+            await batch.commit();
+            await loadCatalogMeta();
+            renderAdminPage();
+            showAdminMsg('Fan va unga tegishli barcha mavzular o‘chirildi.');
+          }
+        );
       }
     });
 
+    // Topics CRUD + Reorder + Cascade Delete + Drill-down
     document.getElementById('form-topic-crud').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!isAdmin()) return;
@@ -1944,9 +2273,39 @@
     });
 
     document.getElementById('admin-topics-list').addEventListener('click', async (e) => {
+      const moveBtn = e.target.closest('[data-move-topic]');
+      const drillBtn = e.target.closest('[data-drill-topic]');
+      const expBtn = e.target.closest('[data-exp-topic]');
       const editBtn = e.target.closest('[data-edit-topic]');
       const delBtn = e.target.closest('[data-del-topic]');
-      if (editBtn) {
+
+      if (moveBtn) {
+        const tid = moveBtn.dataset.moveTopic;
+        const dir = Number(moveBtn.dataset.dir);
+        const activeSubjFilter = document.getElementById('adm-topic-filter-subj').value;
+        const list = activeSubjFilter === 'all' ? state.topicMetas : state.topicMetas.filter((t) => t.subjectId === activeSubjFilter);
+        const idx = list.findIndex((x) => x.id === tid);
+        const target = idx + dir;
+        if (idx < 0 || target < 0 || target >= list.length) return;
+        const batch = writeBatch(db);
+        const a = list[idx], b = list[target];
+        const ordA = a.order || idx + 1;
+        const ordB = b.order || target + 1;
+        batch.set(doc(db, 'topic_meta', a.id), { order: ordB === ordA ? target + 1 : ordB }, { merge: true });
+        batch.set(doc(db, 'topic_meta', b.id), { order: ordB === ordA ? idx + 1 : ordA }, { merge: true });
+        await batch.commit();
+        await loadCatalogMeta();
+        renderAdminPage();
+      } else if (drillBtn) {
+        document.getElementById('adm-q-topic').value = drillBtn.dataset.drillTopic;
+        setAdminTab('questions');
+      } else if (expBtn) {
+        const m = state.topicMetas.find((x) => x.id === expBtn.dataset.expTopic);
+        if (!m) return;
+        const td = await loadTopicData(m.id);
+        const s = state.subjects.find((x) => x.id === m.subjectId);
+        downloadJson(`${m.id}.json`, { subjects: s ? [s] : [], topics: [{ ...m, questions: td.questions || [], glossary: td.glossary || [] }] });
+      } else if (editBtn) {
         const t = state.topicMetas.find((x) => x.id === editBtn.dataset.editTopic);
         if (!t) return;
         document.getElementById('adm-topic-subj').value = t.subjectId;
@@ -1958,18 +2317,22 @@
         document.getElementById('topic-form-title').textContent = 'Mavzuni tahrirlash';
         document.getElementById('btn-topic-cancel').classList.remove('hidden');
       } else if (delBtn) {
-        if (delBtn.dataset.confirm !== '1') {
-          delBtn.dataset.confirm = '1';
-          delBtn.textContent = 'Tasdiqlash?';
-          return;
-        }
         const tid = delBtn.dataset.delTopic;
-        await deleteDoc(doc(db, 'topic_meta', tid));
-        await deleteDoc(doc(db, 'topic_data', tid));
-        delete state.topicDataCache[tid];
-        await loadCatalogMeta();
-        renderAdminPage();
-        showAdminMsg('Mavzu o‘chirildi.');
+        const t = state.topicMetas.find((x) => x.id === tid);
+        openAdminConfirm(
+          `"${t ? t.title : tid}" mavzusini o‘chirish`,
+          `Mavzu va uning ichidagi ${t ? (t.questionCount || 0) : 0} ta savol butunlay o‘chiriladi.`,
+          async () => {
+            const batch = writeBatch(db);
+            batch.delete(doc(db, 'topic_meta', tid));
+            batch.delete(doc(db, 'topic_data', tid));
+            await batch.commit();
+            delete state.topicDataCache[tid];
+            await loadCatalogMeta();
+            renderAdminPage();
+            showAdminMsg('Mavzu va barcha savollari o‘chirildi.');
+          }
+        );
       }
     });
 
@@ -1978,16 +2341,17 @@
       const data = await loadTopicData(topicId);
       const qs = data.questions || [];
       let maxId = qs.reduce((m, q) => Math.max(m, q.id || 0), 0);
-      const cats = meta && meta.categories ? [...meta.categories] : [{ id: 'all', label: 'Barchasi' }];
 
       newQuestions.forEach((nq) => {
         maxId++;
         const catId = (nq.cat || nq.catLabel || 'general').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-        if (!cats.some((c) => c.id === catId)) cats.push({ id: catId, label: nq.catLabel || 'Umumiy' });
         qs.push({ id: maxId, cat: catId, catLabel: nq.catLabel || 'Umumiy', q: nq.q, opts: nq.opts, ans: Number(nq.ans), exp: nq.exp });
       });
-      await setDoc(doc(db, 'topic_data', topicId), { questions: qs }, { merge: true });
-      await setDoc(doc(db, 'topic_meta', topicId), { questionCount: qs.length, categories: cats }, { merge: true });
+      const cats = syncCategoriesFromQuestions(qs);
+      const batch = writeBatch(db);
+      batch.set(doc(db, 'topic_data', topicId), { questions: qs }, { merge: true });
+      batch.set(doc(db, 'topic_meta', topicId), { questionCount: qs.length, categories: cats }, { merge: true });
+      await batch.commit();
       state.topicDataCache[topicId].questions = qs;
       if (meta) { meta.questionCount = qs.length; meta.categories = cats; }
     }
@@ -2017,7 +2381,13 @@
           if (idx >= 0) {
             const catId = qObj.catLabel.toLowerCase().replace(/[^a-z0-9]+/g, '-');
             data.questions[idx] = { id: Number(editId), cat: catId, ...qObj };
-            await setDoc(doc(db, 'topic_data', topicId), { questions: data.questions }, { merge: true });
+            const cats = syncCategoriesFromQuestions(data.questions);
+            const batch = writeBatch(db);
+            batch.set(doc(db, 'topic_data', topicId), { questions: data.questions }, { merge: true });
+            batch.set(doc(db, 'topic_meta', topicId), { categories: cats }, { merge: true });
+            await batch.commit();
+            const meta = state.topicMetas.find((m) => m.id === topicId);
+            if (meta) meta.categories = cats;
           }
           showAdminMsg('Savol yangilandi!');
         } else {
@@ -2060,19 +2430,75 @@
         document.getElementById('q-form-title').textContent = 'Savolni tahrirlash';
         document.getElementById('btn-q-cancel').classList.remove('hidden');
       } else if (delBtn) {
-        if (delBtn.dataset.confirm !== '1') {
-          delBtn.dataset.confirm = '1';
-          delBtn.textContent = 'Tasdiqlash?';
-          return;
-        }
         const qid = Number(delBtn.dataset.delQ);
-        data.questions = data.questions.filter((x) => x.id !== qid);
-        await setDoc(doc(db, 'topic_data', topicId), { questions: data.questions }, { merge: true });
-        await setDoc(doc(db, 'topic_meta', topicId), { questionCount: data.questions.length }, { merge: true });
-        const meta = state.topicMetas.find((m) => m.id === topicId);
-        if (meta) meta.questionCount = data.questions.length;
-        await renderAdminQuestions(topicId);
-        showAdminMsg('Savol o‘chirildi.');
+        openAdminConfirm('Savolni o‘chirish', 'Ushbu savol mavzudan butunlay o‘chiriladi.', async () => {
+          data.questions = data.questions.filter((x) => x.id !== qid);
+          const cats = syncCategoriesFromQuestions(data.questions);
+          const batch = writeBatch(db);
+          batch.set(doc(db, 'topic_data', topicId), { questions: data.questions }, { merge: true });
+          batch.set(doc(db, 'topic_meta', topicId), { questionCount: data.questions.length, categories: cats }, { merge: true });
+          await batch.commit();
+          const meta = state.topicMetas.find((m) => m.id === topicId);
+          if (meta) { meta.questionCount = data.questions.length; meta.categories = cats; }
+          await renderAdminQuestions(topicId);
+          showAdminMsg('Savol o‘chirildi.');
+        });
+      }
+    });
+
+    // Glossary CRUD
+    document.getElementById('form-g-crud').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!isAdmin()) return;
+      const topicId = document.getElementById('adm-q-topic').value;
+      if (!topicId) return;
+      const data = await loadTopicData(topicId);
+      const gloss = normalizeGlossary(data.glossary);
+      const editIdx = document.getElementById('adm-g-edit-idx').value;
+      const item = { term: document.getElementById('adm-g-term').value.trim(), def: document.getElementById('adm-g-def').value.trim() };
+      if (editIdx !== '') gloss[Number(editIdx)] = item;
+      else gloss.push(item);
+      await setDoc(doc(db, 'topic_data', topicId), { glossary: gloss }, { merge: true });
+      data.glossary = gloss;
+      e.target.reset();
+      document.getElementById('adm-g-edit-idx').value = '';
+      document.getElementById('g-form-title').textContent = 'Yangi atama';
+      document.getElementById('btn-g-cancel').classList.add('hidden');
+      await renderAdminQuestions(topicId);
+      showAdminMsg('Konspekt saqlandi!');
+    });
+
+    document.getElementById('btn-g-cancel').addEventListener('click', () => {
+      document.getElementById('form-g-crud').reset();
+      document.getElementById('adm-g-edit-idx').value = '';
+      document.getElementById('g-form-title').textContent = 'Yangi atama';
+      document.getElementById('btn-g-cancel').classList.add('hidden');
+    });
+
+    document.getElementById('admin-glossary-list').addEventListener('click', async (e) => {
+      const topicId = document.getElementById('adm-q-topic').value;
+      const editBtn = e.target.closest('[data-edit-g]');
+      const delBtn = e.target.closest('[data-del-g]');
+      const data = await loadTopicData(topicId);
+      const gloss = normalizeGlossary(data.glossary);
+      if (editBtn) {
+        const idx = Number(editBtn.dataset.editG);
+        const g = gloss[idx];
+        if (!g) return;
+        document.getElementById('adm-g-edit-idx').value = String(idx);
+        document.getElementById('adm-g-term').value = g.term;
+        document.getElementById('adm-g-def').value = g.def;
+        document.getElementById('g-form-title').textContent = 'Atamani tahrirlash';
+        document.getElementById('btn-g-cancel').classList.remove('hidden');
+      } else if (delBtn) {
+        const idx = Number(delBtn.dataset.delG);
+        openAdminConfirm('Atamani o‘chirish', `"${gloss[idx]?.term || ''}" konspektdan o‘chiriladi.`, async () => {
+          gloss.splice(idx, 1);
+          await setDoc(doc(db, 'topic_data', topicId), { glossary: gloss }, { merge: true });
+          data.glossary = gloss;
+          await renderAdminQuestions(topicId);
+          showAdminMsg('Atama o‘chirildi.');
+        });
       }
     });
 
