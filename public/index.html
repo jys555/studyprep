@@ -774,7 +774,7 @@
     } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
     import {
       getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
-      doc, getDoc, setDoc, deleteDoc, collection, getDocs, writeBatch
+      doc, getDoc, setDoc, deleteDoc, collection, getDocs, writeBatch, query, orderBy, limit, serverTimestamp
     } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js';
 
     const ADMIN_EMAIL = "jumanovyashnarbek55@gmail.com";
@@ -810,7 +810,14 @@
       topicMetas: [],
       topicDataCache: {},
       leaderboard: [],
+      leaderboardMyEntry: null,
+      leaderboardError: '',
+      leaderboardFetchedAt: 0,
       leaderboardLoading: false,
+      lifetimeAnswered: 0,
+      lifetimeCorrect: 0,
+      answersSinceSync: 0,
+      lastLeaderboardSyncAt: 0,
       activeSubjectId: null,
       activeTopicId: null,
       pendingTopicId: null,
@@ -919,6 +926,18 @@
       if (!state.loading || state.user) renderAll();
     }
 
+    async function syncCatalogStats(metas = state.topicMetas) {
+      if (!isAdmin()) return;
+      const totalQuestions = (metas || []).reduce((sum, t) => sum + (t.questionCount || 0), 0);
+      try {
+        await setDoc(doc(db, 'stats', 'catalog'), {
+          totalQuestions,
+          maxScore: totalQuestions * 2,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+      } catch (e) {}
+    }
+
     async function loadCatalogMeta() {
       if (!state.subjects.length) state.loading = true;
       try {
@@ -937,6 +956,7 @@
         state.topicMetas = mlist;
 
         lsSet('studyprep_catalog_cache', JSON.stringify({ subjects: slist, topicMetas: mlist }));
+        if (isAdmin()) syncCatalogStats(mlist);
       } catch (e) {
         if (!state.subjects.length) {
           state.subjects = [];
@@ -969,27 +989,42 @@
 
     function computeUserTotals() {
       let totalCorrect = 0;
-      let totalAnswered = 0;
+      let fallbackAnswered = 0;
+      let fallbackCorrect = 0;
       let topicsActive = 0;
-      Object.entries(state.progressByTopic).forEach(([tid, prog]) => {
-        if (tid.startsWith('mix_')) return;
+
+      Object.entries(state.progressByTopic).forEach(([, prog]) => {
         const entries = Object.values((prog && prog.answers) || {});
         const curCorrect = entries.filter((x) => x.isCorrect).length;
         const best = Math.max(curCorrect, (prog && prog.bestScore) || 0);
         if (entries.length > 0 || best > 0) topicsActive++;
-        totalAnswered += Math.max(entries.length, best);
         totalCorrect += best;
+        fallbackAnswered += Math.max(entries.length, best);
+        fallbackCorrect += Math.max(curCorrect, best);
       });
-      const accuracy = totalAnswered ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+
+      const totalAnswered = Math.max(state.lifetimeAnswered || 0, fallbackAnswered, totalCorrect);
+      const totalAccCorrect = state.lifetimeAnswered > 0 ? (state.lifetimeCorrect || 0) : fallbackCorrect;
+      const accuracy = totalAnswered > 0
+        ? Math.min(100, Math.round((totalAccCorrect / totalAnswered) * 100))
+        : 0;
+
       return { totalCorrect, totalAnswered, topicsActive, accuracy };
     }
 
-    async function syncLeaderboardEntry() {
+    async function syncLeaderboardEntry(force = false) {
       if (!state.user) return;
       if (isAdmin()) {
         try { await deleteDoc(doc(db, 'leaderboard', state.user.uid)); } catch (e) {}
         return;
       }
+      if (!force && state.answersSinceSync > 0 && state.answersSinceSync < 5) return;
+      const elapsed = Date.now() - (state.lastLeaderboardSyncAt || 0);
+      if (elapsed < 3200) {
+        if (!force) return;
+        await new Promise((r) => setTimeout(r, 3200 - elapsed));
+      }
+      state.answersSinceSync = 0;
       const stats = computeUserTotals();
       try {
         await setDoc(doc(db, 'leaderboard', state.user.uid), {
@@ -1001,26 +1036,47 @@
           totalAnswered: stats.totalAnswered,
           topicsActive: stats.topicsActive,
           accuracy: stats.accuracy,
-          updatedAt: new Date().toISOString()
+          updatedAt: serverTimestamp()
         }, { merge: true });
+        state.lastLeaderboardSyncAt = Date.now();
+        state.leaderboardFetchedAt = 0;
       } catch (e) {}
     }
 
-    async function loadLeaderboard() {
+    async function loadLeaderboard(forceRefresh = false) {
+      const now = Date.now();
+      if (!forceRefresh && state.leaderboard.length > 0 && (now - state.leaderboardFetchedAt) < 120000) {
+        renderLeaderboard();
+        return;
+      }
       state.leaderboardLoading = true;
       state.leaderboardError = '';
       renderLeaderboard();
       try {
-        await syncLeaderboardEntry();
-        const snap = await getDocs(collection(db, 'leaderboard'));
+        await syncLeaderboardEntry(true);
+        const q = query(
+          collection(db, 'leaderboard'),
+          orderBy('totalCorrect', 'desc'),
+          orderBy('accuracy', 'desc'),
+          limit(20)
+        );
+        const snap = await getDocs(q);
         const list = [];
         snap.forEach((d) => list.push({ uid: d.id, ...d.data() }));
-        list.sort((a, b) => (b.totalCorrect || 0) - (a.totalCorrect || 0) || (b.accuracy || 0) - (a.accuracy || 0));
         state.leaderboard = list;
+
+        let myEntry = null;
+        if (state.user && !isAdmin() && !list.some((u) => u.uid === state.user.uid)) {
+          const mySnap = await getDoc(doc(db, 'leaderboard', state.user.uid));
+          if (mySnap.exists()) myEntry = { uid: mySnap.id, ...mySnap.data() };
+        }
+        state.leaderboardMyEntry = myEntry;
+        state.leaderboardFetchedAt = Date.now();
       } catch (e) {
         state.leaderboard = [];
+        state.leaderboardMyEntry = null;
         state.leaderboardError = e && e.code === 'permission-denied'
-          ? 'Firestore Rules da "leaderboard" kolleksiyasi uchun ruxsat (read/write) yoqilmagan.'
+          ? 'Firestore Rules da "leaderboard" kolleksiyasi uchun ruxsat yoqilmagan.'
           : 'Reytingni yuklashda xatolik yuz berdi.';
       }
       state.leaderboardLoading = false;
@@ -1038,30 +1094,38 @@
           if (p.theme) applyTheme(p.theme);
           if (p.name) userObj.name = p.name;
           if (p.group) userObj.group = p.group;
+          state.lifetimeAnswered = Number(p.lifetimeAnswered || 0);
+          state.lifetimeCorrect = Number(p.lifetimeCorrect || 0);
         }
         const map = {};
         progSnap.forEach((d) => { map[d.id] = d.data(); });
         state.progressByTopic = map;
         lsSet('studyprep_user_cache', JSON.stringify(userObj));
         saveLocalProgress(userObj.uid);
-        syncLeaderboardEntry();
+        if (isAdmin()) syncCatalogStats();
+        syncLeaderboardEntry(true);
       } catch (e) {
         state.progressByTopic = loadLocalProgress(userObj.uid);
       }
       renderAll();
     }
 
-    async function persistTopicProgress(topicId) {
+    async function persistTopicProgress(topicId, syncNow = false) {
       if (!state.user) return;
       const prog = state.progressByTopic[topicId];
       if (!prog) return;
       saveLocalProgress(state.user.uid);
-      if (topicId.startsWith('mix_')) return;
       const syncEl = document.getElementById('sync-status');
       if (syncEl) syncEl.textContent = 'Saqlanmoqda...';
       try {
-        await setDoc(doc(db, 'users', state.user.uid, 'progress', topicId), prog, { merge: true });
-        syncLeaderboardEntry();
+        await Promise.all([
+          setDoc(doc(db, 'users', state.user.uid, 'progress', topicId), prog, { merge: true }),
+          setDoc(doc(db, 'users', state.user.uid), {
+            lifetimeAnswered: state.lifetimeAnswered,
+            lifetimeCorrect: state.lifetimeCorrect
+          }, { merge: true })
+        ]);
+        await syncLeaderboardEntry(syncNow);
         if (syncEl) syncEl.textContent = 'Saqlandi ✓';
       } catch (e) {
         if (syncEl) syncEl.textContent = 'Saqlashda xatolik';
@@ -1383,11 +1447,12 @@
         listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">${escapeHtml(state.leaderboardError || "Hozircha natijalar yo‘q.")}</div>`;
         return;
       }
+
       const myIdx = state.user ? state.leaderboard.findIndex((u) => u.uid === state.user.uid) : -1;
-      if (myIdx >= 0) {
-        const me = state.leaderboard[myIdx];
+      const me = myIdx >= 0 ? state.leaderboard[myIdx] : state.leaderboardMyEntry;
+      if (me && !isAdmin()) {
         myCard.classList.remove('hidden');
-        document.getElementById('my-rank-badge').textContent = `#${myIdx + 1}`;
+        document.getElementById('my-rank-badge').textContent = myIdx >= 0 ? `#${myIdx + 1}` : '20+';
         document.getElementById('my-rank-title').textContent = me.name || 'Talaba';
         document.getElementById('my-rank-sub').textContent = me.group ? `${me.group} · ${me.totalAnswered || 0} ta savol` : `${me.totalAnswered || 0} ta savol`;
         document.getElementById('my-rank-correct').textContent = me.totalCorrect || 0;
@@ -1422,19 +1487,17 @@
 
       const maxScore = Math.max(1, state.leaderboard[0].totalCorrect || 1);
       const medals = ['🥇', '🥈', '🥉'];
-      listEl.innerHTML = state.leaderboard.map((u, idx) => {
-        const isMe = state.user && u.uid === state.user.uid;
-        const rankDisplay = idx < 3 ? `<span class="text-lg">${medals[idx]}</span>` : `<span class="text-xs font-extrabold text-slate-500 dark:text-slate-400">#${idx + 1}</span>`;
+      const renderRow = (u, rankLabel, isMe) => {
         const initials = getInitials(u.name, '');
         const avatarHtml = u.photoURL
           ? `<img src="${escapeHtml(u.photoURL)}" class="w-9 h-9 rounded-full object-cover shrink-0" alt="">`
           : `<div class="w-9 h-9 rounded-full bg-violet-600 text-white font-bold text-xs flex items-center justify-center shrink-0">${escapeHtml(initials)}</div>`;
-        const barW = Math.round(((u.totalCorrect || 0) / maxScore) * 100);
+        const barW = Math.min(100, Math.round(((u.totalCorrect || 0) / maxScore) * 100));
 
         return `
           <div class="p-4 flex items-center justify-between gap-3 ${isMe ? 'bg-violet-50/70 dark:bg-violet-950/30' : ''}">
             <div class="flex items-center gap-3 min-w-0 flex-1">
-              <div class="w-8 text-center shrink-0">${rankDisplay}</div>
+              <div class="w-8 text-center shrink-0">${rankLabel}</div>
               ${avatarHtml}
               <div class="min-w-0 flex-1">
                 <div class="flex items-center gap-1.5">
@@ -1452,7 +1515,20 @@
               <div class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">${u.accuracy || 0}% aniqlik</div>
             </div>
           </div>`;
+      };
+
+      let rowsHtml = state.leaderboard.map((u, idx) => {
+        const isMe = Boolean(state.user && u.uid === state.user.uid);
+        const rankDisplay = idx < 3 ? `<span class="text-lg">${medals[idx]}</span>` : `<span class="text-xs font-extrabold text-slate-500 dark:text-slate-400">#${idx + 1}</span>`;
+        return renderRow(u, rankDisplay, isMe);
       }).join('');
+
+      if (state.leaderboardMyEntry && !isAdmin()) {
+        rowsHtml += `<div class="py-1.5 text-center text-xs font-bold text-slate-400 dark:text-slate-500 tracking-widest">• • •</div>`;
+        rowsHtml += renderRow(state.leaderboardMyEntry, `<span class="text-xs font-extrabold text-violet-600 dark:text-violet-400">#20+</span>`, true);
+      }
+
+      listEl.innerHTML = rowsHtml;
     }
 
     function getTopicProgress(topicId) {
@@ -2574,12 +2650,15 @@
       if (prog.answers[qid]) return;
       const isCorrect = oidx === q.ans;
       prog.answers[qid] = { selected: oidx, isCorrect };
+      state.lifetimeAnswered = (state.lifetimeAnswered || 0) + 1;
+      if (isCorrect) state.lifetimeCorrect = (state.lifetimeCorrect || 0) + 1;
+      state.answersSinceSync = (state.answersSinceSync || 0) + 1;
       const correctCount = Object.values(prog.answers).filter((x) => x.isCorrect).length;
       prog.bestScore = Math.max(prog.bestScore || 0, correctCount);
-      prog.wrongIds = Object.entries(prog.answers).filter(([, v]) => !v.isCorrect).map(([k]) => Number(k));
+      prog.wrongIds = Object.entries(prog.answers).filter(([, v]) => !v.isCorrect).map(([k]) => isNaN(Number(k)) ? k : Number(k));
       prog.updatedAt = new Date().toISOString();
       renderQuiz();
-      await persistTopicProgress(state.activeTopicId);
+      await persistTopicProgress(state.activeTopicId, false);
     });
     document.getElementById('btn-shuffle').addEventListener('click', () => {
       for (let i = state.order.length - 1; i > 0; i--) {
@@ -2608,7 +2687,7 @@
       prog.finished = true;
       prog.deadlineAt = 0;
       prog.updatedAt = new Date().toISOString();
-      await persistTopicProgress(tid);
+      await persistTopicProgress(tid, true);
 
       document.getElementById('finish-summary').textContent =
         `${total} ta savoldan ${answered} tasi yechildi. To‘g‘ri javoblar: ${correct} ta (${pct}%). Eng yaxshi natija: ${best}/${total}.`;
@@ -2967,7 +3046,8 @@
           questionCount: finalShuffled.length
         };
         state.topicDataCache[mixId] = { questions: finalShuffled, glossary: combinedGloss };
-        state.progressByTopic[mixId] = { answers: {}, wrongIds: [], bestScore: 0, finished: false, deadlineAt };
+        const prevMixBest = (state.progressByTopic[mixId] && state.progressByTopic[mixId].bestScore) || 0;
+        state.progressByTopic[mixId] = { answers: {}, wrongIds: [], bestScore: prevMixBest, finished: false, deadlineAt };
         state.activeTopicId = mixId;
         state.activeCat = 'all';
         state.order = finalShuffled.map((q) => q.id);
