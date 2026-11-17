@@ -986,6 +986,10 @@
 
     async function syncLeaderboardEntry() {
       if (!state.user) return;
+      if (isAdmin()) {
+        try { await deleteDoc(doc(db, 'leaderboard', state.user.uid)); } catch (e) {}
+        return;
+      }
       const stats = computeUserTotals();
       try {
         await setDoc(doc(db, 'leaderboard', state.user.uid), {
