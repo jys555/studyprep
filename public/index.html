@@ -580,6 +580,7 @@
       </div>
       <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Test yakunlandi!</h3>
       <p id="finish-summary" class="text-sm text-slate-600 dark:text-slate-400 mt-2"></p>
+      <div id="finish-sync-status" class="mt-2 text-xs font-semibold text-slate-500 dark:text-slate-400"></div>
       <div class="mt-5 space-y-2">
         <button id="btn-finish-wrong" type="button" class="hidden w-full py-2.5 rounded-xl text-sm font-bold bg-amber-50/85 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition">
           Faqat xatolarni qayta ishlash
@@ -767,6 +768,7 @@
 
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js';
+    import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js';
     import {
       getAuth, onAuthStateChanged, signInWithEmailAndPassword,
       createUserWithEmailAndPassword, signOut, updateProfile,
@@ -791,6 +793,9 @@
     };
 
     const app = initializeApp(firebaseConfig);
+    let analytics = null;
+    try { analytics = getAnalytics(app); } catch (e) {}
+    function trackEvent(name, params = {}) { try { if (analytics) logEvent(analytics, name, params); } catch (e) {} }
     const auth = getAuth(app);
     let db;
     try {
@@ -1053,13 +1058,17 @@
       state.leaderboardError = '';
       renderLeaderboard();
       try {
-        await syncLeaderboardEntry(true);
+        syncLeaderboardEntry(true);
         const q = query(
           collection(db, 'leaderboard'),
           orderBy('totalCorrect', 'desc'),
           limit(20)
         );
-        const snap = await getDocs(q);
+        const withTimeout = (prom, ms = 8000) => Promise.race([
+          prom,
+          new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))
+        ]);
+        const snap = await withTimeout(getDocs(q));
         const list = [];
         snap.forEach((d) => list.push({ uid: d.id, ...d.data() }));
         list.sort((a, b) => (b.totalCorrect || 0) - (a.totalCorrect || 0) || (b.accuracy || 0) - (a.accuracy || 0));
@@ -1117,7 +1126,15 @@
       if (!prog) return;
       saveLocalProgress(state.user.uid);
       const syncEl = document.getElementById('sync-status');
-      if (syncEl) syncEl.textContent = 'Saqlanmoqda...';
+      const finSyncEl = document.getElementById('finish-sync-status');
+      const setStatus = (msg, cls = 'text-slate-500 dark:text-slate-400') => {
+        if (syncEl) syncEl.textContent = msg;
+        if (finSyncEl) {
+          finSyncEl.className = 'mt-2 text-xs font-semibold ' + cls;
+          finSyncEl.textContent = msg;
+        }
+      };
+      setStatus('Bazaga saqlanmoqda...');
       try {
         await Promise.all([
           setDoc(doc(db, 'users', state.user.uid, 'progress', topicId), prog, { merge: true }),
@@ -1127,9 +1144,9 @@
           }, { merge: true })
         ]);
         await syncLeaderboardEntry(syncNow);
-        if (syncEl) syncEl.textContent = 'Saqlandi ✓';
+        setStatus('Bazaga saqlandi ✓', 'text-emerald-600 dark:text-emerald-400');
       } catch (e) {
-        if (syncEl) syncEl.textContent = 'Saqlashda xatolik';
+        setStatus('Saqlashda xatolik — internetni tekshiring', 'text-rose-600 dark:text-rose-400');
       }
     }
 
@@ -1687,6 +1704,7 @@
         state.activeCat = 'all';
         document.getElementById('quiz-start-modal').classList.add('hidden');
         state.view = 'quiz';
+        trackEvent('quiz_start', { topic_id: topicId, mode });
         renderAll();
         startTimerFromDeadline(state.progressByTopic[topicId].deadlineAt);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2089,6 +2107,7 @@
       if (!state.user) return;
       stopTimer();
       state.view = 'leaderboard';
+      trackEvent('leaderboard_view');
       renderAll();
       loadLeaderboard();
     });
@@ -2688,7 +2707,8 @@
       prog.finished = true;
       prog.deadlineAt = 0;
       prog.updatedAt = new Date().toISOString();
-      await persistTopicProgress(tid, true);
+      persistTopicProgress(tid, true);
+      trackEvent('quiz_finish', { topic_id: tid, correct, total });
 
       document.getElementById('finish-summary').textContent =
         `${total} ta savoldan ${answered} tasi yechildi. To‘g‘ri javoblar: ${correct} ta (${pct}%). Eng yaxshi natija: ${best}/${total}.`;
