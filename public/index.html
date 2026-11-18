@@ -6,6 +6,7 @@
   <title>StudyPrep — Fanlar va Imtihon Testlari Portali</title>
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="apple-touch-icon" href="/logo.png">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script>
     tailwind.config = { darkMode: 'class' };
@@ -91,13 +92,13 @@
   <nav class="sticky top-0 z-30 glass-nav">
     <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
       <div class="flex items-center gap-3 min-w-0">
-        <button id="btn-home" type="button" class="flex items-center gap-2.5 text-left group focus:outline-none">
-          <img src="/logo.png" alt="StudyPrep" class="w-9 h-9 rounded-xl object-cover shadow-sm" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span style="display:none" class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 text-white items-center justify-center font-extrabold text-sm shadow-sm">SP</span>
-          <span class="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white truncate">StudyPrep</span>
+        <button id="btn-home" type="button" class="flex items-center gap-2 text-left group focus:outline-none shrink-0">
+          <img src="/logo.png" alt="StudyPrep" class="w-9 h-9 rounded-xl object-cover shadow-sm shrink-0" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span style="display:none" class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 text-white items-center justify-center font-extrabold text-sm shadow-sm shrink-0">SP</span>
+          <span id="brand-title-text" class="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white truncate">StudyPrep</span>
         </button>
-        <button id="btn-back" type="button" class="hidden items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold glass-icon-btn text-slate-700 dark:text-slate-300 hover:bg-white/90 dark:hover:bg-slate-700/70 transition">
-          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-          <span id="btn-back-label">Orqaga</span>
+        <button id="btn-back" type="button" class="hidden items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold glass-icon-btn text-slate-700 dark:text-slate-300 hover:bg-white/90 dark:hover:bg-slate-700/70 transition max-w-[104px] sm:max-w-none shrink-0">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          <span id="btn-back-label" class="truncate">Orqaga</span>
         </button>
       </div>
 
@@ -120,11 +121,6 @@
         <button id="btn-open-announcements" type="button" aria-label="Xabarlar" title="Xabarlar va e'lonlar" class="relative w-9 h-9 rounded-full flex items-center justify-center glass-icon-btn hover:bg-white/90 dark:hover:bg-slate-700/70 text-slate-700 dark:text-slate-200 transition">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
           <span id="ann-badge" class="hidden absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-extrabold flex items-center justify-center shadow-sm">0</span>
-        </button>
-
-        <!-- Support Icon Button -->
-        <button id="btn-open-support" type="button" aria-label="Yordam (Support)" title="Support / Admin bilan aloqa" class="w-9 h-9 rounded-full flex items-center justify-center glass-icon-btn hover:bg-white/90 dark:hover:bg-slate-700/70 text-slate-700 dark:text-slate-200 transition">
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 13v-1a8 8 0 0116 0v1m-14 0h2a1 1 0 011 1v3a1 1 0 01-1 1H6a2 2 0 01-2-2v-3zm14 0h-2a1 1 0 00-1 1v3a1 1 0 001 1h2a2 2 0 002-2v-3zm-2 5v1a2 2 0 01-2 2h-3"/></svg>
         </button>
 
         <!-- Icon-only Night Mode button -->
@@ -153,11 +149,15 @@
             <div id="menu-group-row" class="hidden pt-2.5 text-xs text-slate-600 dark:text-slate-400">
               Guruh: <span id="menu-group" class="font-semibold text-slate-800 dark:text-slate-200"></span>
             </div>
-            <div class="mt-3 space-y-1.5">
-              <button id="btn-edit-profile" type="button" class="w-full py-2 px-3 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center gap-1.5 transition">
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-                Profilni tahrirlash
-              </button>
+            <div class="mt-3 space-y-2">
+              <div class="grid grid-cols-2 gap-2">
+                <button id="btn-edit-profile" type="button" aria-label="Profilni tahrirlash" title="Profilni tahrirlash" class="h-9 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                </button>
+                <button id="btn-open-support" type="button" aria-label="Yordam (Support)" title="Support / Admin bilan aloqa" class="h-9 rounded-xl bg-sky-50/90 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/60 flex items-center justify-center transition">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 13v-1a8 8 0 0116 0v1m-14 0h2a1 1 0 011 1v3a1 1 0 01-1 1H6a2 2 0 01-2-2v-3zm14 0h-2a1 1 0 00-1 1v3a1 1 0 001 1h2a2 2 0 002-2v-3zm-2 5v1a2 2 0 01-2 2h-3"/></svg>
+                </button>
+              </div>
               <button id="btn-logout" type="button" class="w-full py-2 rounded-xl text-xs font-bold bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition">
                 Akkauntdan chiqish
               </button>
@@ -837,7 +837,7 @@
     } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
     import {
       getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
-      doc, getDoc, setDoc, deleteDoc, collection, getDocs, writeBatch, query, orderBy, limit, serverTimestamp
+      doc, getDoc, setDoc, deleteDoc, collection, getDocs, writeBatch, query, orderBy, limit, serverTimestamp, onSnapshot
     } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js';
 
     const ADMIN_EMAIL = "jumanovyashnarbek55@gmail.com";
@@ -1333,12 +1333,15 @@
       const adminBtn = document.getElementById('btn-open-admin');
       const lbBtn = document.getElementById('btn-open-leaderboard');
 
+      const brandTxt = document.getElementById('brand-title-text');
       if (!state.user || state.view === 'subjects') {
         backBtn.classList.add('hidden');
         backBtn.classList.remove('inline-flex');
+        if (brandTxt) brandTxt.classList.remove('hidden', 'sm:inline');
       } else {
         backBtn.classList.remove('hidden');
         backBtn.classList.add('inline-flex');
+        if (brandTxt) brandTxt.classList.add('hidden', 'sm:inline');
         if (state.view === 'topics' || state.view === 'admin' || state.view === 'leaderboard') backLbl.textContent = 'Fanlar';
         else backLbl.textContent = 'Mavzular';
       }
@@ -2972,7 +2975,10 @@
       profileMenu.classList.add('hidden');
       document.getElementById('support-modal').classList.remove('hidden');
     };
-    document.getElementById('btn-open-support').addEventListener('click', openSupport);
+    document.getElementById('btn-open-support').addEventListener('click', () => {
+      document.getElementById('profile-menu').classList.add('hidden');
+      openSupport();
+    });
     document.getElementById('btn-close-support').addEventListener('click', () => {
       document.getElementById('support-modal').classList.add('hidden');
     });
@@ -3321,10 +3327,31 @@
       }
     });
 
+    try { window.Telegram?.WebApp?.ready?.(); } catch (e) {}
+
+    function subscribeAnnouncements() {
+      try {
+        const q = query(collection(db, 'announcements'), orderBy('createdAtMs', 'desc'), limit(20));
+        onSnapshot(q, (snap) => {
+          const list = [];
+          snap.forEach((d) => list.push({ id: d.id, ...d.data() }));
+          announcementsCache = list;
+          announcementsFetchedAt = Date.now();
+          updateAnnBadge();
+          renderAdminAnnouncements();
+          if (!document.getElementById('announcements-modal').classList.contains('hidden')) {
+            renderAnnouncementsModal();
+          }
+        });
+      } catch (e) {
+        loadAnnouncements(true);
+      }
+    }
+
     applyTheme(lsGet('studyprep_theme') || 'light');
     hydrateFromLocalCache();
     loadCatalogMeta();
-    loadAnnouncements(false);
+    subscribeAnnouncements();
     onAuthStateChanged(auth, async (fbUser) => {
       state.authResolved = true;
       if (fbUser) {
