@@ -116,6 +116,12 @@
           Admin
         </button>
 
+        <!-- Announcements / Notifications Bell Button -->
+        <button id="btn-open-announcements" type="button" aria-label="Xabarlar" title="Xabarlar va e'lonlar" class="relative w-9 h-9 rounded-full flex items-center justify-center glass-icon-btn hover:bg-white/90 dark:hover:bg-slate-700/70 text-slate-700 dark:text-slate-200 transition">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          <span id="ann-badge" class="hidden absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-extrabold flex items-center justify-center shadow-sm">0</span>
+        </button>
+
         <!-- Support Icon Button -->
         <button id="btn-open-support" type="button" aria-label="Yordam (Support)" title="Support / Admin bilan aloqa" class="w-9 h-9 rounded-full flex items-center justify-center glass-icon-btn hover:bg-white/90 dark:hover:bg-slate-700/70 text-slate-700 dark:text-slate-200 transition">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 13v-1a8 8 0 0116 0v1m-14 0h2a1 1 0 011 1v3a1 1 0 01-1 1H6a2 2 0 01-2-2v-3zm14 0h-2a1 1 0 00-1 1v3a1 1 0 001 1h2a2 2 0 002-2v-3zm-2 5v1a2 2 0 01-2 2h-3"/></svg>
@@ -346,6 +352,7 @@
         <button type="button" data-admin-tab="subjects" class="admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-violet-600 text-white shadow-sm">1. Fanlar</button>
         <button type="button" data-admin-tab="topics" class="admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold glass-card text-slate-700 dark:text-slate-300">2. Mavzular</button>
         <button type="button" data-admin-tab="questions" class="admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold glass-card text-slate-700 dark:text-slate-300">3. Savollar & Konspekt</button>
+        <button type="button" data-admin-tab="announcements" class="admin-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold glass-card text-slate-700 dark:text-slate-300">4. Xabarlar</button>
       </div>
 
       <!-- ADMIN TAB 1: SUBJECTS CRUD -->
@@ -504,6 +511,46 @@
           <div class="lg:col-span-3 space-y-3">
             <div id="admin-glossary-list" class="space-y-2.5"></div>
           </div>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB 4: ANNOUNCEMENTS (SITE + TELEGRAM BOT) -->
+      <div id="admin-sec-announcements" class="hidden grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <form id="form-send-announcement" class="lg:col-span-2 glass-card rounded-2xl p-5 space-y-3.5 h-fit">
+          <h2 class="text-base font-extrabold text-slate-900 dark:text-white">Xabar yuborish</h2>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Sarlavha</label>
+            <input id="ann-title" type="text" required placeholder="Masalan: Yangi fan qo'shildi!" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Xabar matni</label>
+            <textarea id="ann-body" rows="4" required placeholder="Foydalanuvchilarga yuboriladigan matn..." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"></textarea>
+          </div>
+          <div class="space-y-2 pt-1">
+            <label class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 cursor-pointer">
+              <input id="ann-send-site" type="checkbox" checked class="w-4 h-4 rounded text-violet-600 focus:ring-violet-500">
+              Saytdagi Xabarlar bo'limiga joylash
+            </label>
+            <label class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 cursor-pointer">
+              <input id="ann-send-tg" type="checkbox" class="w-4 h-4 rounded text-sky-600 focus:ring-sky-500">
+              Telegram botga ham yuborish (Worker orqali)
+            </label>
+          </div>
+          <div id="ann-worker-wrap" class="hidden">
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Cloudflare Worker URL</label>
+            <input id="ann-worker-url" type="url" placeholder="https://studyprep-bot-broadcast.yourname.workers.dev" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <p class="mt-1 text-[11px] text-slate-500 dark:text-slate-400">BOT_TOKEN faqat Worker ichida saqlanadi, sayt kodiga yozilmaydi.</p>
+          </div>
+          <button id="btn-submit-announcement" type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+            Xabarni yuborish
+          </button>
+        </form>
+        <div class="lg:col-span-3 glass-card rounded-2xl p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-base font-extrabold text-slate-900 dark:text-white">Yuborilgan xabarlar</h2>
+            <button id="btn-refresh-ann-admin" type="button" class="text-xs font-bold text-violet-600 dark:text-violet-400 hover:underline">Yangilash</button>
+          </div>
+          <div id="admin-announcements-list" class="space-y-3"></div>
         </div>
       </div>
     </section>
@@ -756,6 +803,20 @@
   </div>
 
   <!-- Glossary Modal -->
+  <!-- Announcements / Notifications Modal -->
+  <div id="announcements-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-lg w-full max-h-[82vh] flex flex-col shadow-xl fade-in">
+      <div class="px-6 py-4 border-b border-slate-200/70 dark:border-slate-800/70 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          <h2 class="text-lg font-extrabold text-slate-900 dark:text-white">Xabarlar</h2>
+        </div>
+        <button id="btn-close-announcements" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center glass-sub text-slate-600 dark:text-slate-300 font-bold">✕</button>
+      </div>
+      <div id="announcements-body" class="p-5 overflow-y-auto space-y-3 text-sm"></div>
+    </div>
+  </div>
+
   <div id="glossary-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
     <div class="glass-card rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-xl">
       <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
@@ -1099,6 +1160,13 @@
           getDoc(doc(db, 'users', userObj.uid)),
           getDocs(collection(db, 'users', userObj.uid, 'progress'))
         ]);
+        const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+        if (tgUser && tgUser.id && (!profileSnap.exists() || profileSnap.data().telegramId !== tgUser.id)) {
+          setDoc(doc(db, 'users', userObj.uid), {
+            telegramId: tgUser.id,
+            telegramUsername: tgUser.username || null
+          }, { merge: true }).catch(() => {});
+        }
         if (profileSnap.exists()) {
           const p = profileSnap.data();
           if (p.theme) applyTheme(p.theme);
@@ -1943,7 +2011,7 @@
     function setAdminTab(tab) {
       state.adminTab = tab;
       document.getElementById('admin-msg').classList.add('hidden');
-      ['subjects', 'topics', 'questions'].forEach((t) => {
+      ['subjects', 'topics', 'questions', 'announcements'].forEach((t) => {
         document.getElementById('admin-sec-' + t).classList.toggle('hidden', t !== tab);
       });
       document.querySelectorAll('.admin-tab').forEach((b) => {
@@ -3084,9 +3152,179 @@
       }
     });
 
+    let announcementsCache = [];
+    let announcementsFetchedAt = 0;
+
+    function formatAnnDate(ms) {
+      if (!ms) return "";
+      const d = new Date(ms);
+      return d.toLocaleDateString('uz-UZ', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function updateAnnBadge() {
+      const badge = document.getElementById('ann-badge');
+      if (!badge) return;
+      const lastSeen = Number(lsGet('studyprep_ann_last_seen') || 0);
+      const unread = announcementsCache.filter((a) => Number(a.createdAtMs || 0) > lastSeen).length;
+      if (unread > 0) {
+        badge.textContent = unread > 9 ? '9+' : String(unread);
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    async function loadAnnouncements(force = false) {
+      if (!force && announcementsCache.length && Date.now() - announcementsFetchedAt < 120000) {
+        updateAnnBadge();
+        return;
+      }
+      try {
+        const snap = await getDocs(query(collection(db, 'announcements'), orderBy('createdAtMs', 'desc'), limit(20)));
+        const list = [];
+        snap.forEach((d) => list.push({ id: d.id, ...d.data() }));
+        announcementsCache = list;
+        announcementsFetchedAt = Date.now();
+        updateAnnBadge();
+        renderAdminAnnouncements();
+      } catch (e) {}
+    }
+
+    function renderAnnouncementsModal() {
+      const body = document.getElementById('announcements-body');
+      if (!announcementsCache.length) {
+        body.innerHTML = `<div class="text-center py-8 text-slate-500 dark:text-slate-400">Hozircha yangi xabarlar yo'q.</div>`;
+        return;
+      }
+      body.innerHTML = announcementsCache.map((a) => `
+        <div class="glass-sub rounded-xl p-4 space-y-1.5">
+          <div class="flex items-start justify-between gap-2">
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">${escapeHtml(a.title || "Xabar")}</h3>
+            <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 shrink-0">${escapeHtml(formatAnnDate(a.createdAtMs))}</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 whitespace-pre-line leading-relaxed">${escapeHtml(a.body || "")}</p>
+        </div>
+      `).join("");
+    }
+
+    function renderAdminAnnouncements() {
+      const box = document.getElementById('admin-announcements-list');
+      if (!box) return;
+      if (!announcementsCache.length) {
+        box.innerHTML = `<p class="text-xs text-slate-500 dark:text-slate-400">Hozircha saytga joylangan xabarlar yo'q.</p>`;
+        return;
+      }
+      box.innerHTML = announcementsCache.map((a) => `
+        <div class="glass-sub rounded-xl p-3.5 flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="font-bold text-sm text-slate-900 dark:text-white">${escapeHtml(a.title || "Xabar")}</span>
+              <span class="text-[11px] text-slate-500 dark:text-slate-400">${escapeHtml(formatAnnDate(a.createdAtMs))}</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mt-1 whitespace-pre-line">${escapeHtml(a.body || "")}</p>
+          </div>
+          <button type="button" data-del-ann="${escapeHtml(a.id)}" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 shrink-0">O'chirish</button>
+        </div>
+      `).join("");
+      box.querySelectorAll("[data-del-ann]").forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          if (!isAdmin()) return;
+          try {
+            await deleteDoc(doc(db, 'announcements', btn.dataset.delAnn));
+            await loadAnnouncements(true);
+            showAdminMsg("Xabar o'chirildi.", true);
+          } catch (err) {
+            showAdminMsg("O'chirishda xatolik: " + err.message, false);
+          }
+        });
+      });
+    }
+
+    document.getElementById('btn-open-announcements').addEventListener('click', async () => {
+      document.getElementById('announcements-modal').classList.remove('hidden');
+      await loadAnnouncements(false);
+      renderAnnouncementsModal();
+      const newest = announcementsCache.length ? Math.max(...announcementsCache.map((a) => Number(a.createdAtMs || 0))) : Date.now();
+      lsSet('studyprep_ann_last_seen', String(Math.max(newest, Date.now())));
+      updateAnnBadge();
+    });
+    document.getElementById('btn-close-announcements').addEventListener('click', () => {
+      document.getElementById('announcements-modal').classList.add('hidden');
+    });
+
+    const annTgChk = document.getElementById('ann-send-tg');
+    const annWorkerWrap = document.getElementById('ann-worker-wrap');
+    const annWorkerInput = document.getElementById('ann-worker-url');
+    annWorkerInput.value = lsGet('studyprep_tg_worker_url') || "";
+    annTgChk.addEventListener('change', () => {
+      annWorkerWrap.classList.toggle('hidden', !annTgChk.checked);
+    });
+    document.getElementById('btn-refresh-ann-admin').addEventListener('click', () => loadAnnouncements(true));
+
+    document.getElementById('form-send-announcement').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!isAdmin()) return;
+      const title = document.getElementById('ann-title').value.trim();
+      const body = document.getElementById('ann-body').value.trim();
+      const sendSite = document.getElementById('ann-send-site').checked;
+      const sendTg = annTgChk.checked;
+      const workerUrl = annWorkerInput.value.trim();
+      if (!sendSite && !sendTg) {
+        showAdminMsg("Kamida bitta manzilni tanlang (Sayt yoki Telegram bot).", false);
+        return;
+      }
+      if (sendTg && !workerUrl) {
+        showAdminMsg("Telegram botga yuborish uchun Cloudflare Worker URL ni kiriting.", false);
+        return;
+      }
+      const btn = document.getElementById('btn-submit-announcement');
+      btn.disabled = true;
+      btn.textContent = "Yuborilmoqda...";
+      const parts = [];
+      try {
+        if (sendSite) {
+          const id = "ann_" + Date.now();
+          await setDoc(doc(db, 'announcements', id), {
+            id,
+            title,
+            body,
+            createdAtMs: Date.now(),
+            createdAt: serverTimestamp(),
+            author: state.user.email
+          });
+          parts.push("Saytga joylandi");
+          await loadAnnouncements(true);
+        }
+        if (sendTg) {
+          lsSet('studyprep_tg_worker_url', workerUrl);
+          const idToken = await auth.currentUser.getIdToken();
+          const res = await fetch(workerUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + idToken
+            },
+            body: JSON.stringify({ title, body })
+          });
+          const data = await res.json();
+          if (!res.ok || !data.ok) throw new Error(data.error || "Worker xatoligi");
+          parts.push(`Telegram bot: ${data.sent}/${data.total} yuborildi (blok: ${data.blocked || 0})`);
+        }
+        document.getElementById('ann-title').value = "";
+        document.getElementById('ann-body').value = "";
+        showAdminMsg("Muvaffaqiyatli! " + parts.join(" · "), true);
+      } catch (err) {
+        showAdminMsg("Xatolik: " + (err.message || err), false);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Xabarni yuborish";
+      }
+    });
+
     applyTheme(lsGet('studyprep_theme') || 'light');
     hydrateFromLocalCache();
     loadCatalogMeta();
+    loadAnnouncements(false);
     onAuthStateChanged(auth, async (fbUser) => {
       state.authResolved = true;
       if (fbUser) {
