@@ -120,7 +120,10 @@
         <!-- Announcements / Notifications Bell Button -->
         <button id="btn-open-announcements" type="button" aria-label="Xabarlar" title="Xabarlar va e'lonlar" class="relative w-9 h-9 rounded-full flex items-center justify-center glass-icon-btn hover:bg-white/90 dark:hover:bg-slate-700/70 text-slate-700 dark:text-slate-200 transition">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-          <span id="ann-badge" class="hidden absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-extrabold flex items-center justify-center shadow-sm">0</span>
+          <span id="ann-badge-wrap" class="hidden absolute -top-1 -right-1 flex items-center justify-center">
+            <span class="absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75 animate-ping"></span>
+            <span id="ann-badge" class="relative min-w-[18px] h-[18px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-extrabold flex items-center justify-center shadow-sm animate-pulse">0</span>
+          </span>
         </button>
 
         <!-- Icon-only Night Mode button -->
@@ -3289,14 +3292,18 @@
 
     function updateAnnBadge() {
       const badge = document.getElementById('ann-badge');
-      if (!badge) return;
+      const wrap = document.getElementById('ann-badge-wrap');
+      const bellBtn = document.getElementById('btn-open-announcements');
+      if (!badge || !wrap) return;
       const lastSeen = Number(lsGet('studyprep_ann_last_seen') || 0);
       const unread = announcementsCache.filter((a) => Number(a.createdAtMs || 0) > lastSeen).length;
       if (unread > 0) {
         badge.textContent = unread > 9 ? '9+' : String(unread);
-        badge.classList.remove('hidden');
+        wrap.classList.remove('hidden');
+        if (bellBtn) bellBtn.classList.add('ring-2', 'ring-rose-400/50');
       } else {
-        badge.classList.add('hidden');
+        wrap.classList.add('hidden');
+        if (bellBtn) bellBtn.classList.remove('ring-2', 'ring-rose-400/50');
       }
     }
 
