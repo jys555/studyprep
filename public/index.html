@@ -3389,17 +3389,37 @@
         if (sendTg) {
           lsSet('studyprep_tg_worker_url', workerUrl);
           const idToken = await auth.currentUser.getIdToken();
-          const res = await fetch(workerUrl, {
+          const authHeaders = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + idToken
+          };
+          btn.textContent = "Obunachilar yuklanmoqda...";
+          const listRes = await fetch(workerUrl, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + idToken
-            },
-            body: JSON.stringify({ title, body })
+            headers: authHeaders,
+            body: JSON.stringify({ action: 'list' })
           });
-          const data = await res.json();
-          if (!res.ok || !data.ok) throw new Error(data.error || "Worker xatoligi");
-          parts.push(`Telegram bot: ${data.sent}/${data.total} yuborildi (blok: ${data.blocked || 0})`);
+          const listData = await listRes.json();
+          if (!listRes.ok || !listData.ok) throw new Error(listData.error || "Obunachilar ro'yxatini olib bo'lmadi");
+          const allIds = Array.isArray(listData.chatIds) ? listData.chatIds : [];
+          const BATCH_SIZE = 35;
+          let totalSent = 0, totalBlocked = 0, totalFailed = 0, done = 0;
+          for (let i = 0; i < allIds.length; i += BATCH_SIZE) {
+            const chunk = allIds.slice(i, i + BATCH_SIZE);
+            btn.textContent = `Botga yuborilmoqda... (${done}/${allIds.length})`;
+            const bRes = await fetch(workerUrl, {
+              method: 'POST',
+              headers: authHeaders,
+              body: JSON.stringify({ title, body, chatIds: chunk })
+            });
+            const bData = await bRes.json();
+            if (!bRes.ok || !bData.ok) throw new Error(bData.error || "Worker yuborish xatoligi");
+            totalSent += Number(bData.sent || 0);
+            totalBlocked += Number(bData.blocked || 0);
+            totalFailed += Number(bData.failed || 0);
+            done += chunk.length;
+          }
+          parts.push(`Telegram bot: ${totalSent}/${allIds.length} yuborildi (blok: ${totalBlocked}${totalFailed ? ', xato: ' + totalFailed : ''})`);
         }
         document.getElementById('ann-title').value = "";
         document.getElementById('ann-body').value = "";
