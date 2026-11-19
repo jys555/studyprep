@@ -893,7 +893,7 @@
       activeTopicId: null,
       pendingTopicId: null,
       progressByTopic: {},
-      activeCat: 'all',
+      activeCats: new Set(['all']),
       order: [],
       optionOrders: {},
       authMode: 'login',
@@ -1777,7 +1777,7 @@
           }
         }
 
-        state.activeCat = 'all';
+        state.activeCats = new Set(['all']);
         document.getElementById('quiz-start-modal').classList.add('hidden');
         state.view = 'quiz';
         trackEvent('quiz_start', { topic_id: topicId, mode });
@@ -1817,12 +1817,12 @@
       const cats = meta.categories && meta.categories.length ? meta.categories : [{ id: 'all', label: 'Barchasi' }];
       const tabButtons = cats.map((c) => {
         const count = c.id === 'all' ? total : (catCounts[c.id] || 0);
-        const isActive = state.activeCat === c.id;
+        const isActive = state.activeCats.has(c.id);
         const cls = isActive ? 'bg-violet-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700';
         return `<button type="button" data-cat="${escapeHtml(c.id)}" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition ${cls}">${escapeHtml(c.label)} (${count})</button>`;
       });
 
-      const isWrongActive = state.activeCat === 'wrong';
+      const isWrongActive = state.activeCats.has('wrong');
       const wrongCls = isWrongActive ? 'bg-rose-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700';
       tabButtons.push(`<button type="button" data-cat="wrong" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition ${wrongCls}">Xatolarim (${wrong})</button>`);
       tabsEl.innerHTML = tabButtons.join('');
@@ -1844,12 +1844,12 @@
       const visibleIds = state.order.filter((id) => {
         const q = qMap.get(String(id));
         if (!q) return false;
-        if (state.activeCat === 'all') return true;
-        if (state.activeCat === 'wrong') {
+        if (state.activeCats.has('all') || state.activeCats.size === 0) return true;
+        if (state.activeCats.has('wrong')) {
           const st = prog.answers[id];
           return st && !st.isCorrect;
         }
-        return q.cat === state.activeCat;
+        return state.activeCats.has(q.cat);
       });
 
       if (visibleIds.length === 0) {
@@ -2735,7 +2735,31 @@
 
     document.getElementById('filter-tabs').addEventListener('click', (e) => {
       const btn = e.target.closest('[data-cat]');
-      if (btn) { state.activeCat = btn.dataset.cat; renderQuiz(); }
+      if (!btn) return;
+      const cat = btn.dataset.cat;
+      if (cat === 'all') {
+        state.activeCats = new Set(['all']);
+      } else if (cat === 'wrong') {
+        if (state.activeCats.has('wrong')) {
+          state.activeCats = new Set(['all']);
+        } else {
+          state.activeCats = new Set(['wrong']);
+        }
+      } else {
+        state.activeCats.delete('all');
+        state.activeCats.delete('wrong');
+        if (state.activeCats.has(cat)) {
+          state.activeCats.delete(cat);
+        } else {
+          state.activeCats.add(cat);
+        }
+        const meta = getActiveTopicMeta();
+        const specificCats = (meta && meta.categories ? meta.categories : []).map((c) => c.id).filter((id) => id !== 'all');
+        if (state.activeCats.size === 0 || (specificCats.length > 0 && specificCats.every((id) => state.activeCats.has(id)))) {
+          state.activeCats = new Set(['all']);
+        }
+      }
+      renderQuiz();
     });
     document.getElementById('questions-list').addEventListener('click', async (e) => {
       const btn = e.target.closest('.opt-btn');
@@ -3205,7 +3229,7 @@
         const prevMixBest = (state.progressByTopic[mixId] && state.progressByTopic[mixId].bestScore) || 0;
         state.progressByTopic[mixId] = { answers: {}, wrongIds: [], bestScore: prevMixBest, finished: false, deadlineAt };
         state.activeTopicId = mixId;
-        state.activeCat = 'all';
+        state.activeCats = new Set(['all']);
         state.order = finalShuffled.map((q) => q.id);
         buildOptionOrders(mixId, finalShuffled, false);
         state.view = 'quiz';
