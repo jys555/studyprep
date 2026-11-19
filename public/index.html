@@ -778,6 +778,11 @@
       </div>
       <div id="mix-topics-list" class="space-y-2 max-h-56 overflow-y-auto mb-4"></div>
 
+      <div id="mix-filter-wrap" class="hidden mb-4 p-1.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 grid grid-cols-2 gap-1.5">
+        <button type="button" data-mix-mode="all" class="mix-mode-btn py-2 px-3 rounded-lg text-xs font-bold transition bg-violet-600 text-white shadow-sm">Barcha savollar</button>
+        <button type="button" data-mix-mode="masalalar" class="mix-mode-btn py-2 px-3 rounded-lg text-xs font-bold transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">Faqat masalalar</button>
+      </div>
+
       <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 mb-4 space-y-2.5">
         <div class="flex items-center justify-between gap-3">
           <label for="mix-q-count" class="text-xs font-bold text-slate-700 dark:text-slate-300">Savollar soni:</label>
@@ -2284,7 +2289,8 @@
               id: t.id, subjectId: t.subjectId, order: t.order || 1,
               badge: t.badge || '', title: t.title || '', desc: t.desc || '',
               categories: t.categories || syncCategoriesFromQuestions(qs),
-              questionCount: qs.length
+              questionCount: qs.length,
+              problemCount: qs.filter((q) => q.cat === 'masalalar').length
             };
             const payload = { questions: qs, glossary: normalizeGlossary(t.glossary) };
             batch.set(doc(db, 'topic_meta', t.id), meta, { merge: true });
@@ -2526,10 +2532,11 @@
       const cats = syncCategoriesFromQuestions(qs);
       const batch = writeBatch(db);
       batch.set(doc(db, 'topic_data', topicId), { questions: qs }, { merge: true });
-      batch.set(doc(db, 'topic_meta', topicId), { questionCount: qs.length, categories: cats }, { merge: true });
+      const pCount = qs.filter((q) => q.cat === 'masalalar').length;
+      batch.set(doc(db, 'topic_meta', topicId), { questionCount: qs.length, problemCount: pCount, categories: cats }, { merge: true });
       await batch.commit();
       state.topicDataCache[topicId].questions = qs;
-      if (meta) { meta.questionCount = qs.length; meta.categories = cats; }
+      if (meta) { meta.questionCount = qs.length; meta.problemCount = pCount; meta.categories = cats; }
     }
 
     document.getElementById('form-q-crud').addEventListener('submit', async (e) => {
@@ -2612,10 +2619,11 @@
           const cats = syncCategoriesFromQuestions(data.questions);
           const batch = writeBatch(db);
           batch.set(doc(db, 'topic_data', topicId), { questions: data.questions }, { merge: true });
-          batch.set(doc(db, 'topic_meta', topicId), { questionCount: data.questions.length, categories: cats }, { merge: true });
+          const pCount = data.questions.filter((q) => q.cat === 'masalalar').length;
+          batch.set(doc(db, 'topic_meta', topicId), { questionCount: data.questions.length, problemCount: pCount, categories: cats }, { merge: true });
           await batch.commit();
           const meta = state.topicMetas.find((m) => m.id === topicId);
-          if (meta) { meta.questionCount = data.questions.length; meta.categories = cats; }
+          if (meta) { meta.questionCount = data.questions.length; meta.problemCount = pCount; meta.categories = cats; }
           await renderAdminQuestions(topicId);
           showAdminMsg('Savol o‘chirildi.');
         });
@@ -3013,10 +3021,31 @@
       if (state.view === 'leaderboard') loadLeaderboard();
     });
 
-    // Mix Topics Modal (with Balanced Question Count Sampling)
+    // Mix Topics Modal (with Balanced Question Count Sampling & Masalalar Filter)
+    let mixFilterMode = 'all';
+
     function getMixTotalAvailable() {
       const checked = [...document.querySelectorAll('.mix-topic-cb:checked')];
-      return checked.reduce((sum, cb) => sum + Number(cb.dataset.qcount || 0), 0);
+      return checked.reduce((sum, cb) => {
+        const cnt = mixFilterMode === 'masalalar' ? Number(cb.dataset.pcount || 0) : Number(cb.dataset.qcount || 0);
+        return sum + cnt;
+      }, 0);
+    }
+
+    function updateMixModeUI() {
+      document.querySelectorAll('.mix-mode-btn').forEach((btn) => {
+        const active = btn.dataset.mixMode === mixFilterMode;
+        btn.className = active
+          ? 'mix-mode-btn py-2 px-3 rounded-lg text-xs font-bold transition bg-violet-600 text-white shadow-sm'
+          : 'mix-mode-btn py-2 px-3 rounded-lg text-xs font-bold transition text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white';
+      });
+      document.querySelectorAll('.mix-topic-count-badge').forEach((el) => {
+        const q = Number(el.dataset.qcount || 0);
+        const p = Number(el.dataset.pcount || 0);
+        el.textContent = mixFilterMode === 'masalalar' ? `${p} masala` : `${q} savol`;
+      });
+      const startBtn = document.getElementById('btn-start-mix');
+      startBtn.textContent = mixFilterMode === 'masalalar' ? 'Aralash masalalarni boshlash' : 'Aralash testni boshlash';
     }
 
     function updateMixSummary(clampInput = true) {
@@ -3026,15 +3055,16 @@
       let chosen = Number(countInp.value || 0);
       if (clampInput) {
         if (totalAvailable === 0) chosen = 0;
-        else if (chosen < 1) chosen = Math.min(30, totalAvailable);
+        else if (chosen < 1) chosen = Math.min(mixFilterMode === 'masalalar' ? 20 : 30, totalAvailable);
         else if (chosen > totalAvailable) chosen = totalAvailable;
         countInp.value = chosen;
       } else {
         chosen = Math.max(0, Math.min(chosen, totalAvailable));
       }
 
+      const unitLabel = mixFilterMode === 'masalalar' ? 'masala' : 'savol';
       document.getElementById('mix-summary').textContent =
-        `${chosen} ta savol · ${Math.round((chosen * SEC_PER_QUESTION) / 60)} daqiqa (mavjud: ${totalAvailable} ta)`;
+        `${chosen} ta ${unitLabel} · ${Math.round((chosen * SEC_PER_QUESTION) / 60)} daqiqa (mavjud: ${totalAvailable} ta)`;
       const startBtn = document.getElementById('btn-start-mix');
       const disabled = totalAvailable === 0 || chosen < 1;
       startBtn.disabled = disabled;
@@ -3044,20 +3074,41 @@
     document.getElementById('btn-open-mix').addEventListener('click', () => {
       const subj = getActiveSubject();
       const subjMetas = state.topicMetas.filter((t) => t.subjectId === subj.id);
-      document.getElementById('mix-topics-list').innerHTML = subjMetas.map((t, idx) => `
+      mixFilterMode = 'all';
+      const hasAnyProblems = subjMetas.some((t) => (t.problemCount || 0) > 0 || (t.categories || []).some((c) => c.id === 'masalalar'));
+      document.getElementById('mix-filter-wrap').classList.toggle('hidden', !hasAnyProblems);
+      document.getElementById('mix-topics-list').innerHTML = subjMetas.map((t, idx) => {
+        const pCount = typeof t.problemCount === 'number'
+          ? t.problemCount
+          : ((t.categories || []).some((c) => c.id === 'masalalar') ? 10 : 0);
+        return `
         <label class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-violet-400 transition">
           <div class="flex items-center gap-3 min-w-0">
-            <input type="checkbox" checked value="${escapeHtml(t.id)}" data-num="${t.order || idx + 1}" data-qcount="${t.questionCount || 0}" class="mix-topic-cb w-4 h-4 accent-violet-600 rounded">
+            <input type="checkbox" checked value="${escapeHtml(t.id)}" data-num="${t.order || idx + 1}" data-qcount="${t.questionCount || 0}" data-pcount="${pCount}" class="mix-topic-cb w-4 h-4 accent-violet-600 rounded">
             <span class="w-7 h-7 rounded-lg bg-violet-100 dark:bg-violet-950 text-violet-700 dark:text-violet-300 font-extrabold text-xs flex items-center justify-center shrink-0">${t.order || idx + 1}</span>
             <span class="text-sm font-bold text-slate-900 dark:text-white truncate">${escapeHtml(t.title)}</span>
           </div>
-          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 shrink-0">${t.questionCount || 0} savol</span>
+          <span class="mix-topic-count-badge text-xs font-semibold text-slate-500 dark:text-slate-400 shrink-0" data-qcount="${t.questionCount || 0}" data-pcount="${pCount}">${t.questionCount || 0} savol</span>
         </label>
-      `).join('');
+      `;
+      }).join('');
+      updateMixModeUI();
       const totalAvail = getMixTotalAvailable();
       document.getElementById('mix-q-count').value = Math.min(30, totalAvail) || 1;
       updateMixSummary(true);
       document.getElementById('mix-modal').classList.remove('hidden');
+    });
+
+    document.querySelectorAll('.mix-mode-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        mixFilterMode = btn.dataset.mixMode || 'all';
+        updateMixModeUI();
+        const totalAvail = getMixTotalAvailable();
+        document.getElementById('mix-q-count').value = mixFilterMode === 'masalalar'
+          ? (Math.min(20, totalAvail) || 0)
+          : (Math.min(30, totalAvail) || 0);
+        updateMixSummary(true);
+      });
     });
 
     document.getElementById('mix-topics-list').addEventListener('change', () => updateMixSummary(true));
@@ -3084,11 +3135,12 @@
     document.getElementById('btn-start-mix').addEventListener('click', async () => {
       const checked = [...document.querySelectorAll('.mix-topic-cb:checked')];
       if (!checked.length) return;
+      const onlyProblems = mixFilterMode === 'masalalar';
       const totalAvail = getMixTotalAvailable();
       const targetCount = Math.max(1, Math.min(Number(document.getElementById('mix-q-count').value || totalAvail), totalAvail));
       const btn = document.getElementById('btn-start-mix');
       btn.disabled = true;
-      btn.textContent = 'Savollar yuklanmoqda...';
+      btn.textContent = onlyProblems ? 'Masalalar yuklanmoqda...' : 'Savollar yuklanmoqda...';
       try {
         const subj = getActiveSubject();
         const topicIds = checked.map((c) => c.value);
@@ -3098,14 +3150,21 @@
         const pools = topicIds.map((tid, idx) => {
           const num = checked[idx].dataset.num;
           const catId = 't_' + tid;
-          const qs = shuffleArray(datas[idx].questions || []).map((q) => ({
+          const rawQs = datas[idx].questions || [];
+          const filteredQs = onlyProblems ? rawQs.filter((q) => q.cat === 'masalalar') : rawQs;
+          const qs = shuffleArray(filteredQs).map((q) => ({
             ...q,
             id: `${tid}__${q.id}`,
             cat: catId,
             catLabel: `${num}-mavzu · ${q.catLabel || ''}`
           }));
           return { tid, num, catId, qs, cursor: 0 };
-        });
+        }).filter((p) => p.qs.length > 0);
+
+        if (!pools.length) {
+          alert('Tanlangan mavzularda masalalar topilmadi.');
+          return;
+        }
 
         const combinedQs = [];
         let remaining = targetCount;
@@ -3125,18 +3184,20 @@
 
         const combinedGloss = [];
         const mixCats = [{ id: 'all', label: 'Barchasi' }];
-        pools.forEach((p, idx) => {
+        pools.forEach((p) => {
           mixCats.push({ id: p.catId, label: `${p.num}-mavzu` });
-          (datas[idx].glossary || []).forEach((g) => combinedGloss.push(g));
+        });
+        datas.forEach((d) => {
+          (d.glossary || []).forEach((g) => combinedGloss.push(g));
         });
 
         const finalShuffled = shuffleArray(combinedQs);
-        const mixId = 'mix_' + subj.id;
+        const mixId = onlyProblems ? 'mix_masalalar_' + subj.id : 'mix_' + subj.id;
         const deadlineAt = Date.now() + finalShuffled.length * SEC_PER_QUESTION * 1000;
         state.mixMeta = {
           id: mixId,
-          badge: 'Aralash imtihon',
-          title: `${subj.title} (${nums}-mavzular · ${finalShuffled.length} savol)`,
+          badge: onlyProblems ? 'Aralash masalalar' : 'Aralash imtihon',
+          title: `${subj.title} (${nums}-mavzular · ${finalShuffled.length} ${onlyProblems ? 'masala' : 'savol'})`,
           categories: mixCats,
           questionCount: finalShuffled.length
         };
@@ -3154,7 +3215,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Aralash testni boshlash';
+        btn.textContent = mixFilterMode === 'masalalar' ? 'Aralash masalalarni boshlash' : 'Aralash testni boshlash';
       }
     });
 
