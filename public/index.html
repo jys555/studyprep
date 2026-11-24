@@ -170,8 +170,19 @@
                 <div id="menu-email" class="text-xs text-slate-500 dark:text-slate-400 truncate"></div>
               </div>
             </div>
-            <div id="menu-group-row" class="hidden pt-2.5 text-xs text-slate-600 dark:text-slate-400">
-              Guruh: <span id="menu-group" class="font-semibold text-slate-800 dark:text-slate-200"></span>
+            <div id="menu-group-row" class="hidden pt-2.5 text-xs text-slate-600 dark:text-slate-400 flex items-center justify-between gap-2">
+              <span>Guruh: <span id="menu-group" class="font-semibold text-slate-800 dark:text-slate-200"></span></span>
+              <span id="menu-cyber-rank" class="sp-rank-pill bg-violet-100 dark:bg-violet-950/70 text-violet-700 dark:text-violet-300 border border-violet-300/60 dark:border-violet-700/60">Yangi</span>
+            </div>
+            <div id="menu-trophies-box" class="mt-2.5 p-2.5 rounded-xl bg-slate-100/80 dark:bg-slate-800/70 space-y-1.5">
+              <div class="flex items-center justify-between text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                <span>Kuboklar javoni</span>
+                <span id="menu-rank-next">0 / 3</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div id="menu-rank-bar" class="h-full bg-gradient-to-r from-violet-500 to-amber-400 rounded-full transition-all" style="width:0%"></div>
+              </div>
+              <div id="menu-trophies-icons" class="flex items-center gap-2 flex-wrap pt-0.5 text-[11px] text-slate-500 dark:text-slate-400">Hali kubok yo‘q</div>
             </div>
             <div class="mt-3 space-y-2">
               <div class="grid grid-cols-2 gap-2">
@@ -201,7 +212,7 @@
     <div id="floating-timer-pill" class="apple-glass inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/60 dark:border-slate-700/70 text-sm font-extrabold text-slate-900 dark:text-white tabular-nums">
       <span id="floating-timer-dot" class="w-2 h-2 rounded-full bg-violet-500 animate-pulse"></span>
       <svg class="w-4 h-4 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      <span id="floating-timer-display">00:00</span>
+      <span id="floating-timer-display">00:00</span><span class="opacity-35">·</span><span id="floating-progress-display" class="text-xs font-bold text-violet-600 dark:text-violet-300">0/0</span>
     </div>
   </div>
 
@@ -315,6 +326,7 @@
           <button type="button" data-lb-tab="faculties" class="lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Yo‘nalishlar</button>
         </div>
         <div class="flex items-center gap-1.5">
+          <button type="button" id="btn-open-hof" title="O‘tgan hafta chempionlari" class="px-2.5 py-2 rounded-xl glass-card text-xs font-bold text-violet-600 dark:text-violet-300 hover:bg-violet-50/70 dark:hover:bg-violet-950/40 transition">👑 Chempionlar</button>
           <button type="button" id="btn-cup-rules" title="Haftalik kubok qoidalari" class="px-2.5 py-2 rounded-xl glass-card text-xs font-bold text-amber-600 dark:text-amber-400 hover:bg-amber-50/70 dark:hover:bg-amber-950/40 transition">🏆 Qoidalar</button>
         </div>
       </div>
@@ -323,9 +335,6 @@
       <div id="lb-sub-bar" class="hidden flex items-center justify-between gap-2">
         <div id="lb-sub-filters" class="inline-flex flex-wrap gap-1.5"></div>
       </div>
-
-      <!-- Hall of Fame (shown only when past week champions exist) -->
-      <div id="weekly-cup-hof" class="hidden glass-card rounded-2xl p-3.5 space-y-2.5"></div>
 
       <div id="leaderboard-podium" class="hidden grid grid-cols-3 gap-2.5 sm:gap-4 items-end"></div>
 
@@ -339,13 +348,35 @@
           <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">🏆 Haftalik Kubok qoidalari</h3>
           <button type="button" id="btn-close-cup-rules" class="w-7 h-7 rounded-lg glass-sub text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs font-bold">✕</button>
         </div>
-        <div class="space-y-2 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-          <p>Reyting <b>har dushanba 00:00 da 0 dan</b> boshlanadi — har hafta barcha talabalarda teng imkoniyat bor.</p>
-          <p><b class="text-amber-500">Universitet Top-3:</b> <b>Imperator Toji</b> + keyingi 7 kun davomida butun portalda <b>Oltin / Kumush / Bronza Avatar Halqasi</b>.</p>
-          <p><b class="text-violet-500 dark:text-violet-400">Yo‘nalish Top-3 (CEN26, CYB26...):</b> <b>Metall Lenta-Medal</b>. Universitet Top-3 dagi talaba yo‘nalish ro‘yxatida ham o‘z Imperator Toji bilan ko‘rinadi.</p>
-          <p><b class="text-sky-500 dark:text-sky-400">Guruh Top-3:</b> har guruhdagi eng faol 3 talabaga <b>Kristall Yulduz</b> beriladi.</p>
-          <p><b class="text-emerald-600 dark:text-emerald-400">Hafta Guruhi &amp; Yo‘nalishi:</b> kamida <b>15 ball</b> to‘plagan faol talabalar o‘rtachasi bo‘yicha 1-o‘ringa <b>Zumrad Guruh Kubogi</b> va <b>Binafsha Yo‘nalish Kubogi</b> beriladi.</p>
+        <div class="space-y-2.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          <div class="p-3 rounded-xl bg-slate-100/80 dark:bg-slate-800/70 space-y-1.5">
+            <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">Reyting qanday hisoblanadi?</div>
+            <p>• <b>Talabalar:</b> har bir to‘g‘ri javob = <b>+1 ball</b> (joriy hafta yig‘indisi).</p>
+            <p>• <b>Guruhlar &amp; Yo‘nalishlar:</b> kamida <b>15 ball</b> to‘plagan faol talabalarning <b>o‘rtacha balli</b> (harakatsiz akkauntlar o‘rtachani tushirmaydi).</p>
+            <p>• <b>Haftalik tsikl:</b> har <b>dushanba 00:00</b> da ballar 0 dan boshlanadi — yutilgan mukofotlar, <b>Cyber Unvon</b> va <b>🔥 Streak</b> abadiy saqlanadi.</p>
+          </div>
+          <div class="space-y-1.5">
+            <div class="text-[11px] font-extrabold uppercase tracking-wider text-amber-500">Haftalik mukofotlar (yakshanba 23:59)</div>
+            <p><b class="text-amber-500">Universitet Top-3:</b> <b>Imperator Toji</b> + 7 kunlik <b>Oltin / Kumush / Bronza Avatar Halqasi</b>.</p>
+            <p><b class="text-violet-500 dark:text-violet-400">Yo‘nalish Top-3 (CEN26, CYB26...):</b> <b>Metall Lenta-Medal</b> (Universitet Top-3 g‘olibi bu yerda ham o‘z Toji bilan ko‘rinadi).</p>
+            <p><b class="text-sky-500 dark:text-sky-400">Guruh Top-3:</b> har guruhning eng faol 3 talabasiga <b>Kristall Yulduz</b>.</p>
+            <p><b class="text-emerald-600 dark:text-emerald-400">Hafta Guruhi &amp; Yo‘nalishi (#1, min. 3 faol):</b> <b>Zumrad Guruh Kubogi</b> va <b>Binafsha Yo‘nalish Kubogi</b>.</p>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Hall of Fame Modal (Alohida Chempionlar bo'limi) -->
+    <div id="hof-modal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl max-w-xl w-full max-h-[82vh] flex flex-col border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between gap-2">
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">👑 Shon-sharaf taxtasi (Hall of Fame)</h3>
+            <p id="hof-week-sub" class="text-[11px] text-slate-500 dark:text-slate-400">O‘tgan hafta chempionlari</p>
+          </div>
+          <button type="button" id="btn-close-hof" class="w-8 h-8 rounded-xl glass-sub text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs font-bold">✕</button>
+        </div>
+        <div id="weekly-cup-hof" class="p-5 overflow-y-auto space-y-3"></div>
       </div>
     </div>
 
@@ -364,49 +395,44 @@
 
     <!-- VIEW 4: QUIZ RUNNER -->
     <section id="view-quiz" class="hidden fade-in">
-      <header id="quiz-header-card" class="glass-card rounded-2xl p-5 sm:p-6 mb-5 transition-colors">
-        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div>
-            <span id="quiz-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-50/80 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800 mb-2"></span>
-            <h1 id="quiz-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-tight"></h1>
+      <header id="quiz-header-card" class="glass-card rounded-2xl p-4 sm:p-5 mb-4 space-y-3 transition-colors">
+        <div class="flex flex-wrap items-center justify-between gap-2.5">
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2 mb-1">
+              <span id="quiz-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-50/90 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-800"></span>
+              <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400 tabular-nums"><span id="stat-answered" class="text-slate-900 dark:text-white">0</span> / <span id="stat-total">0</span></span>
+            </div>
+            <h1 id="quiz-title" class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white leading-snug truncate"></h1>
           </div>
-          <div class="flex flex-wrap items-center gap-2 shrink-0">
-            <div id="inline-timer-box" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-extrabold glass-sub text-slate-900 dark:text-white tabular-nums">
+          <div class="flex items-center gap-1.5 shrink-0">
+            <div id="inline-timer-box" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-extrabold glass-sub text-slate-900 dark:text-white tabular-nums">
               <span id="inline-timer-dot" class="w-2 h-2 rounded-full bg-violet-500 animate-pulse"></span>
-              <svg class="w-4 h-4 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               <span id="inline-timer-display">00:00</span>
             </div>
-            <button id="btn-glossary" type="button" class="px-3.5 py-2 rounded-xl text-sm font-semibold glass-icon-btn text-slate-800 dark:text-slate-200 transition">
-              Tezkor konspekt
+            <button id="btn-glossary" type="button" title="Tezkor konspekt" aria-label="Tezkor konspekt" class="w-9 h-9 rounded-xl glass-icon-btn text-slate-700 dark:text-slate-200 flex items-center justify-center transition">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
             </button>
-            <button id="btn-finish-quiz" type="button" class="px-3.5 py-2 rounded-xl text-sm font-bold bg-rose-600 hover:bg-rose-700 text-white transition shadow-sm">
+            <button id="btn-shuffle" type="button" title="Savollarni aralashtirish" aria-label="Savollarni aralashtirish" class="w-9 h-9 rounded-xl glass-icon-btn text-amber-600 dark:text-amber-400 flex items-center justify-center transition">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            </button>
+            <button id="btn-finish-quiz" type="button" class="px-3.5 py-2 rounded-xl text-xs font-extrabold bg-rose-600 hover:bg-rose-700 text-white transition shadow-sm">
               Yakunlash
             </button>
           </div>
         </div>
 
-        <div class="mt-5 pt-4 border-t border-slate-200/60 dark:border-slate-800/70">
-          <div class="flex flex-wrap items-center justify-between gap-3 text-sm mb-2">
-            <div class="flex items-center gap-4">
-              <span class="font-semibold text-slate-700 dark:text-slate-300">Yechilgan: <span id="stat-answered" class="text-slate-900 dark:text-white">0</span> / <span id="stat-total">0</span></span>
-              <span class="font-semibold text-emerald-700 dark:text-emerald-400">To‘g‘ri: <span id="stat-correct">0</span></span>
-              <span class="font-semibold text-rose-600 dark:text-rose-400">Xato: <span id="stat-wrong">0</span></span>
-            </div>
-            <div class="flex items-center gap-3">
-              <span id="sync-status" class="text-xs text-slate-400 dark:text-slate-500"></span>
-              <span id="stat-pct" class="font-bold text-violet-700 dark:text-violet-400">0% natija</span>
-            </div>
-          </div>
-          <div class="w-full h-2.5 bg-slate-200/70 dark:bg-slate-800/70 rounded-full overflow-hidden">
-            <div id="progress-bar" class="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-300" style="width: 0%"></div>
-          </div>
+        <div class="w-full h-1.5 bg-slate-200/70 dark:bg-slate-800/80 rounded-full overflow-hidden">
+          <div id="progress-bar" class="h-full bg-gradient-to-r from-violet-600 to-indigo-500 transition-all duration-300" style="width: 0%"></div>
         </div>
 
-        <div class="mt-4 flex flex-wrap items-center justify-between gap-2">
-          <div id="filter-tabs" class="flex flex-wrap gap-1.5"></div>
-          <button id="btn-shuffle" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-50/80 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition">
-            Savollarni aralashtirish
-          </button>
+        <span id="stat-correct" class="hidden">0</span>
+        <span id="stat-wrong" class="hidden">0</span>
+        <span id="stat-pct" class="hidden"></span>
+        <span id="sync-status" class="hidden"></span>
+
+        <!-- Minimalist single-row scrollable filter strip (hidden in Sprint) -->
+        <div id="quiz-filter-row" class="overflow-x-auto pb-0.5">
+          <div id="filter-tabs" class="inline-flex items-center gap-1.5 whitespace-nowrap"></div>
         </div>
       </header>
 
@@ -1328,7 +1354,9 @@
       }
       setStatus('Natija saqlanmoqda...');
       try {
-        const entries = Object.entries(prog.answers || {});
+        const isSp = Boolean(sp2.sprintSession && sp2.sprintSession.topicId === topicId);
+        const srcAnswers = isSp ? (sp2.sprintSession.answers || {}) : (prog.answers || {});
+        const entries = Object.entries(srcAnswers);
         const answeredCount = entries.length;
         const correctCount = entries.filter(([, v]) => v && v.isCorrect).length;
         const answeredIds = entries.map(([k]) => Number(k)).filter(Number.isFinite);
@@ -1354,7 +1382,8 @@
     function updateFloatingTimerVisibility() {
       const floatEl = document.getElementById('floating-glass-timer');
       if (!floatEl) return;
-      const shouldShow = state.view === 'quiz' && !state.quizHeaderVisible && state.timerDeadlineAt > 0;
+      const scrolledPast = window.scrollY > 110;
+      const shouldShow = state.view === 'quiz' && scrolledPast && state.timerDeadlineAt > 0;
       if (shouldShow) {
         floatEl.classList.remove('opacity-0', '-translate-y-3', 'pointer-events-none');
         floatEl.classList.add('opacity-100', 'translate-y-0');
@@ -1363,6 +1392,7 @@
         floatEl.classList.remove('opacity-100', 'translate-y-0');
       }
     }
+    window.addEventListener('scroll', updateFloatingTimerVisibility, { passive: true });
 
     function stopTimer() {
       if (state.timerInterval) {
@@ -1417,12 +1447,15 @@
       updateTimerUI();
       if (left <= 0) {
         stopTimer();
+        const isSp = Boolean(sp2.sprintSession && sp2.sprintSession.topicId === state.activeTopicId);
         const data = state.topicDataCache[state.activeTopicId] || { questions: [] };
-        const prog = getTopicProgress(state.activeTopicId);
-        const entries = Object.values(prog.answers || {});
+        const ansObj = isSp ? sp2.sprintSession.answers : (getTopicProgress(state.activeTopicId).answers || {});
+        const totalQ = isSp ? sp2.sprintSession.ids.length : data.questions.length;
+        const entries = Object.values(ansObj);
         const correct = entries.filter((x) => x.isCorrect).length;
+        persistTopicProgress(state.activeTopicId, true);
         document.getElementById('timeup-summary').textContent =
-          `Siz ${data.questions.length} ta savoldan ${entries.length} tasini yechdingiz. To‘g‘ri javoblar: ${correct} ta.`;
+          `Vaqt tugadi! ${totalQ} ta savoldan ${entries.length} tasi yechildi. To‘g‘ri javoblar: ${correct} ta.`;
         document.getElementById('timeup-modal').classList.remove('hidden');
       }
     }
@@ -1865,6 +1898,7 @@
     }
 
     async function launchTopicQuiz(topicId, mode = 'fresh', btnEl = null) {
+      sp2.sprintSession = null;
       if (btnEl) { btnEl.disabled = true; btnEl.dataset.origText = btnEl.textContent; btnEl.textContent = 'Yuklanmoqda...'; }
       try {
         state.activeTopicId = topicId;
@@ -1930,9 +1964,11 @@
       const meta = getActiveTopicMeta();
       const data = state.topicDataCache[meta.id] || { questions: [] };
       const qs = data.questions || [];
+      const isSp = Boolean(sp2.sprintSession && sp2.sprintSession.topicId === meta.id);
       const prog = getTopicProgress(meta.id);
-      const total = qs.length;
-      const entries = Object.values(prog.answers || {});
+      const ansMap = isSp ? sp2.sprintSession.answers : (prog.answers || {});
+      const total = isSp ? sp2.sprintSession.ids.length : qs.length;
+      const entries = Object.values(ansMap);
       const answered = entries.length;
       const correct = entries.filter((x) => x.isCorrect).length;
       const wrong = answered - correct;
@@ -1940,12 +1976,17 @@
 
       document.getElementById('stat-total').textContent = total;
       document.getElementById('stat-answered').textContent = answered;
-      document.getElementById('stat-correct').textContent = correct;
-      document.getElementById('stat-wrong').textContent = wrong;
-      document.getElementById('stat-pct').textContent = answered ? `${Math.round((correct / answered) * 100)}% aniqlik` : '0% natija';
+      const flProg = document.getElementById('floating-progress-display');
+      if (flProg) flProg.textContent = `${answered}/${total}`;
       document.getElementById('progress-bar').style.width = pct + '%';
 
+      // Sprint focus mode: konspekt, shuffle va filtrlar yashiriladi
+      document.getElementById('btn-glossary')?.classList.toggle('hidden', isSp);
+      document.getElementById('btn-shuffle')?.classList.toggle('hidden', isSp);
+      document.getElementById('quiz-filter-row')?.classList.toggle('hidden', isSp);
+
       if (total > 0 && answered >= total) stopTimer();
+      if (isSp) return;
 
       const tabsEl = document.getElementById('filter-tabs');
       const catCounts = {};
@@ -1955,13 +1996,17 @@
       const tabButtons = cats.map((c) => {
         const count = c.id === 'all' ? total : (catCounts[c.id] || 0);
         const isActive = state.activeCats.has(c.id);
-        const cls = isActive ? 'bg-violet-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700';
-        return `<button type="button" data-cat="${escapeHtml(c.id)}" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition ${cls}">${escapeHtml(c.label)} (${count})</button>`;
+        const cls = isActive
+          ? 'bg-violet-600 text-white shadow-sm'
+          : 'bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700';
+        return `<button type="button" data-cat="${escapeHtml(c.id)}" class="cat-btn px-2.5 py-1 rounded-lg text-[11px] font-bold transition ${cls}">${escapeHtml(c.label)} <span class="opacity-70">${count}</span></button>`;
       });
 
       const isWrongActive = state.activeCats.has('wrong');
-      const wrongCls = isWrongActive ? 'bg-rose-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700';
-      tabButtons.push(`<button type="button" data-cat="wrong" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition ${wrongCls}">Xatolarim (${wrong})</button>`);
+      const wrongCls = isWrongActive
+        ? 'bg-rose-600 text-white shadow-sm'
+        : 'bg-slate-100/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700';
+      tabButtons.push(`<button type="button" data-cat="wrong" class="cat-btn px-2.5 py-1 rounded-lg text-[11px] font-bold transition ${wrongCls}">Xatolar <span class="opacity-70">${wrong}</span></button>`);
       tabsEl.innerHTML = tabButtons.join('');
     }
 
@@ -1969,8 +2014,9 @@
       const meta = getActiveTopicMeta();
       const data = state.topicDataCache[meta.id] || { questions: [] };
       const qs = data.questions || [];
-      const prog = getTopicProgress(meta.id);
-      document.getElementById('quiz-badge').textContent = meta.badge || 'Test';
+      const isSp = Boolean(sp2.sprintSession && sp2.sprintSession.topicId === meta.id);
+      const prog = isSp ? { answers: sp2.sprintSession.answers } : getTopicProgress(meta.id);
+      document.getElementById('quiz-badge').textContent = isSp ? '⚡ Sprint' : (meta.badge || 'Test');
       document.getElementById('quiz-title').textContent = meta.title;
       renderQuizStats();
 
@@ -1978,10 +2024,11 @@
       const emptyState = document.getElementById('empty-wrong');
       const qMap = new Map(qs.map((q) => [String(q.id), q]));
 
-      const visibleIds = state.order.filter((id) => {
+      const sourceOrder = isSp ? sp2.sprintSession.ids : state.order;
+      const visibleIds = sourceOrder.filter((id) => {
         const q = qMap.get(String(id));
         if (!q) return false;
-        if (state.activeCats.has('all') || state.activeCats.size === 0) return true;
+        if (isSp || state.activeCats.has('all') || state.activeCats.size === 0) return true;
         if (state.activeCats.has('wrong')) {
           const st = prog.answers[id];
           return st && !st.isCorrect;
@@ -1995,7 +2042,6 @@
         return;
       }
       emptyState.classList.add('hidden');
-
       const letters = ['A', 'B', 'C', 'D'];
       container.innerHTML = visibleIds.map((id, idx) => {
         const q = qMap.get(String(id));
@@ -2906,9 +2952,11 @@
       const data = state.topicDataCache[state.activeTopicId];
       const q = (data.questions || []).find((item) => String(item.id) === String(qid));
       if (!q) return;
+      const isSp = Boolean(sp2.sprintSession && sp2.sprintSession.topicId === state.activeTopicId);
       const prog = getTopicProgress(state.activeTopicId);
-      if (prog.answers[qid]) return;
+      if (isSp ? sp2.sprintSession.answers[qid] : prog.answers[qid]) return;
       const isCorrect = oidx === q.ans;
+      if (isSp) sp2.sprintSession.answers[qid] = { selected: oidx, isCorrect };
       prog.answers[qid] = { selected: oidx, isCorrect };
       state.lifetimeAnswered = (state.lifetimeAnswered || 0) + 1;
       if (isCorrect) state.lifetimeCorrect = (state.lifetimeCorrect || 0) + 1;
@@ -2932,26 +2980,32 @@
 
     async function finishActiveQuiz() {
       const tid = state.activeTopicId;
+      const isSp = Boolean(sp2.sprintSession && sp2.sprintSession.topicId === tid);
       const data = state.topicDataCache[tid] || { questions: [] };
-      const total = (data.questions || []).length;
+      const total = isSp ? sp2.sprintSession.ids.length : (data.questions || []).length;
       const prog = getTopicProgress(tid);
-      const entries = Object.values(prog.answers || {});
+      const ansMap = isSp ? sp2.sprintSession.answers : (prog.answers || {});
+      const entries = Object.values(ansMap);
       const answered = entries.length;
       const correct = entries.filter((x) => x.isCorrect).length;
       const wrong = answered - correct;
-      const best = Math.max(prog.bestScore || 0, correct);
+      const best = Math.max(prog.bestScore || 0, Object.values(prog.answers || {}).filter((x) => x.isCorrect).length);
       const pct = total ? Math.round((correct / total) * 100) : 0;
 
       stopTimer();
       prog.bestScore = best;
-      prog.finished = true;
-      prog.deadlineAt = 0;
+      if (!isSp) {
+        prog.finished = true;
+        prog.deadlineAt = 0;
+      }
       prog.updatedAt = new Date().toISOString();
-      persistTopicProgress(tid, true);
-      trackEvent('quiz_finish', { topic_id: tid, correct, total });
+      await persistTopicProgress(tid, true);
+      if (isSp) sp2.sprintSession = null;
+      trackEvent(isSp ? 'sprint_finish' : 'quiz_finish', { topic_id: tid, correct, total });
 
-      document.getElementById('finish-summary').textContent =
-        `${total} ta savoldan ${answered} tasi yechildi. To‘g‘ri javoblar: ${correct} ta (${pct}%). Eng yaxshi natija: ${best}/${total}.`;
+      document.getElementById('finish-summary').textContent = isSp
+        ? `⚡ Sprint yakunlandi! ${total} ta savoldan ${answered} tasi yechildi. To‘g‘ri javoblar: ${correct} ta (${pct}%).`
+        : `${total} ta savoldan ${answered} tasi yechildi. To‘g‘ri javoblar: ${correct} ta (${pct}%). Eng yaxshi natija: ${best}/${total}.`;
       const wrongBtn = document.getElementById('btn-finish-wrong');
       if (wrong > 0 && !tid.startsWith('mix_')) {
         wrongBtn.classList.remove('hidden');
@@ -3851,7 +3905,8 @@
       onbFaculty: null,
       onbGroup: null,
       quickModeTopicId: null,
-      quickQuestionIds: null
+      quickQuestionIds: null,
+      sprintSession: null
     };
 
     async function sp2Fetch(path, { method = 'GET', body, authRequired = false } = {}) {
@@ -3942,6 +3997,22 @@
         iconEl.className = lit
           ? 'text-base leading-none transition-all'
           : 'text-base leading-none grayscale opacity-60 transition-all';
+      }
+      // Profil menyusida Cyber Unvon va Kuboklar Javonini yangilash
+      const R = window.SPRewards || null;
+      if (R && p) {
+        const cr = R.getCyberRank(p.trophy_power || 0);
+        const mr = document.getElementById('menu-cyber-rank');
+        const mn = document.getElementById('menu-rank-next');
+        const mb = document.getElementById('menu-rank-bar');
+        const mi = document.getElementById('menu-trophies-icons');
+        if (mr) { mr.textContent = cr.label; }
+        if (mn) { mn.textContent = `${p.trophy_power || 0} / ${cr.nextAt}`; }
+        if (mb) { mb.style.width = `${Math.min(100, cr.pct)}%`; }
+        if (mi) {
+          const bHtml = R.renderCompactBadges(p);
+          mi.innerHTML = bHtml || '<span>Hali kubok yo‘q — Sprint yeching</span>';
+        }
       }
       document.querySelectorAll('.subj-scope-btn').forEach((btn) => {
         const active = (btn.dataset.subjScope || 'mine') === sp2.subjScope;
@@ -4206,27 +4277,20 @@
           prog.bestScore || 0,
           Object.values(prog.answers || {}).filter((x) => x.isCorrect).length
         );
-        sp2.quickModeTopicId = topicId;
-        sp2.quickQuestionIds = new Set(quickIds);
-        state.progressByTopic[topicId] = {
+        const sprintDeadline = Date.now() + 15 * 60 * 1000;
+        sp2.sprintSession = {
+          topicId,
+          ids: quickIds,
           answers: {},
-          wrongIds: [],
-          bestScore: prevBest,
-          finished: false,
-          isQuickSession: true,
-          quickIds,
-          deadlineAt: Date.now() + 15 * 60 * 1000,
-          updatedAt: new Date().toISOString()
+          deadlineAt: sprintDeadline
         };
         state.order = quickIds;
-        buildOptionOrders(topicId, quickQs, false);
-        saveLocalProgress(state.user.uid);
-        state.activeCategory = 'all';
-        state.quizTab = 'quiz';
+        state.activeCats = new Set(['all']);
+        buildOptionOrders(topicId, quickQs, true);
         document.getElementById('quiz-start-modal').classList.add('hidden');
         state.view = 'quiz';
         renderAll();
-        startTimer(state.progressByTopic[topicId].deadlineAt);
+        startTimer(sprintDeadline);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } finally {
         btnEl.disabled = false;
@@ -4264,34 +4328,46 @@
 
     function renderWeeklyCupHof() {
       const el = document.getElementById('weekly-cup-hof');
+      const subEl = document.getElementById('hof-week-sub');
       if (!el) return;
+      const R = window.SPRewards || null;
       const cup = sp2.rankings?.lastWeekCup || null;
       if (!sp2.hofTab) sp2.hofTab = 'university';
-      if (!cup || (!cup.universityTop3?.length && !cup.facultyTop3?.length && !cup.groupsTop3?.length)) {
-        el.classList.add('hidden');
-        el.innerHTML = '';
+
+      if (!cup || (!cup.universityTop3?.length && !cup.facultyTop3?.length && !cup.groupsTop3?.length && !cup.facultiesTop3?.length)) {
+        if (subEl) subEl.textContent = 'Hali yakunlangan hafta yo‘q';
+        el.innerHTML = `
+          <div class="py-8 text-center space-y-2">
+            <div class="flex justify-center">${R ? R.svgCrown('gold', 56) : '👑'}</div>
+            <div class="text-sm font-extrabold text-slate-900 dark:text-white">Ilk chempionlar kutilmoqda</div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 max-w-xs mx-auto">Haftalik kubok har yakshanba 23:59 da yakunlanadi. Universitet Top-3, Yo‘nalishlar Top-3, Hafta Guruhi va Hafta Yo‘nalishi shu yerda abadiy muhrlanadi.</p>
+          </div>`;
         return;
       }
-      el.classList.remove('hidden');
 
+      if (subEl) subEl.textContent = `O‘tgan hafta g‘oliblari · ${cup.weekId || ''}`;
       const tabs = [
-        { id: 'university', label: '🏆 Universitet Top-3' },
-        { id: 'faculty', label: '🎓 Yo‘nalishlar Top-3' },
-        { id: 'groups', label: '👑 Hafta Guruhlari' }
+        { id: 'university', label: 'Universitet Top-3' },
+        { id: 'faculty', label: 'Yo‘nalishlar Top-3' },
+        { id: 'groups', label: 'Hafta Guruhlari' },
+        { id: 'facTeams', label: 'Hafta Yo‘nalishlari' }
       ];
-      const medals = { 1: '🥇', 2: '🥈', 3: '🥉' };
+      const tierKey = { 1: 'gold', 2: 'silver', 3: 'bronze' };
       let bodyHtml = '';
 
       if (sp2.hofTab === 'university') {
         const list = cup.universityTop3 || [];
-        bodyHtml = list.length ? `<div class="grid grid-cols-1 sm:grid-cols-3 gap-2">${list.map((u) => `
-          <div class="glass-sub rounded-xl px-3 py-2 flex items-center justify-between gap-2">
-            <div class="min-w-0">
-              <div class="text-xs font-extrabold text-slate-900 dark:text-white truncate">${medals[u.rank] || '🏅'} ${escapeHtml(u.display_name)}</div>
-              <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(u.group_code || u.faculty_code || '')} · ${u.points} ball</div>
+        bodyHtml = list.length ? `<div class="space-y-2">${list.map((u) => `
+          <div class="p-3 rounded-2xl bg-slate-100/80 dark:bg-slate-800/70 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5 min-w-0">
+              ${R ? R.svgCrown(tierKey[u.rank] || 'gold', 26) : '👑'}
+              <div class="min-w-0">
+                <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">${escapeHtml(u.display_name)}</div>
+                <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(u.group_code || u.faculty_code || '')}</div>
+              </div>
             </div>
-            <span class="px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 text-[11px] font-extrabold shrink-0">${medals[u.rank] || "🏅"} Top-${u.rank}</span>
-          </div>`).join('')}</div>` : `<div class="text-xs text-slate-500">G‘oliblar yo‘q.</div>`;
+            <span class="text-xs font-extrabold text-emerald-600 dark:text-emerald-400 shrink-0">${u.points} ball</span>
+          </div>`).join('')}</div>` : `<div class="py-6 text-center text-xs text-slate-500">G‘oliblar topilmadi.</div>`;
       } else if (sp2.hofTab === 'faculty') {
         const byFac = {};
         for (const u of (cup.facultyTop3 || [])) {
@@ -4299,40 +4375,53 @@
           byFac[u.scope_code].push(u);
         }
         const facCodes = Object.keys(byFac).sort();
-        bodyHtml = facCodes.length ? `<div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">${facCodes.map((fc) => `
-          <div class="glass-sub rounded-xl p-2.5 space-y-1.5">
+        bodyHtml = facCodes.length ? `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">${facCodes.map((fc) => `
+          <div class="p-3 rounded-2xl bg-slate-100/80 dark:bg-slate-800/70 space-y-2">
             <div class="text-[11px] font-extrabold uppercase tracking-wider text-violet-600 dark:text-violet-400">${escapeHtml(fc)} Top-3</div>
             ${byFac[fc].map((u) => {
               const badge = u.university_rank
-                ? `<span class="px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 text-[10px] font-extrabold shrink-0">${medals[u.university_rank] || '🏆'} Universitet #${u.university_rank}</span>`
-                : `<span class="px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-[10px] font-extrabold shrink-0">⭐ Yo‘nalish #${u.rank}</span>`;
+                ? `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 text-[10px] font-extrabold shrink-0">${R ? R.svgCrown(tierKey[u.university_rank] || 'gold', 13) : '👑'} Uni #${u.university_rank}</span>`
+                : `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-violet-100 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 text-[10px] font-extrabold shrink-0">${R ? R.svgMedal(tierKey[u.rank] || 'gold', 13) : '🏅'} #${u.rank}</span>`;
               return `
                 <div class="flex items-center justify-between gap-2 text-xs">
-                  <div class="min-w-0 truncate"><span class="font-bold text-slate-500">#${u.rank}</span> <span class="font-bold text-slate-800 dark:text-slate-100">${escapeHtml(u.display_name)}</span> <span class="text-[11px] text-slate-500">(${u.points})</span></div>
+                  <div class="min-w-0 truncate"><span class="font-bold text-slate-900 dark:text-slate-100">${escapeHtml(u.display_name)}</span> <span class="text-[11px] text-slate-500">(${u.points})</span></div>
                   ${badge}
                 </div>`;
             }).join('')}
-          </div>`).join('')}</div>` : `<div class="text-xs text-slate-500">Yo‘nalish g‘oliblari yo‘q.</div>`;
-      } else {
+          </div>`).join('')}</div>` : `<div class="py-6 text-center text-xs text-slate-500">Yo‘nalish g‘oliblari yo‘q.</div>`;
+      } else if (sp2.hofTab === 'groups') {
         const list = cup.groupsTop3 || [];
-        bodyHtml = list.length ? `<div class="grid grid-cols-1 sm:grid-cols-3 gap-2">${list.map((g) => `
-          <div class="glass-sub rounded-xl px-3 py-2 flex items-center justify-between gap-2">
-            <div class="min-w-0">
-              <div class="text-xs font-extrabold text-slate-900 dark:text-white truncate">${g.rank === 1 ? '👑' : (medals[g.rank] || '🏅')} ${escapeHtml(g.group_code)}</div>
-              <div class="text-[11px] text-slate-500 dark:text-slate-400">${g.active_users || 0} faol talaba</div>
+        bodyHtml = list.length ? `<div class="space-y-2">${list.map((g) => `
+          <div class="p-3 rounded-2xl bg-slate-100/80 dark:bg-slate-800/70 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5 min-w-0">
+              ${g.rank === 1 && R ? R.svgGroupCup(26) : `<span class="w-6 text-center text-xs font-extrabold text-slate-500">#${g.rank}</span>`}
+              <div class="min-w-0">
+                <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">${escapeHtml(g.group_code)}</div>
+                <div class="text-[11px] text-slate-500 dark:text-slate-400">${g.active_users || 0} faol talaba</div>
+              </div>
             </div>
-            <span class="px-2 py-0.5 rounded-md bg-violet-100 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 text-[11px] font-extrabold shrink-0">Ø ${g.points}</span>
-          </div>`).join('')}</div>` : `<div class="text-xs text-slate-500">Kamida 3 ta faol talabali guruh topilmadi.</div>`;
+            <span class="text-xs font-extrabold text-emerald-600 dark:text-emerald-400 shrink-0">Ø ${g.points}</span>
+          </div>`).join('')}</div>` : `<div class="py-6 text-center text-xs text-slate-500">Kamida 3 ta faol talabali guruh topilmadi.</div>`;
+      } else {
+        const list = cup.facultiesTop3 || [];
+        bodyHtml = list.length ? `<div class="space-y-2">${list.map((f) => `
+          <div class="p-3 rounded-2xl bg-slate-100/80 dark:bg-slate-800/70 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5 min-w-0">
+              ${f.rank === 1 && R ? R.svgFacultyCup(26) : `<span class="w-6 text-center text-xs font-extrabold text-slate-500">#${f.rank}</span>`}
+              <div class="min-w-0">
+                <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">${escapeHtml(f.display_name)}</div>
+                <div class="text-[11px] text-slate-500 dark:text-slate-400">${f.active_users || 0} faol talaba</div>
+              </div>
+            </div>
+            <span class="text-xs font-extrabold text-violet-600 dark:text-violet-300 shrink-0">Ø ${f.points}</span>
+          </div>`).join('')}</div>` : `<div class="py-6 text-center text-xs text-slate-500">Kamida 3 ta faol talabali yo‘nalish topilmadi.</div>`;
       }
 
       el.innerHTML = `
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div class="text-xs font-extrabold uppercase tracking-wider text-amber-600 dark:text-amber-400">🏆 O‘tgan hafta chempionlari (${escapeHtml(cup.weekId || '')})</div>
-          <div class="flex flex-wrap gap-1">
-            ${tabs.map((t) => `<button type="button" data-hof-tab="${t.id}" class="px-2.5 py-1 rounded-lg text-[11px] font-bold transition ${
-              sp2.hofTab === t.id ? 'bg-amber-500 text-white shadow-sm' : 'glass-sub text-slate-600 dark:text-slate-300'
-            }">${t.label}</button>`).join('')}
-          </div>
+        <div class="flex flex-wrap gap-1.5">
+          ${tabs.map((t) => `<button type="button" data-hof-tab="${t.id}" class="px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition ${
+            sp2.hofTab === t.id ? 'bg-violet-600 text-white shadow-sm' : 'glass-sub text-slate-600 dark:text-slate-300'
+          }">${t.label}</button>`).join('')}
         </div>
         ${bodyHtml}`;
 
@@ -4678,6 +4767,18 @@
       document.getElementById('reward-celebration-modal')?.classList.add('hidden');
       if (sp2.profile) sp2.profile.unseen_reward = null;
       sp2Fetch('/api/profile', { method: 'POST', authRequired: true, body: { ackReward: true } }).catch(() => {});
+    });
+
+
+    document.getElementById('btn-open-hof')?.addEventListener('click', () => {
+      renderWeeklyCupHof();
+      document.getElementById('hof-modal')?.classList.remove('hidden');
+    });
+    document.getElementById('btn-close-hof')?.addEventListener('click', () => {
+      document.getElementById('hof-modal')?.classList.add('hidden');
+    });
+    document.getElementById('hof-modal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'hof-modal') e.target.classList.add('hidden');
     });
 
     loadUniversityConfig();
