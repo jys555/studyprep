@@ -14,8 +14,15 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, weekId, me });
     }
 
-    // 30 soniyalik Vercel Edge CDN kesh
-    const snapshot = await sbRpc('get_rankings_snapshot', { p_week_id: weekId });
+    const rawCohort = req.query?.cohort;
+    const cohortNum = rawCohort !== undefined && /^\d{2}$/.test(String(rawCohort))
+      ? Number(rawCohort)
+      : null;
+
+    const snapshot = await sbRpc('get_rankings_snapshot', {
+      p_week_id: weekId,
+      p_cohort_year: cohortNum
+    });
     res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
     res.status(200).json({ ok: true, ...snapshot });
   } catch (err) {

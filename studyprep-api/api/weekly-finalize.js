@@ -22,25 +22,29 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, weekId, alreadyFinalized: true });
     }
 
-    // Agar BOT_TOKEN sozlangan bo'lsa va g'oliblar bo'lsa, Telegram orqali tabriklash
     let telegramSent = 0;
     const botToken = process.env.BOT_TOKEN;
-    const result = data?.result || {};
-    const uniTop = result.universityTop3 || [];
-    const grpTop = result.groupsTop3 || [];
+    const cohortsObj = data?.cohorts || {};
+    const cohortKeys = Object.keys(cohortsObj).sort((a, b) => Number(b) - Number(a));
 
-    if (botToken && uniTop.length > 0 && req.query?.notify !== 'false') {
+    if (botToken && cohortKeys.length > 0 && req.query?.notify !== 'false') {
       const medals = ['🥇', '🥈', '🥉'];
-      const lines = [
-        `<b>🏆 Haftalik Kubok (${escHtml(weekId)}) yakunlandi!</b>\n`,
-        `<b>Universitet Top-3 talabalari:</b>`,
-        ...uniTop.map((u, i) =>
-          `${medals[i] || '🏅'} <b>${escHtml(u.display_name)}</b> (${escHtml(u.group_code || u.faculty_code || '')}) — ${u.points} ball (+${u.bonus_awarded} bonus)`
-        )
-      ];
-      if (grpTop.length > 0) {
-        lines.push('', `<b>👑 Hafta guruhi:</b> <b>${escHtml(grpTop[0].group_code)}</b> (o'rtacha ${grpTop[0].points} ball · ${grpTop[0].active_users} faol talaba)`);
+      const lines = [`<b>🏆 Haftalik Kubok (${escHtml(weekId)}) yakunlandi!</b>`];
+
+      for (const ck of cohortKeys) {
+        const cData = cohortsObj[ck] || {};
+        const uniTop = cData.universityTop3 || [];
+        const grpTop = cData.groupsTop3 || [];
+        if (!uniTop.length) continue;
+        lines.push('', `<b>🎓 ${escHtml(ck)}-qabul Top-3 talabalari:</b>`);
+        uniTop.forEach((u, i) => {
+          lines.push(`${medals[i] || '🏅'} <b>${escHtml(u.display_name)}</b> (${escHtml(u.group_code || u.faculty_code || '')}) — ${u.points} ball`);
+        });
+        if (grpTop.length > 0) {
+          lines.push(`👑 <b>Hafta guruhi:</b> ${escHtml(grpTop[0].group_code)} (o'rtacha ${grpTop[0].points} · ${grpTop[0].active_users} faol)`);
+        }
       }
+
       lines.push('', `Yangi hafta 0 dan boshlandi — bu hafta sizning navbatingiz! 🚀`);
       const text = lines.join('\n');
 
@@ -68,7 +72,7 @@ export default async function handler(req, res) {
       }
     }
 
-    res.status(200).json({ ok: true, weekId, alreadyFinalized: false, telegramSent, result });
+    res.status(200).json({ ok: true, weekId, alreadyFinalized: false, telegramSent, cohorts: cohortsObj });
   } catch (err) {
     res.status(err.status || 500).json({ ok: false, error: err.message });
   }

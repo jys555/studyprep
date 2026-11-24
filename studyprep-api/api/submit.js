@@ -98,6 +98,7 @@ export default async function handler(req, res) {
         body: {
           week_id: weekId,
           uid: authUser.uid,
+          cohort_year: user.cohort_year || 26,
           faculty_code: user.faculty_code,
           group_code: user.group_code,
           points: (prevW?.points || 0) + correctCount,
