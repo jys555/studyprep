@@ -1,0 +1,13 @@
+{
+  "regions": ["fra1"],
+  "functions": {
+    "api/broadcast.js": { "maxDuration": 60 },
+    "api/*.js": { "maxDuration": 15 }
+  },
+  "crons": [
+    {
+      "path": "/api/health",
+      "schedule": "0 6 */3 * *"
+    }
+  ]
+}
