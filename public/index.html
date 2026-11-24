@@ -105,6 +105,8 @@
     .math-block .katex-display { margin: 0 !important; }
     .katex { font-size: 1.06em; }
   </style>
+  <link rel="stylesheet" href="assets/rewards.css">
+  <script src="assets/rewards.js"></script>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200">
   <!-- Top Navbar -->
@@ -270,7 +272,7 @@
           <div class="flex items-center gap-2.5 min-w-0">
             <div id="my-rank-badge" class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center text-sm font-extrabold shrink-0">—</div>
             <div class="min-w-0">
-              <div id="my-rank-title" class="text-sm sm:text-base font-extrabold truncate"></div>
+              <div class="flex items-center gap-2 min-w-0"><div id="my-rank-title" class="text-sm sm:text-base font-extrabold truncate"></div><span id="my-cyber-rank" class="sp-rank-pill bg-white/15 text-violet-100 border border-white/20 shrink-0">Yangi</span></div>
               <div id="my-rank-sub" class="text-[11px] text-violet-100 truncate"></div>
             </div>
           </div>
@@ -338,11 +340,25 @@
           <button type="button" id="btn-close-cup-rules" class="w-7 h-7 rounded-lg glass-sub text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs font-bold">✕</button>
         </div>
         <div class="space-y-2 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-          <p>Reyting <b>har hafta dushanba 00:00 da 0 dan</b> boshlanadi — yangi qo‘shilgan talaba ham shu hafta 1-o‘rinni olishi mumkin. Har bir kurs o‘z kursi ichida adolatli bellashadi.</p>
-          <p><b class="text-amber-600 dark:text-amber-400">Kurs (Universitet) Top-3:</b> yakshanba 23:59 da eng yuqori ball olgan 3 talabaga doimiy <b>🥇 🥈 🥉</b> medallari beriladi.</p>
-          <p><b class="text-violet-600 dark:text-violet-400">Yo‘nalishlar Top-3:</b> har bir fakultetdan Top-3 talabaga doimiy <b>⭐</b> medali beriladi. Universitet Top-3 dagi talaba yo‘nalish ro‘yxatida ham o‘z Universitet nishoni bilan ko‘rinadi.</p>
-          <p><b class="text-emerald-600 dark:text-emerald-400">Guruhlar va Yo‘nalishlar:</b> kamida <b>15 ball</b> to‘plagan faol talabalar o‘rtacha balli bo‘yicha baholanadi. Kamida 3 faol talabasi bor Top-1 guruhga keyingi hafta davomida <b>👑 Hafta guruhi</b> toji beriladi.</p>
+          <p>Reyting <b>har dushanba 00:00 da 0 dan</b> boshlanadi — har hafta barcha talabalarda teng imkoniyat bor.</p>
+          <p><b class="text-amber-500">Universitet Top-3:</b> <b>Imperator Toji</b> + keyingi 7 kun davomida butun portalda <b>Oltin / Kumush / Bronza Avatar Halqasi</b>.</p>
+          <p><b class="text-violet-500 dark:text-violet-400">Yo‘nalish Top-3 (CEN26, CYB26...):</b> <b>Metall Lenta-Medal</b>. Universitet Top-3 dagi talaba yo‘nalish ro‘yxatida ham o‘z Imperator Toji bilan ko‘rinadi.</p>
+          <p><b class="text-sky-500 dark:text-sky-400">Guruh Top-3:</b> har guruhdagi eng faol 3 talabaga <b>Kristall Yulduz</b> beriladi.</p>
+          <p><b class="text-emerald-600 dark:text-emerald-400">Hafta Guruhi &amp; Yo‘nalishi:</b> kamida <b>15 ball</b> to‘plagan faol talabalar o‘rtachasi bo‘yicha 1-o‘ringa <b>Zumrad Guruh Kubogi</b> va <b>Binafsha Yo‘nalish Kubogi</b> beriladi.</p>
         </div>
+      </div>
+    </div>
+
+    <!-- Monday Winner Celebration Modal -->
+    <div id="reward-celebration-modal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="sp-celebrate-card bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl max-w-sm w-full p-6 text-center space-y-4 border border-amber-400/50 shadow-2xl">
+        <div id="cel-icon" class="sp-trophy-float flex justify-center"></div>
+        <div class="space-y-1">
+          <div id="cel-kicker" class="text-xs font-extrabold uppercase tracking-wider text-amber-500">Haftalik Kubok G‘olibi</div>
+          <h3 id="cel-title" class="text-xl font-extrabold text-slate-900 dark:text-white">Tabriklaymiz!</h3>
+          <p id="cel-desc" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed"></p>
+        </div>
+        <button id="btn-cel-ack" type="button" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white text-sm font-extrabold shadow-md transition">Ajoyib! Davom etish</button>
       </div>
     </div>
 
@@ -4134,6 +4150,7 @@
             }).catch(() => {});
           }
           document.getElementById('onboarding-modal')?.classList.add('hidden');
+          if (sp2.profile.unseen_reward) maybeShowRewardCelebration(sp2.profile.unseen_reward);
         } else {
           // Eski noto'g'ri guruhlarni ko'rsatmasdan majburiy 2 bosqichli tanlovni ochamiz
           openOnboardingModal();
@@ -4380,19 +4397,8 @@
         return;
       }
 
-      const formatMedals = (u) => {
-        if (!u) return '';
-        const parts = [];
-        const g = u.gold_medals ?? u.gold ?? 0;
-        const s = u.silver_medals ?? u.silver ?? 0;
-        const b = u.bronze_medals ?? u.bronze ?? 0;
-        const f = u.faculty_medals ?? u.faculty ?? 0;
-        if (g > 0) parts.push(`🥇×${g}`);
-        if (s > 0) parts.push(`🥈×${s}`);
-        if (b > 0) parts.push(`🥉×${b}`);
-        if (f > 0) parts.push(`⭐×${f}`);
-        return parts.join(' ');
-      };
+      const R = window.SPRewards || null;
+      const formatMedals = (u) => R ? R.renderCompactBadges(u) : '';
 
       const renderLeadBadge = (u) => {
         const lb = u?.lead_badge || (u?.is_ambassador ? (u.faculty_code ? `${u.faculty_code}${u.cohort_year || 26}` : 'Lead') : '');
@@ -4402,13 +4408,16 @@
 
       const renderAvatar = (r, sizeCls = 'w-9 h-9 text-xs') => {
         if (sp2.lbTab === 'users') {
-          if (r.photo_url) {
-            return `<img src="${escapeHtml(r.photo_url)}" class="${sizeCls} rounded-full object-cover ring-2 ring-white/80 dark:ring-slate-800 shadow-sm shrink-0" alt="">`;
-          }
-          const init = getInitials(r.display_name || 'T', '');
-          return `<div class="${sizeCls} rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-white font-extrabold flex items-center justify-center ring-2 ring-white/80 dark:ring-slate-800 shadow-sm shrink-0">${escapeHtml(init)}</div>`;
+          const core = r.photo_url
+            ? `<img src="${escapeHtml(r.photo_url)}" class="${sizeCls} rounded-full object-cover shadow-sm shrink-0" alt="">`
+            : `<div class="${sizeCls} rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-white font-extrabold flex items-center justify-center shadow-sm shrink-0">${escapeHtml(getInitials(r.display_name || 'T', ''))}</div>`;
+          return R ? R.wrapAvatarWithAura(core, r.active_aura) : core;
         }
-        const tag = sp2.lbTab === 'faculties' ? (r.faculty_code || r.code || '').slice(0, 3) : (r.faculty_code || r.code || '').slice(0, 3);
+        if (r.is_weekly_champion && R) {
+          const cupSvg = sp2.lbTab === 'faculties' ? R.svgFacultyCup(22) : R.svgGroupCup(22);
+          return `<div class="${sizeCls} rounded-full bg-gradient-to-br from-amber-500/20 to-violet-600/30 border border-amber-400/60 flex items-center justify-center shadow-sm shrink-0">${cupSvg}</div>`;
+        }
+        const tag = (r.faculty_code || r.code || '').slice(0, 3);
         return `<div class="${sizeCls} rounded-full bg-gradient-to-br from-violet-600/90 to-indigo-600/90 text-white font-extrabold flex items-center justify-center ring-2 ring-white/80 dark:ring-slate-800 shadow-sm shrink-0">${escapeHtml(tag)}</div>`;
       };
 
@@ -4422,7 +4431,13 @@
         document.getElementById('my-rank-sub').textContent = me.group || '';
         document.getElementById('my-rank-weekly').textContent = me.weeklyPoints || 0;
         document.getElementById('my-rank-streak').textContent = me.streakDays || 0;
-        document.getElementById('my-rank-medals').textContent = formatMedals(me.medals) || '—';
+        document.getElementById('my-rank-medals').innerHTML = formatMedals(me.medals) || '—';
+        const rankPill = document.getElementById('my-cyber-rank');
+        if (rankPill && R) {
+          const cr = R.getCyberRank(me.trophyPower || sp2.profile?.trophy_power || 0);
+          rankPill.className = `sp-rank-pill ${cr.cls} shrink-0`;
+          rankPill.textContent = cr.label;
+        }
         document.getElementById('my-rank-in-group').textContent = fmtRank(me.ranks?.group);
         document.getElementById('my-rank-in-faculty').textContent = fmtRank(me.ranks?.faculty);
         document.getElementById('my-rank-in-global').textContent = fmtRank(me.ranks?.global);
@@ -4463,7 +4478,7 @@
       const getName = (r) => {
         if (sp2.lbTab === 'users') return r.display_name || 'Talaba';
         if (sp2.lbTab === 'faculties') return `${r.code} · ${r.name}`;
-        return r.is_weekly_champion ? `👑 ${r.code}` : r.code;
+        return r.code;
       };
 
       // Top-3 Podium (standart 3 ustunli podium)
@@ -4503,7 +4518,7 @@
         const pct = Math.min(100, Math.round((val / maxVal) * 100));
         const isMe = (sp2.lbTab === 'users' && state.user && r.uid === state.user.uid)
           || (sp2.lbTab === 'groups' && sp2.profile?.group_code === r.code)
-          || (sp2.lbTab === 'faculties' && sp2.profile?.faculty_code === (r.faculty_code || r.code));
+          || (sp2.lbTab === 'faculties' && (`${sp2.profile?.faculty_code || ''}${sp2.profile?.cohort_year || 26}` === r.code));
         const rankDisplay = (i < 3 && val > 0)
           ? `<span class="text-lg leading-none">${rankMedals[i]}</span>`
           : `<span class="text-xs font-extrabold text-slate-500 dark:text-slate-400">#${i + 1}</span>`;
@@ -4525,7 +4540,9 @@
                   ${isMe ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-violet-600 text-white font-bold shrink-0">Siz</span>' : ''}
                   ${sp2.lbTab === 'users' && r.group_code ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold shrink-0">${escapeHtml(r.group_code)}</span>` : ''}
                   ${leadHtml}
-                  ${medalsStr ? `<span class="text-[11px] shrink-0">${medalsStr}</span>` : ''}
+                  ${sp2.lbTab === 'groups' && r.is_weekly_champion && R ? `<span class="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-md bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 border border-emerald-400/40 font-extrabold shrink-0">${R.svgGroupCup(13)} Hafta guruhi</span>` : ''}
+                  ${sp2.lbTab === 'faculties' && r.is_weekly_champion && R ? `<span class="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-md bg-violet-500/15 text-violet-600 dark:text-violet-300 border border-violet-400/40 font-extrabold shrink-0">${R.svgFacultyCup(13)} Hafta yo‘nalishi</span>` : ''}
+                  ${medalsStr ? `<span class="inline-flex items-center gap-1 shrink-0">${medalsStr}</span>` : ''}
                 </div>
                 <div class="w-full max-w-[200px] h-1.5 bg-slate-200/70 dark:bg-slate-800/70 rounded-full overflow-hidden mt-1.5">
                   <div class="h-full bg-emerald-500 rounded-full" style="width:${pct}%"></div>
@@ -4626,6 +4643,41 @@
       const inp = document.getElementById('admin-lead-search');
       if (inp) inp.value = '';
       loadAdminLeads('');
+    });
+
+
+    // Dushanba Tabrik Oynasi (unseen_reward bo'lsa avtomatik chiqadi)
+    function maybeShowRewardCelebration(reward) {
+      if (!reward || !window.SPRewards) return;
+      const modal = document.getElementById('reward-celebration-modal');
+      if (!modal) return;
+      const R = window.SPRewards;
+      const tierMap = { 1: 'gold', 2: 'silver', 3: 'bronze' };
+      const tColor = tierMap[reward.rank] || 'gold';
+      const iconEl = document.getElementById('cel-icon');
+      const titleEl = document.getElementById('cel-title');
+      const descEl = document.getElementById('cel-desc');
+
+      if (reward.tier === 'university') {
+        iconEl.innerHTML = R.svgCrown(tColor, 84);
+        titleEl.textContent = `Universitet #${reward.rank}!`;
+        descEl.textContent = `O‘tgan haftada ${reward.points} ball bilan Imperator Toji hamda 7 kunlik ${tColor === 'gold' ? 'Oltin' : (tColor === 'silver' ? 'Kumush' : 'Bronza')} Avatar Halqasi sohibi bo‘ldingiz!`;
+      } else if (reward.tier === 'faculty') {
+        iconEl.innerHTML = R.svgMedal(tColor, 84);
+        titleEl.textContent = `${reward.scope} #${reward.rank}!`;
+        descEl.textContent = `O‘tgan haftada ${reward.points} ball bilan yo‘nalishingizda Metall Lenta-Medal sohibi bo‘ldingiz!`;
+      } else {
+        iconEl.innerHTML = R.svgStar(tColor, 84);
+        titleEl.textContent = `${reward.scope} #${reward.rank}!`;
+        descEl.textContent = `O‘tgan haftada ${reward.points} ball bilan guruhingizda Kristall Yulduz sohibi bo‘ldingiz!`;
+      }
+      modal.classList.remove('hidden');
+    }
+
+    document.getElementById('btn-cel-ack')?.addEventListener('click', () => {
+      document.getElementById('reward-celebration-modal')?.classList.add('hidden');
+      if (sp2.profile) sp2.profile.unseen_reward = null;
+      sp2Fetch('/api/profile', { method: 'POST', authRequired: true, body: { ackReward: true } }).catch(() => {});
     });
 
     loadUniversityConfig();

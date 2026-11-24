@@ -23,7 +23,15 @@ export default async function handler(req, res) {
       return res.status(405).json({ ok: false, error: 'Method not allowed' });
     }
 
-    const { displayName, groupCode, tgChatId } = req.body || {};
+    const { displayName, groupCode, tgChatId, ackReward } = req.body || {};
+    if (ackReward === true) {
+      await sbRest(`users?uid=eq.${encodeURIComponent(authUser.uid)}`, {
+        method: 'PATCH',
+        body: { unseen_reward: null, updated_at: new Date().toISOString() }
+      });
+      res.setHeader('Cache-Control', 'private, no-store');
+      return res.status(200).json({ ok: true, acknowledged: true });
+    }
     const existingRows = await sbRest(`users?uid=eq.${encodeURIComponent(authUser.uid)}&select=*`);
     const existing = existingRows[0] || null;
 

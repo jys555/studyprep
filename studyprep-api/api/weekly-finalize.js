@@ -25,26 +25,24 @@ export default async function handler(req, res) {
     let telegramSent = 0;
     const botToken = process.env.BOT_TOKEN;
     const uniTop = data?.universityTop3 || [];
-    const cohortsObj = data?.cohorts || {};
-    const cohortKeys = Object.keys(cohortsObj).sort((a, b) => Number(b) - Number(a));
+    const grpTop = data?.groupsTop3 || [];
+    const facTop = data?.facultiesTop3 || [];
 
     if (botToken && uniTop.length > 0 && req.query?.notify !== 'false') {
       const medals = ['🥇', '🥈', '🥉'];
       const lines = [
         `<b>🏆 Haftalik Kubok (${escHtml(weekId)}) yakunlandi!</b>\n`,
-        `<b>Universitet Top-3 talabalari:</b>`,
+        `<b>Universitet Top-3 (Imperator Toji + 7 kunlik Aura):</b>`,
         ...uniTop.map((u, i) =>
-          `${medals[i] || '🏅'} <b>${escHtml(u.display_name)}</b> (${escHtml(u.group_code || u.faculty_code || '')}) — ${u.points} ball`
+          `${medals[i] || '👑'} <b>${escHtml(u.display_name)}</b> (${escHtml(u.group_code || u.faculty_code || '')}) — ${u.points} ball`
         )
       ];
-
-      for (const ck of cohortKeys) {
-        const grpTop = cohortsObj[ck]?.groupsTop3 || [];
-        if (grpTop.length > 0) {
-          lines.push('', `👑 <b>Hafta guruhi (${escHtml(ck)}-qabul):</b> ${escHtml(grpTop[0].group_code)} (o'rtacha ${grpTop[0].points} · ${grpTop[0].active_users} faol)`);
-        }
+      if (grpTop.length > 0) {
+        lines.push('', `🏆 <b>Hafta Guruhi:</b> ${escHtml(grpTop[0].group_code)} (o'rtacha ${grpTop[0].points} · ${grpTop[0].active_users} faol)`);
       }
-
+      if (facTop.length > 0) {
+        lines.push(`🏆 <b>Hafta Yo'nalishi:</b> ${escHtml(facTop[0].display_name)} (o'rtacha ${facTop[0].points} · ${facTop[0].active_users} faol)`);
+      }
       lines.push('', `Yangi hafta 0 dan boshlandi — bu hafta sizning navbatingiz! 🚀`);
       const text = lines.join('\n');
 
@@ -72,7 +70,7 @@ export default async function handler(req, res) {
       }
     }
 
-    res.status(200).json({ ok: true, weekId, alreadyFinalized: false, telegramSent, universityTop3: uniTop, cohorts: cohortsObj });
+    res.status(200).json({ ok: true, weekId, alreadyFinalized: false, telegramSent, data });
   } catch (err) {
     res.status(err.status || 500).json({ ok: false, error: err.message });
   }
