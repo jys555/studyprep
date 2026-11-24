@@ -227,22 +227,22 @@
 
     <!-- VIEW 1: SUBJECTS HOME -->
     <section id="view-subjects" class="hidden fade-in space-y-4">
-      <div class="glass-card rounded-2xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2.5">
-        <div class="flex items-center gap-2 sm:gap-2.5 flex-wrap">
-          <div title="Fanlar" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 text-xs font-extrabold text-slate-800 dark:text-slate-100">
-            <span>📚</span><span id="hub-stat-subjects">0</span>
+      <div class="glass-card rounded-2xl px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2 sm:gap-3">
+          <div title="Fanlar" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700/70 text-sm font-extrabold text-slate-900 dark:text-white shadow-sm">
+            <span class="text-base leading-none">📚</span><span id="hub-stat-subjects">0</span>
           </div>
-          <div title="O‘zlashtirish" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-violet-50/90 dark:bg-violet-950/60 text-xs font-extrabold text-violet-700 dark:text-violet-300 border border-violet-200/70 dark:border-violet-800/70">
-            <span>📊</span><span id="hub-stat-mastery">0%</span>
+          <div title="O‘zlashtirish" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-violet-500/15 to-indigo-500/15 border border-violet-400/40 dark:border-violet-500/40 text-sm font-extrabold text-violet-700 dark:text-violet-300 shadow-sm">
+            <span class="text-base leading-none">📊</span><span id="hub-stat-mastery">0%</span>
           </div>
-          <div id="hub-streak-pill" title="Streak" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-amber-50/90 dark:bg-amber-950/60 text-xs font-extrabold text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800">
-            <span>🔥</span><span id="hub-streak-days">0</span><span id="hub-daily-done" class="hidden text-emerald-500 ml-0.5">✓</span>
+          <div id="hub-streak-pill" title="Streak" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 text-slate-400 dark:text-slate-500 border border-slate-200/70 dark:border-slate-700/70 text-sm font-extrabold transition-all">
+            <span id="hub-streak-icon" class="text-base leading-none grayscale opacity-60 transition-all">🔥</span><span id="hub-streak-days">0</span>
           </div>
           <span id="hub-stat-questions" class="hidden">0</span>
         </div>
-        <div class="inline-flex p-0.5 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700/70 shrink-0">
-          <button type="button" data-subj-scope="mine" class="subj-scope-btn px-3 py-1 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition">Mening fanlarim</button>
-          <button type="button" data-subj-scope="all" class="subj-scope-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Barchasi</button>
+        <div class="inline-flex p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700/70 shrink-0">
+          <button type="button" data-subj-scope="mine" class="subj-scope-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition">Fanlarim</button>
+          <button type="button" data-subj-scope="all" class="subj-scope-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Barchasi</button>
         </div>
       </div>
 
@@ -3909,16 +3909,30 @@
 
     function updateDailyBarUI() {
       const streakEl = document.getElementById('hub-streak-days');
-      const doneEl = document.getElementById('hub-daily-done');
       const pillEl = document.getElementById('hub-streak-pill');
+      const iconEl = document.getElementById('hub-streak-icon');
       const p = sp2.profile;
       const streak = p?.streak_days || 0;
       const todaySessions = p?.daily_sessions_today || 0;
+      const lit = todaySessions >= 1;
       if (streakEl) streakEl.textContent = streak;
-      if (doneEl) doneEl.classList.toggle('hidden', todaySessions < 1);
       if (pillEl) {
-        pillEl.title = todaySessions >= 1 ? `Bugungi Sprint bajarildi (${todaySessions})` : 'Streak';
+        pillEl.className = lit
+          ? 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/25 text-amber-600 dark:text-amber-300 border border-amber-400/75 text-sm font-extrabold shadow-sm shadow-orange-500/20 transition-all'
+          : 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 text-slate-400 dark:text-slate-500 border border-slate-200/70 dark:border-slate-700/70 text-sm font-extrabold transition-all';
+        pillEl.title = lit ? `Streak yonmoqda (${todaySessions})` : 'Bugun hali sessiya ishlanmagan';
       }
+      if (iconEl) {
+        iconEl.className = lit
+          ? 'text-base leading-none transition-all'
+          : 'text-base leading-none grayscale opacity-60 transition-all';
+      }
+      document.querySelectorAll('.subj-scope-btn').forEach((btn) => {
+        const active = (btn.dataset.subjScope || 'mine') === sp2.subjScope;
+        btn.className = active
+          ? 'subj-scope-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition'
+          : 'subj-scope-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition';
+      });
     }
 
     document.querySelectorAll('.subj-scope-btn').forEach((btn) => {
@@ -4452,15 +4466,12 @@
         return r.is_weekly_champion ? `👑 ${r.code}` : r.code;
       };
 
-      // Top-3 Podium (avvalgi chiroyli avatar + yashil ball ko'rinishi, 2 kishida simmetrik!)
+      // Top-3 Podium (standart 3 ustunli podium)
       const positiveRows = rows.filter((r) => getScoreVal(r) > 0);
       if (positiveRows.length >= 2) {
         podiumEl.classList.remove('hidden');
-        const isTwo = positiveRows.length === 2;
-        podiumEl.className = isTwo
-          ? 'grid grid-cols-2 max-w-md mx-auto gap-3 items-end'
-          : 'grid grid-cols-3 gap-2.5 sm:gap-4 items-end';
-        const orderIdx = isTwo ? [1, 0] : [1, 0, 2];
+        podiumEl.className = 'grid grid-cols-3 gap-2.5 sm:gap-4 items-end';
+        const orderIdx = positiveRows.length >= 3 ? [1, 0, 2] : [1, 0];
         const styles = {
           0: { h: 'pt-5 pb-3.5 border-amber-400/80 dark:border-amber-600/80', medal: '🥇' },
           1: { h: 'pt-3.5 pb-3 border-slate-300/70 dark:border-slate-700', medal: '🥈' },
