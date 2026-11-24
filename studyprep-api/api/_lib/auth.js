@@ -23,6 +23,9 @@ export function setCors(req, res) {
   res.setHeader('Vary', 'Origin');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   if (req.method === 'OPTIONS') {
     res.status(204).end();
     return true;
@@ -110,6 +113,27 @@ export async function verifyFirebaseToken(req) {
   };
 }
 
+export async function verifyCronOrAdmin(req) {
+  const cronSecret = process.env.CRON_SECRET || '';
+  const auth = req.headers.authorization || '';
+  if (cronSecret && auth.startsWith('Bearer ')) {
+    const token = auth.slice(7).trim();
+    const a = Buffer.from(token);
+    const b = Buffer.from(cronSecret);
+    if (a.length === b.length && crypto.timingSafeEqual(a, b)) {
+      return { mode: 'cron', isAdmin: true };
+    }
+  }
+  // Fallback: faqat tekshirilgan admin Firebase JWT bilan qo'lda chaqirish
+  const authUser = await verifyFirebaseToken(req);
+  if (!authUser.isAdmin) {
+    const err = new Error('Faqat Vercel Cron yoki Admin ruxsatiga ega');
+    err.status = 403;
+    throw err;
+  }
+  return { mode: 'admin', isAdmin: true, uid: authUser.uid };
+}
+
 export function getIsoWeekId(date = new Date()) {
   // O'zbekiston vaqti (UTC+5) bo'yicha hafta raqami
   const uz = new Date(date.getTime() + 5 * 3600 * 1000);
@@ -119,6 +143,10 @@ export function getIsoWeekId(date = new Date()) {
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
   const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
   return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`;
+}
+
+export function getPrevIsoWeekId(date = new Date()) {
+  return getIsoWeekId(new Date(date.getTime() - 7 * 86400 * 1000));
 }
 
 export function getUzDateStr(date = new Date()) {

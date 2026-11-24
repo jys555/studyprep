@@ -242,6 +242,22 @@
         </div>
       </div>
 
+      <div id="hub-daily-bar" class="glass-card rounded-2xl px-4 py-3 flex flex-wrap items-center justify-between gap-2.5">
+        <div class="flex items-center gap-3 min-w-0">
+          <div id="hub-streak-pill" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-amber-50/90 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800 shrink-0">
+            🔥 <span id="hub-streak-days">0</span> kun
+          </div>
+          <div class="min-w-0">
+            <div id="hub-daily-label" class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 truncate">Kunlik maqsad: 0 / 1 tezkor sessiya</div>
+            <div id="hub-group-pill" class="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate"></div>
+          </div>
+        </div>
+        <div class="inline-flex p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700/70 shrink-0">
+          <button type="button" data-subj-scope="mine" class="subj-scope-btn px-3 py-1 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition">Mening fanlarim</button>
+          <button type="button" data-subj-scope="all" class="subj-scope-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Barchasi</button>
+        </div>
+      </div>
+
       <div id="subjects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </section>
 
@@ -259,27 +275,71 @@
       <div id="topics-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </section>
 
-    <!-- VIEW 3: LEADERBOARD -->
-    <section id="view-leaderboard" class="hidden fade-in space-y-5">
-      <div id="my-rank-card" class="hidden bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl p-5 shadow-sm flex flex-wrap items-center justify-between gap-4">
-        <div class="flex items-center gap-3.5">
-          <div id="my-rank-badge" class="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-lg font-extrabold shrink-0">#1</div>
-          <div>
-            <div id="my-rank-title" class="text-base sm:text-lg font-extrabold"></div>
-            <div id="my-rank-sub" class="text-xs text-violet-100"></div>
+    <!-- VIEW 3: LEADERBOARD (StudyPrep 2.0 Multi-Level) -->
+    <section id="view-leaderboard" class="hidden fade-in space-y-4">
+      <div id="my-rank-card" class="hidden bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl p-5 shadow-sm space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <div id="my-rank-badge" class="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-base font-extrabold shrink-0">#1</div>
+            <div class="min-w-0">
+              <div id="my-rank-title" class="text-base sm:text-lg font-extrabold truncate"></div>
+              <div id="my-rank-sub" class="text-xs text-violet-100 truncate"></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 text-center shrink-0">
+            <div>
+              <div id="my-rank-correct" class="text-lg sm:text-xl font-extrabold">0</div>
+              <div class="text-[11px] text-violet-100">Umumiy ball</div>
+            </div>
+            <div>
+              <div id="my-rank-weekly" class="text-lg sm:text-xl font-extrabold">0</div>
+              <div class="text-[11px] text-violet-100">Bu hafta</div>
+            </div>
+            <div>
+              <div id="my-rank-streak" class="text-lg sm:text-xl font-extrabold">0</div>
+              <div class="text-[11px] text-violet-100">Streak 🔥</div>
+            </div>
           </div>
         </div>
-        <div class="flex items-center gap-5 text-center">
-          <div>
-            <div id="my-rank-correct" class="text-xl font-extrabold">0</div>
-            <div class="text-[11px] text-violet-100">Eng yaxshi ball</div>
+        <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/15 text-center">
+          <div class="rounded-xl bg-white/10 px-2 py-1.5">
+            <div id="my-rank-in-group" class="text-sm font-extrabold">#-</div>
+            <div class="text-[10px] text-violet-100">O‘z guruhimda</div>
           </div>
-          <div>
-            <div id="my-rank-acc" class="text-xl font-extrabold">0%</div>
-            <div class="text-[11px] text-violet-100">Aniqlik</div>
+          <div class="rounded-xl bg-white/10 px-2 py-1.5">
+            <div id="my-rank-in-faculty" class="text-sm font-extrabold">#-</div>
+            <div class="text-[10px] text-violet-100">Yo‘nalishimda</div>
+          </div>
+          <div class="rounded-xl bg-white/10 px-2 py-1.5">
+            <div id="my-rank-in-global" class="text-sm font-extrabold">#-</div>
+            <div class="text-[10px] text-violet-100">Universitetda</div>
           </div>
         </div>
       </div>
+
+      <!-- Period & Main Tabs -->
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="inline-flex p-1 rounded-xl glass-card">
+          <button type="button" data-lb-tab="users" class="lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition">Talabalar</button>
+          <button type="button" data-lb-tab="groups" class="lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Guruhlar</button>
+          <button type="button" data-lb-tab="faculties" class="lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Yo‘nalishlar</button>
+        </div>
+        <div class="inline-flex p-1 rounded-xl glass-card">
+          <button type="button" data-lb-period="weekly" class="lb-period-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-white shadow-sm transition">Haftalik kubok</button>
+          <button type="button" data-lb-period="overall" class="lb-period-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Umumiy</button>
+        </div>
+      </div>
+
+      <!-- Sub-filters (dynamic per tab) -->
+      <div id="lb-sub-bar" class="flex flex-wrap items-center justify-between gap-2">
+        <div id="lb-sub-filters" class="inline-flex flex-wrap gap-1.5"></div>
+        <div id="lb-metric-wrap" class="hidden inline-flex p-0.5 rounded-lg bg-slate-200/70 dark:bg-slate-800/80">
+          <button type="button" data-lb-metric="total" class="lb-metric-btn px-2.5 py-1 rounded-md text-[11px] font-bold bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm">Umumiy ball</button>
+          <button type="button" data-lb-metric="avg" class="lb-metric-btn px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-600 dark:text-slate-300">O‘rtacha ball</button>
+        </div>
+      </div>
+
+      <div id="weekly-cup-hof" class="glass-card rounded-2xl p-4 space-y-3"></div>
 
       <div id="leaderboard-podium" class="hidden grid grid-cols-3 gap-2.5 sm:gap-4 items-end"></div>
 
@@ -560,9 +620,9 @@
           </div>
           <div id="ann-worker-wrap" class="hidden space-y-2.5">
             <div>
-              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Cloudflare Worker URL</label>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Vercel API Broadcast URL</label>
               <div class="flex gap-2">
-                <input id="ann-worker-url" type="url" placeholder="https://studyprep-bot-broadcast.yourname.workers.dev" class="flex-1 min-w-0 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500">
+                <input id="ann-worker-url" type="url" placeholder="https://studyprep-api.vercel.app/api/broadcast" class="flex-1 min-w-0 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500">
                 <button id="btn-check-tg-audience" type="button" class="shrink-0 px-3 py-2 rounded-xl text-xs font-bold bg-sky-600 hover:bg-sky-700 text-white transition">Tekshirish</button>
               </div>
               <p class="mt-1 text-[11px] text-slate-500 dark:text-slate-400">BOT_TOKEN faqat Worker ichida saqlanadi, sayt kodiga yozilmaydi.</p>
@@ -669,6 +729,9 @@
         <button id="btn-qs-wrong" type="button" class="hidden w-full py-2.5 rounded-xl text-sm font-bold bg-amber-50/85 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition">
           Faqat xatolarni qayta ishlash
         </button>
+        <button id="btn-qs-quick" type="button" class="hidden w-full py-2.5 rounded-xl text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm">
+          ⚡ Tezkor sessiya (15 savol · 10+5)
+        </button>
         <button id="btn-qs-fresh" type="button" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
           Testni boshlash
         </button>
@@ -749,10 +812,7 @@
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Ism va familiya</label>
             <input id="auth-name" type="text" placeholder="Masalan: Rami Malek" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Guruh</label>
-            <input id="auth-group" type="text" placeholder="Masalan: KI-26" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
-          </div>
+<input id="auth-group" type="hidden" value="">
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Email</label>
@@ -792,11 +852,41 @@
           <input id="edit-prof-name" type="text" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Guruh</label>
-          <input id="edit-prof-group" type="text" placeholder="Masalan: KI-26" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Yo‘nalish (Fakultet)</label>
+          <select id="edit-prof-faculty" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"></select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Guruh (standart tanlov)</label>
+          <select id="edit-prof-group" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"></select>
+          <p id="edit-prof-lock-note" class="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Guruhni 30 kunda 1 marta o‘zgartirish mumkin.</p>
         </div>
         <button type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">Saqlash</button>
       </form>
+    </div>
+  </div>
+
+
+  <!-- Mandatory 2-Step Standard Onboarding Modal (Cyber University) -->
+  <div id="onboarding-modal" class="hidden fixed inset-0 z-[60] bg-slate-950/75 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-md w-full p-6 shadow-2xl fade-in max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-2">
+        <span id="onb-step-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-100 dark:bg-violet-950/70 text-violet-700 dark:text-violet-300">1 / 2-qadam</span>
+        <button id="btn-onb-back" type="button" class="hidden text-xs font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white">← Orqaga</button>
+      </div>
+      <h3 id="onb-title" class="text-lg font-extrabold text-slate-900 dark:text-white">Ta'lim yo‘nalishingizni tanlang</h3>
+      <p id="onb-sub" class="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-4">Sizning fanlaringiz va guruhlararo reytingingiz shu tanlov asosida shakllanadi.</p>
+
+      <div id="onb-step-faculty" class="space-y-2"></div>
+
+      <div id="onb-step-group" class="hidden space-y-3">
+        <div id="onb-selected-fac-pill" class="text-xs font-bold text-violet-700 dark:text-violet-300"></div>
+        <div id="onb-groups-grid" class="grid grid-cols-3 gap-2"></div>
+      </div>
+
+      <p id="onb-error" class="hidden mt-3 text-xs font-semibold text-rose-600 dark:text-rose-400"></p>
+      <button id="btn-onb-save" type="button" class="hidden mt-4 w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
+        Tasdiqlash va davom etish
+      </button>
     </div>
   </div>
 
@@ -1057,7 +1147,6 @@
       const next = state.theme === 'dark' ? 'light' : 'dark';
       applyTheme(next);
       if (state.user) {
-        try { await setDoc(doc(db, 'users', state.user.uid), { theme: next }, { merge: true }); } catch (e) {}
       }
     }
 
@@ -1174,113 +1263,14 @@
       return { totalCorrect, totalAnswered, topicsActive, accuracy };
     }
 
-    async function syncLeaderboardEntry(force = false) {
-      if (!state.user) return;
-      if (isAdmin()) {
-        try { await deleteDoc(doc(db, 'leaderboard', state.user.uid)); } catch (e) {}
-        return;
-      }
-      if (!force && state.answersSinceSync > 0 && state.answersSinceSync < 5) return;
-      const elapsed = Date.now() - (state.lastLeaderboardSyncAt || 0);
-      if (elapsed < 3200) {
-        if (!force) return;
-        await new Promise((r) => setTimeout(r, 3200 - elapsed));
-      }
-      state.answersSinceSync = 0;
-      const stats = computeUserTotals();
-      try {
-        await setDoc(doc(db, 'leaderboard', state.user.uid), {
-          uid: state.user.uid,
-          name: state.user.name || state.user.email || 'Talaba',
-          group: state.user.group || '',
-          photoURL: state.user.photoURL || null,
-          totalCorrect: stats.totalCorrect,
-          totalAnswered: stats.totalAnswered,
-          topicsActive: stats.topicsActive,
-          accuracy: stats.accuracy,
-          updatedAt: serverTimestamp()
-        }, { merge: true });
-        state.lastLeaderboardSyncAt = Date.now();
-        state.leaderboardFetchedAt = 0;
-      } catch (e) {}
-    }
-
-    async function loadLeaderboard(forceRefresh = false) {
-      const now = Date.now();
-      if (!forceRefresh && state.leaderboard.length > 0 && (now - state.leaderboardFetchedAt) < 120000) {
-        renderLeaderboard();
-        return;
-      }
-      state.leaderboardLoading = true;
-      state.leaderboardError = '';
-      renderLeaderboard();
-      try {
-        syncLeaderboardEntry(true);
-        const q = query(
-          collection(db, 'leaderboard'),
-          orderBy('totalCorrect', 'desc'),
-          limit(20)
-        );
-        const withTimeout = (prom, ms = 8000) => Promise.race([
-          prom,
-          new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))
-        ]);
-        const snap = await withTimeout(getDocs(q));
-        const list = [];
-        snap.forEach((d) => list.push({ uid: d.id, ...d.data() }));
-        list.sort((a, b) => (b.totalCorrect || 0) - (a.totalCorrect || 0) || (b.accuracy || 0) - (a.accuracy || 0));
-        state.leaderboard = list;
-
-        let myEntry = null;
-        if (state.user && !isAdmin() && !list.some((u) => u.uid === state.user.uid)) {
-          const mySnap = await getDoc(doc(db, 'leaderboard', state.user.uid));
-          if (mySnap.exists()) myEntry = { uid: mySnap.id, ...mySnap.data() };
-        }
-        state.leaderboardMyEntry = myEntry;
-        state.leaderboardFetchedAt = Date.now();
-      } catch (e) {
-        console.error('Leaderboard error:', e);
-        state.leaderboard = [];
-        state.leaderboardMyEntry = null;
-        state.leaderboardError = e && e.code === 'permission-denied'
-          ? 'Firestore Rules da "leaderboard" kolleksiyasi uchun ruxsat yoqilmagan.'
-          : 'Reytingni yuklashda xatolik yuz berdi.';
-      }
-      state.leaderboardLoading = false;
-      renderLeaderboard();
-    }
+    async function loadLeaderboard(forceRefresh = false) { return loadLeaderboardV2(forceRefresh); }
 
     async function loadUserData(userObj) {
-      try {
-        const [profileSnap, progSnap] = await Promise.all([
-          getDoc(doc(db, 'users', userObj.uid)),
-          getDocs(collection(db, 'users', userObj.uid, 'progress'))
-        ]);
-        const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-        if (tgUser && tgUser.id && (!profileSnap.exists() || profileSnap.data().telegramId !== tgUser.id)) {
-          setDoc(doc(db, 'users', userObj.uid), {
-            telegramId: tgUser.id,
-            telegramUsername: tgUser.username || null
-          }, { merge: true }).catch(() => {});
-        }
-        if (profileSnap.exists()) {
-          const p = profileSnap.data();
-          if (p.theme) applyTheme(p.theme);
-          if (p.name) userObj.name = p.name;
-          if (p.group) userObj.group = p.group;
-          state.lifetimeAnswered = Number(p.lifetimeAnswered || 0);
-          state.lifetimeCorrect = Number(p.lifetimeCorrect || 0);
-        }
-        const map = {};
-        progSnap.forEach((d) => { map[d.id] = d.data(); });
-        state.progressByTopic = map;
-        lsSet('studyprep_user_cache', JSON.stringify(userObj));
-        saveLocalProgress(userObj.uid);
-        if (isAdmin()) syncCatalogStats();
-        syncLeaderboardEntry(true);
-      } catch (e) {
-        state.progressByTopic = loadLocalProgress(userObj.uid);
-      }
+      // Barcha foydalanuvchi progressi va ballari Supabase Postgres (/api/profile) dan yuklanadi;
+      // kirishda bir zumda ko'rinishi uchun avval lokal keshdan o'qiymiz.
+      state.progressByTopic = loadLocalProgress(userObj.uid);
+      lsSet('studyprep_user_cache', JSON.stringify(userObj));
+      if (isAdmin()) syncCatalogStats();
       renderAll();
     }
 
@@ -1298,19 +1288,34 @@
           finSyncEl.textContent = msg;
         }
       };
-      setStatus('Bazaga saqlanmoqda...');
+      // Local-first: har savolda localStorage'ga yoziladi (0 DB write);
+      // faqat sessiya yakunida (syncNow=true) Vercel -> Supabase Postgres'ga yuboriladi.
+      if (!syncNow) {
+        setStatus('Qurilmada saqlandi ✓', 'text-slate-500 dark:text-slate-400');
+        return;
+      }
+      setStatus('Natija saqlanmoqda...');
       try {
-        await Promise.all([
-          setDoc(doc(db, 'users', state.user.uid, 'progress', topicId), prog, { merge: true }),
-          setDoc(doc(db, 'users', state.user.uid), {
-            lifetimeAnswered: state.lifetimeAnswered,
-            lifetimeCorrect: state.lifetimeCorrect
-          }, { merge: true })
-        ]);
-        await syncLeaderboardEntry(syncNow);
+        const entries = Object.entries(prog.answers || {});
+        const answeredCount = entries.length;
+        const correctCount = entries.filter(([, v]) => v && v.isCorrect).length;
+        const answeredIds = entries.map(([k]) => Number(k)).filter(Number.isFinite);
+        const wrongIds = entries.filter(([, v]) => v && !v.isCorrect).map(([k]) => Number(k)).filter(Number.isFinite);
+        if (answeredCount > 0) {
+          const res = await sp2Fetch('/api/submit', {
+            method: 'POST',
+            authRequired: true,
+            body: { topicId, correctCount, answeredCount, answeredIds, wrongIds }
+          });
+          if (res.user) {
+            sp2.profile = res.user;
+            sp2.rankingsAt = 0;
+            updateDailyBarUI();
+          }
+        }
         setStatus('Bazaga saqlandi ✓', 'text-emerald-600 dark:text-emerald-400');
       } catch (e) {
-        setStatus('Saqlashda xatolik — internetni tekshiring', 'text-rose-600 dark:text-rose-400');
+        setStatus('Saqlashda xatolik: ' + (e.message || 'internetni tekshiring'), 'text-rose-600 dark:text-rose-400');
       }
     }
 
@@ -1505,7 +1510,11 @@
 
       let totalQ = 0;
       let totalCorrect = 0;
-      grid.innerHTML = state.subjects.map((subj) => {
+      const myFac = sp2.profile?.faculty_code || null;
+      const visibleSubjects = (sp2.subjScope === 'mine' && myFac)
+        ? state.subjects.filter((s) => !Array.isArray(s.faculties) || !s.faculties.length || s.faculties.includes('ALL') || s.faculties.includes(myFac))
+        : state.subjects;
+      grid.innerHTML = visibleSubjects.map((subj) => {
         const subjMetas = state.topicMetas.filter((t) => t.subjectId === subj.id);
         let subjQ = 0, subjAns = 0, subjBest = 0;
         subjMetas.forEach((t) => {
@@ -1815,6 +1824,11 @@
         freshBtn.className = 'w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm';
       }
 
+      const quickBtn = document.getElementById('btn-qs-quick');
+      if (quickBtn) {
+        if (qc >= 18) quickBtn.classList.remove('hidden');
+        else quickBtn.classList.add('hidden');
+      }
       document.getElementById('quiz-start-modal').classList.remove('hidden');
     }
 
@@ -3033,7 +3047,6 @@
 
     getRedirectResult(auth).then(async (res) => {
       if (res?.user) {
-        await setDoc(doc(db, 'users', res.user.uid), { name: res.user.displayName || res.user.email, email: res.user.email, theme: state.theme }, { merge: true });
         authModal.classList.add('hidden');
       }
     }).catch((err) => {
@@ -3053,7 +3066,6 @@
           return;
         }
         const res = await signInWithPopup(auth, googleProvider);
-        await setDoc(doc(db, 'users', res.user.uid), { name: res.user.displayName || res.user.email, email: res.user.email, theme: state.theme }, { merge: true });
         authModal.classList.add('hidden');
       } catch (err) {
         if (err.code === 'auth/popup-blocked' || err.code === 'auth/operation-not-supported-in-this-environment') {
@@ -3076,7 +3088,6 @@
         if (state.authMode === 'register') {
           const cred = await createUserWithEmailAndPassword(auth, email, pass);
           await updateProfile(cred.user, { displayName: name });
-          await setDoc(doc(db, 'users', cred.user.uid), { name, group, email, theme: state.theme }, { merge: true });
         } else {
           await signInWithEmailAndPassword(auth, email, pass);
         }
@@ -3121,19 +3132,33 @@
       if (!state.user) return;
       const newName = document.getElementById('edit-prof-name').value.trim();
       const newGroup = document.getElementById('edit-prof-group').value.trim();
-      state.user.name = newName;
-      state.user.group = newGroup;
-      lsSet('studyprep_user_cache', JSON.stringify(state.user));
-      if (auth.currentUser) {
-        try { await updateProfile(auth.currentUser, { displayName: newName }); } catch (err) {}
-      }
+      const noteEl = document.getElementById('edit-prof-lock-note');
       try {
-        await setDoc(doc(db, 'users', state.user.uid), { name: newName, group: newGroup }, { merge: true });
-        await syncLeaderboardEntry();
-      } catch (err) {}
-      document.getElementById('edit-profile-modal').classList.add('hidden');
-      updateNavbar();
-      if (state.view === 'leaderboard') loadLeaderboard();
+        const res = await sp2Fetch('/api/profile', {
+          method: 'POST',
+          authRequired: true,
+          body: { displayName: newName, groupCode: newGroup }
+        });
+        sp2.profile = res.user;
+        state.user.name = res.user.display_name;
+        state.user.group = res.user.group_code;
+        state.user.faculty = res.user.faculty_code;
+        lsSet('studyprep_user_cache', JSON.stringify(state.user));
+        if (auth.currentUser) {
+          try { await updateProfile(auth.currentUser, { displayName: newName }); } catch (err) {}
+        }
+        document.getElementById('edit-profile-modal').classList.add('hidden');
+        sp2.rankingsAt = 0;
+        updateNavbar();
+        updateDailyBarUI();
+        renderSubjects();
+        if (state.view === 'leaderboard') loadLeaderboardV2(true);
+      } catch (err) {
+        if (noteEl) {
+          noteEl.textContent = err.message || 'Saqlashda xatolik';
+          noteEl.className = 'mt-1 text-[11px] font-semibold text-rose-600 dark:text-rose-400';
+        }
+      }
     });
 
     // Mix Topics Modal (with Balanced Question Count Sampling & Masalalar Filter)
@@ -3530,7 +3555,7 @@
       if (!isAdmin()) return;
       const workerUrl = annWorkerInput.value.trim();
       if (!workerUrl) {
-        showAdminMsg("Avval Cloudflare Worker URL ni kiriting.", false);
+        showAdminMsg("Avval Vercel API Broadcast URL ni kiriting.", false);
         return;
       }
       const b = document.getElementById('btn-check-tg-audience');
@@ -3598,7 +3623,7 @@
         return;
       }
       if (sendTg && !workerUrl) {
-        showAdminMsg("Telegram botga yuborish uchun Cloudflare Worker URL ni kiriting.", false);
+        showAdminMsg("Telegram botga yuborish uchun Vercel API Broadcast URL ni kiriting.", false);
         return;
       }
       const btn = document.getElementById('btn-submit-announcement');
@@ -3752,6 +3777,753 @@
       }
     }
 
+
+    // =========================================================================
+    // STUDYPREP 2.0 POLYGLOT ENGINE (Vercel API + Supabase Postgres)
+    // =========================================================================
+    const STUDYPREP_API = 'https://studyprep-api.vercel.app';
+
+    const FALLBACK_UNI_CONFIG = {
+      faculties: [
+        { code: 'CEN', name: 'Computer Engineering', sort_order: 1 },
+        { code: 'CYB', name: 'Cybersecurity', sort_order: 2 },
+        { code: 'ECO', name: 'Economics', sort_order: 3 },
+        { code: 'INS', name: 'Information Security', sort_order: 4 },
+        { code: 'LAW', name: 'Law', sort_order: 5 },
+        { code: 'MNG', name: 'Management', sort_order: 6 },
+        { code: 'SWE', name: 'Software Engineering', sort_order: 7 }
+      ],
+      cohorts: [{ year_code: 26, label: '1-kurs (2026 qabul)', course_num: 1 }],
+      groups: [
+        ...[101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,201,202,203,204,205].map(n => ({ code: 'CYB26-'+n, faculty_code: 'CYB', cohort_year: 26, group_num: String(n) })),
+        ...[101,102,103,104,105,201,202].map(n => ({ code: 'CEN26-'+n, faculty_code: 'CEN', cohort_year: 26, group_num: String(n) })),
+        ...[101,102,103,104,105,201].map(n => ({ code: 'ECO26-'+n, faculty_code: 'ECO', cohort_year: 26, group_num: String(n) })),
+        ...[101,102].map(n => ({ code: 'INS26-'+n, faculty_code: 'INS', cohort_year: 26, group_num: String(n) })),
+        ...[101,102,103,104,105,106,107,108,109,201,202,203].map(n => ({ code: 'LAW26-'+n, faculty_code: 'LAW', cohort_year: 26, group_num: String(n) })),
+        ...[101,102,103,104,105,201].map(n => ({ code: 'MNG26-'+n, faculty_code: 'MNG', cohort_year: 26, group_num: String(n) })),
+        ...[101,102,103,104,201].map(n => ({ code: 'SWE26-'+n, faculty_code: 'SWE', cohort_year: 26, group_num: String(n) }))
+      ]
+    };
+
+    const sp2 = {
+      config: FALLBACK_UNI_CONFIG,
+      profile: null,
+      subjScope: lsGet('studyprep_subj_scope') || 'mine',
+      lbTab: 'users',       // users | groups | faculties
+      lbPeriod: 'weekly',   // weekly | overall
+      lbSub: 'group',       // for users: group|faculty|global ; for groups: faculty|global
+      lbMetric: 'total',    // total | avg
+      rankings: null,
+      myRanks: null,
+      rankingsAt: 0,
+      onbFaculty: null,
+      onbGroup: null,
+      quickModeTopicId: null,
+      quickQuestionIds: null
+    };
+
+    async function sp2Fetch(path, { method = 'GET', body, authRequired = false } = {}) {
+      const headers = { 'Content-Type': 'application/json' };
+      if (authRequired) {
+        if (!auth.currentUser) throw new Error('Tizimga kirilmagan');
+        const token = await auth.currentUser.getIdToken();
+        headers['Authorization'] = 'Bearer ' + token;
+      }
+      const res = await fetch(STUDYPREP_API + path, {
+        method,
+        headers,
+        body: body !== undefined ? JSON.stringify(body) : undefined
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.ok === false) {
+        throw new Error(data.error || ('Server xatoligi: ' + res.status));
+      }
+      return data;
+    }
+
+    async function loadUniversityConfig() {
+      try {
+        const cached = lsGet('studyprep_uni_cfg_v2');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed && parsed.ts && Date.now() - parsed.ts < 3600000 && parsed.data?.faculties?.length) {
+            sp2.config = parsed.data;
+            populateEditProfileSelects();
+            return;
+          }
+        }
+        const data = await sp2Fetch('/api/config');
+        if (data.faculties?.length) {
+          sp2.config = data;
+          lsSet('studyprep_uni_cfg_v2', JSON.stringify({ ts: Date.now(), data }));
+          populateEditProfileSelects();
+        }
+      } catch (e) {
+        populateEditProfileSelects();
+      }
+    }
+
+    function populateEditProfileSelects() {
+      const facSel = document.getElementById('edit-prof-faculty');
+      const grpSel = document.getElementById('edit-prof-group');
+      if (!facSel || !grpSel) return;
+      const curFac = sp2.profile?.faculty_code || sp2.config.faculties[0]?.code || 'CYB';
+      facSel.innerHTML = sp2.config.faculties.map((f) =>
+        `<option value="${escapeHtml(f.code)}">${escapeHtml(f.code)} — ${escapeHtml(f.name)}</option>`
+      ).join('');
+      facSel.value = curFac;
+      renderEditGroupOptions(curFac, sp2.profile?.group_code || '');
+    }
+
+    function renderEditGroupOptions(facCode, selectedGroup = '') {
+      const grpSel = document.getElementById('edit-prof-group');
+      if (!grpSel) return;
+      const list = sp2.config.groups.filter((g) => g.faculty_code === facCode);
+      grpSel.innerHTML = list.map((g) =>
+        `<option value="${escapeHtml(g.code)}">${escapeHtml(g.code)}</option>`
+      ).join('');
+      if (selectedGroup && list.some((g) => g.code === selectedGroup)) {
+        grpSel.value = selectedGroup;
+      }
+    }
+
+    document.getElementById('edit-prof-faculty')?.addEventListener('change', (e) => {
+      renderEditGroupOptions(e.target.value);
+    });
+
+    function updateDailyBarUI() {
+      const p = sp2.profile;
+      const streakEl = document.getElementById('hub-streak-days');
+      const dailyEl = document.getElementById('hub-daily-label');
+      const grpEl = document.getElementById('hub-group-pill');
+      if (!streakEl || !dailyEl || !grpEl) return;
+      const streak = p?.streak_days || 0;
+      const todaySessions = p?.daily_sessions_today || 0;
+      streakEl.textContent = streak;
+      dailyEl.textContent = todaySessions >= 1
+        ? `Kunlik maqsad bajarildi ✓ (${todaySessions} sessiya)`
+        : `Kunlik maqsad: 0 / 1 tezkor sessiya (15 savol)`;
+      if (p?.group_code) {
+        const facObj = sp2.config.faculties.find((f) => f.code === p.faculty_code);
+        grpEl.textContent = `${p.group_code}${facObj ? ' · ' + facObj.name : ''}`;
+      } else {
+        grpEl.textContent = 'Yo‘nalish va guruh tanlanmagan';
+      }
+      document.querySelectorAll('.subj-scope-btn').forEach((b) => {
+        const active = b.dataset.subjScope === sp2.subjScope;
+        b.className = active
+          ? 'subj-scope-btn px-3 py-1 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition'
+          : 'subj-scope-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition';
+      });
+    }
+
+    document.querySelectorAll('.subj-scope-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        sp2.subjScope = btn.dataset.subjScope || 'mine';
+        lsSet('studyprep_subj_scope', sp2.subjScope);
+        updateDailyBarUI();
+        renderSubjects();
+      });
+    });
+
+    // Mandatory 2-Step Onboarding Modal logic
+    function openOnboardingModal() {
+      const modal = document.getElementById('onboarding-modal');
+      if (!modal) return;
+      sp2.onbFaculty = null;
+      sp2.onbGroup = null;
+      renderOnboardingStep1();
+      modal.classList.remove('hidden');
+    }
+
+    function renderOnboardingStep1() {
+      document.getElementById('onb-step-badge').textContent = '1 / 2-qadam';
+      document.getElementById('onb-title').textContent = 'Ta\'lim yo‘nalishingizni tanlang';
+      document.getElementById('onb-sub').textContent = 'Sizning fanlaringiz va guruhlararo reytingingiz shu tanlov asosida shakllanadi.';
+      document.getElementById('btn-onb-back').classList.add('hidden');
+      document.getElementById('onb-step-faculty').classList.remove('hidden');
+      document.getElementById('onb-step-group').classList.add('hidden');
+      document.getElementById('btn-onb-save').classList.add('hidden');
+      document.getElementById('onb-error').classList.add('hidden');
+
+      const wrap = document.getElementById('onb-step-faculty');
+      wrap.innerHTML = sp2.config.faculties.map((f) => `
+        <button type="button" data-onb-fac="${escapeHtml(f.code)}" class="w-full text-left px-4 py-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 bg-white/80 dark:bg-slate-800/80 hover:border-violet-500 hover:bg-violet-50/70 dark:hover:bg-violet-950/50 transition flex items-center justify-between gap-2">
+          <div>
+            <span class="font-extrabold text-violet-700 dark:text-violet-300 text-sm">${escapeHtml(f.code)}</span>
+            <span class="text-sm font-semibold text-slate-800 dark:text-slate-100 ml-1.5">${escapeHtml(f.name)}</span>
+          </div>
+          <span class="text-slate-400 text-sm">→</span>
+        </button>
+      `).join('');
+
+      wrap.querySelectorAll('[data-onb-fac]').forEach((b) => {
+        b.addEventListener('click', () => {
+          sp2.onbFaculty = b.dataset.onbFac;
+          sp2.onbGroup = null;
+          renderOnboardingStep2();
+        });
+      });
+    }
+
+    function renderOnboardingStep2() {
+      const facObj = sp2.config.faculties.find((f) => f.code === sp2.onbFaculty);
+      document.getElementById('onb-step-badge').textContent = '2 / 2-qadam';
+      document.getElementById('onb-title').textContent = 'Guruhingizni tanlang';
+      document.getElementById('onb-sub').textContent = 'Guruh kodi avtomatik standart formatda saqlanadi.';
+      document.getElementById('btn-onb-back').classList.remove('hidden');
+      document.getElementById('onb-step-faculty').classList.add('hidden');
+      document.getElementById('onb-step-group').classList.remove('hidden');
+      document.getElementById('onb-selected-fac-pill').textContent = facObj ? `${facObj.code} — ${facObj.name}` : sp2.onbFaculty;
+      document.getElementById('onb-error').classList.add('hidden');
+
+      const groups = sp2.config.groups.filter((g) => g.faculty_code === sp2.onbFaculty);
+      const grid = document.getElementById('onb-groups-grid');
+      grid.innerHTML = groups.map((g) => {
+        const active = sp2.onbGroup === g.code;
+        return `
+          <button type="button" data-onb-grp="${escapeHtml(g.code)}" class="py-2.5 px-2 rounded-xl text-xs sm:text-sm font-extrabold border transition ${
+            active
+              ? 'bg-violet-600 text-white border-violet-600 shadow-sm'
+              : 'bg-white/80 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 border-slate-200/80 dark:border-slate-700 hover:border-violet-500'
+          }">${escapeHtml(g.code)}</button>`;
+      }).join('');
+
+      grid.querySelectorAll('[data-onb-grp]').forEach((b) => {
+        b.addEventListener('click', () => {
+          sp2.onbGroup = b.dataset.onbGrp;
+          renderOnboardingStep2();
+          const saveBtn = document.getElementById('btn-onb-save');
+          saveBtn.classList.remove('hidden');
+          saveBtn.textContent = `${sp2.onbGroup} — Tasdiqlash`;
+        });
+      });
+    }
+
+    document.getElementById('btn-onb-back')?.addEventListener('click', () => renderOnboardingStep1());
+    document.getElementById('btn-onb-save')?.addEventListener('click', async () => {
+      if (!sp2.onbGroup || !state.user) return;
+      const btn = document.getElementById('btn-onb-save');
+      const errEl = document.getElementById('onb-error');
+      btn.disabled = true;
+      btn.textContent = 'Saqlanmoqda...';
+      errEl.classList.add('hidden');
+      try {
+        const tgId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id || null;
+        const res = await sp2Fetch('/api/profile', {
+          method: 'POST',
+          authRequired: true,
+          body: {
+            displayName: state.user.name || state.user.email || 'Talaba',
+            groupCode: sp2.onbGroup,
+            tgChatId: tgId
+          }
+        });
+        sp2.profile = res.user;
+        state.user.group = res.user.group_code;
+        state.user.faculty = res.user.faculty_code;
+        lsSet('studyprep_user_cache', JSON.stringify(state.user));
+        document.getElementById('onboarding-modal').classList.add('hidden');
+        populateEditProfileSelects();
+        updateNavbar();
+        updateDailyBarUI();
+        renderSubjects();
+        sp2.rankingsAt = 0;
+        if (state.view === 'leaderboard') loadLeaderboardV2(true);
+      } catch (e) {
+        errEl.textContent = e.message || 'Saqlashda xatolik';
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = `${sp2.onbGroup} — Tasdiqlash`;
+      }
+    });
+
+    async function syncProfileV2() {
+      if (!state.user || !auth.currentUser) return;
+      try {
+        const data = await sp2Fetch('/api/profile', { authRequired: true });
+        sp2.profile = data.user || null;
+        if (sp2.profile) {
+          state.lifetimeAnswered = Number(sp2.profile.lifetime_answered || 0);
+          state.lifetimeCorrect = Number(sp2.profile.lifetime_correct || 0);
+        }
+        // Supabase topic_progress'ni lokal progress bilan birlashtirish (yangi qurilmada ham progress 100% saqlanadi)
+        if (Array.isArray(data.progress) && data.progress.length) {
+          const merged = { ...(state.progressByTopic || {}) };
+          for (const row of data.progress) {
+            const tid = row.topic_id;
+            const local = merged[tid] || {};
+            const localAnswers = { ...(local.answers || {}) };
+            const wrongSet = new Set((row.wrong_ids || []).map(String));
+            for (const qid of (row.answered_ids || [])) {
+              const key = String(qid);
+              if (!localAnswers[key]) {
+                localAnswers[key] = { isCorrect: !wrongSet.has(key), fromServer: true };
+              }
+            }
+            merged[tid] = {
+              ...local,
+              answers: localAnswers,
+              bestScore: Math.max(Number(local.bestScore || 0), Number(row.best_score || 0)),
+              sessionsDone: Math.max(Number(local.sessionsDone || 0), Number(row.sessions_done || 0))
+            };
+          }
+          state.progressByTopic = merged;
+          saveLocalProgress(state.user.uid);
+        }
+        const tgId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id || null;
+        if (sp2.profile && sp2.profile.profile_v >= 2) {
+          state.user.group = sp2.profile.group_code;
+          state.user.faculty = sp2.profile.faculty_code;
+          lsSet('studyprep_user_cache', JSON.stringify(state.user));
+          // Agar Telegram orqali kirgan bo'lsa va tg_chat_id hali yozilmagan bo'lsa, fonda yangilaymiz
+          if (tgId && String(sp2.profile.tg_chat_id || '') !== String(tgId)) {
+            sp2Fetch('/api/profile', {
+              method: 'POST',
+              authRequired: true,
+              body: { tgChatId: tgId }
+            }).catch(() => {});
+          }
+          document.getElementById('onboarding-modal')?.classList.add('hidden');
+        } else {
+          // Eski noto'g'ri guruhlarni ko'rsatmasdan majburiy 2 bosqichli tanlovni ochamiz
+          openOnboardingModal();
+        }
+        populateEditProfileSelects();
+        updateNavbar();
+        updateDailyBarUI();
+        renderSubjects();
+      } catch (e) {
+        console.warn('Profile v2 sync:', e.message);
+      }
+    }
+
+    // 15-savollik Tezkor Sessiya (10 nazariy + 5 masala) Smart Deck
+    function buildQuickSessionIds(qs, prog) {
+      const answeredMap = prog?.answers || {};
+      const isProb = (q) => q.cat === 'masalalar';
+      const scorePriority = (q) => {
+        const a = answeredMap[q.id];
+        if (!a) return 0;               // hali ko'rilmagan — eng ustuvor
+        if (!a.isCorrect) return 1;     // xato qilingan — 2-ustuvor
+        return 2;                       // to'g'ri ishlangan
+      };
+      const pickN = (arr, n) => {
+        const sorted = [...arr].sort((a, b) => scorePriority(a) - scorePriority(b) || (Math.random() - 0.5));
+        return sorted.slice(0, n);
+      };
+      const probs = qs.filter(isProb);
+      const theory = qs.filter((q) => !isProb(q));
+      let chosen = [];
+      if (probs.length >= 5 && theory.length >= 10) {
+        chosen = [...pickN(theory, 10), ...pickN(probs, 5)];
+      } else {
+        chosen = pickN(qs, Math.min(15, qs.length));
+      }
+      return shuffleArray(chosen.map((q) => q.id));
+    }
+
+    document.getElementById('btn-qs-quick')?.addEventListener('click', async (e) => {
+      const topicId = state.pendingTopicId;
+      if (!topicId) return;
+      const btnEl = e.currentTarget;
+      btnEl.disabled = true;
+      btnEl.textContent = 'Tayyorlanmoqda...';
+      try {
+        state.activeTopicId = topicId;
+        const data = await loadTopicData(topicId);
+        const qs = data.questions || [];
+        const prog = getTopicProgress(topicId);
+        const quickIds = buildQuickSessionIds(qs, prog);
+        const quickQs = qs.filter((q) => quickIds.includes(q.id));
+        const prevBest = Math.max(
+          prog.bestScore || 0,
+          Object.values(prog.answers || {}).filter((x) => x.isCorrect).length
+        );
+        sp2.quickModeTopicId = topicId;
+        sp2.quickQuestionIds = new Set(quickIds);
+        state.progressByTopic[topicId] = {
+          answers: {},
+          wrongIds: [],
+          bestScore: prevBest,
+          finished: false,
+          isQuickSession: true,
+          quickIds,
+          deadlineAt: Date.now() + Math.max(1, quickQs.length) * SEC_PER_QUESTION * 1000,
+          updatedAt: new Date().toISOString()
+        };
+        state.order = quickIds;
+        buildOptionOrders(topicId, quickQs, false);
+        saveLocalProgress(state.user.uid);
+        state.activeCategory = 'all';
+        state.quizTab = 'quiz';
+        document.getElementById('quiz-start-modal').classList.add('hidden');
+        state.view = 'quiz';
+        renderAll();
+        startTimer(state.progressByTopic[topicId].deadlineAt);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = '⚡ Tezkor sessiya (15 savol · 10+5)';
+      }
+    });
+
+    // Multi-level Leaderboard V2 (Vercel API + Supabase Postgres)
+    async function loadLeaderboardV2(forceRefresh = false) {
+      const now = Date.now();
+      if (!forceRefresh && sp2.rankings && (now - sp2.rankingsAt) < 25000) {
+        renderLeaderboardV2();
+        return;
+      }
+      state.leaderboardLoading = true;
+      state.leaderboardError = '';
+      renderLeaderboardV2();
+      try {
+        const reqs = [sp2Fetch('/api/rankings?scope=snapshot')];
+        if (state.user && auth.currentUser) {
+          reqs.push(sp2Fetch('/api/rankings?scope=me', { authRequired: true }).catch(() => null));
+        }
+        const [snap, meRes] = await Promise.all(reqs);
+        sp2.rankings = snap;
+        sp2.myRanks = meRes?.me || null;
+        sp2.rankingsAt = Date.now();
+      } catch (e) {
+        state.leaderboardError = e.message || 'Reytingni yuklab bo‘lmadi.';
+      }
+      state.leaderboardLoading = false;
+      renderLeaderboardV2();
+    }
+
+    function renderWeeklyCupHof() {
+      const el = document.getElementById('weekly-cup-hof');
+      if (!el) return;
+      const cup = sp2.rankings?.lastWeekCup || null;
+      if (!sp2.hofTab) sp2.hofTab = 'university';
+      if (!cup || (!cup.universityTop3?.length && !cup.facultyTop3?.length && !cup.groupsTop3?.length)) {
+        el.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <div class="text-xs font-extrabold uppercase tracking-wider text-amber-600 dark:text-amber-400">🏆 Haftalik Kubok mukofotlari</div>
+              <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
+                Har yakshanba 23:59 da: <b>Universitet Top-3</b> (🥇+100 · 🥈+60 · 🥉+30), <b>Yo‘nalishlar Top-3</b> (⭐+25/+15/+10) va <b>Hafta Guruhi</b> (👑 min. 3 faol talaba, o‘rtacha ball) taqdirlanadi.
+              </div>
+            </div>
+          </div>`;
+        return;
+      }
+
+      const tabs = [
+        { id: 'university', label: '🏆 Universitet Top-3' },
+        { id: 'faculty', label: '🎓 Yo‘nalishlar Top-3' },
+        { id: 'groups', label: '👑 Hafta Guruhlari' }
+      ];
+      const medals = { 1: '🥇', 2: '🥈', 3: '🥉' };
+      let bodyHtml = '';
+
+      if (sp2.hofTab === 'university') {
+        const list = cup.universityTop3 || [];
+        bodyHtml = list.length ? `<div class="grid grid-cols-1 sm:grid-cols-3 gap-2">${list.map((u) => `
+          <div class="glass-sub rounded-xl px-3 py-2 flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <div class="text-xs font-extrabold text-slate-900 dark:text-white truncate">${medals[u.rank] || '🏅'} ${escapeHtml(u.display_name)}</div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(u.group_code || u.faculty_code || '')} · ${u.points} ball</div>
+            </div>
+            <span class="px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 text-[11px] font-extrabold shrink-0">+${u.bonus_awarded}</span>
+          </div>`).join('')}</div>` : `<div class="text-xs text-slate-500">G‘oliblar yo‘q.</div>`;
+      } else if (sp2.hofTab === 'faculty') {
+        const byFac = {};
+        for (const u of (cup.facultyTop3 || [])) {
+          if (!byFac[u.scope_code]) byFac[u.scope_code] = [];
+          byFac[u.scope_code].push(u);
+        }
+        const facCodes = Object.keys(byFac).sort();
+        bodyHtml = facCodes.length ? `<div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">${facCodes.map((fc) => `
+          <div class="glass-sub rounded-xl p-2.5 space-y-1.5">
+            <div class="text-[11px] font-extrabold uppercase tracking-wider text-violet-600 dark:text-violet-400">${escapeHtml(fc)} Top-3</div>
+            ${byFac[fc].map((u) => {
+              const badge = u.university_rank
+                ? `<span class="px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 text-[10px] font-extrabold shrink-0">${medals[u.university_rank] || '🏆'} Universitet #${u.university_rank}</span>`
+                : `<span class="px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-[10px] font-extrabold shrink-0">⭐ +${u.bonus_awarded}</span>`;
+              return `
+                <div class="flex items-center justify-between gap-2 text-xs">
+                  <div class="min-w-0 truncate"><span class="font-bold text-slate-500">#${u.rank}</span> <span class="font-bold text-slate-800 dark:text-slate-100">${escapeHtml(u.display_name)}</span> <span class="text-[11px] text-slate-500">(${u.points})</span></div>
+                  ${badge}
+                </div>`;
+            }).join('')}
+          </div>`).join('')}</div>` : `<div class="text-xs text-slate-500">Yo‘nalish g‘oliblari yo‘q.</div>`;
+      } else {
+        const list = cup.groupsTop3 || [];
+        bodyHtml = list.length ? `<div class="grid grid-cols-1 sm:grid-cols-3 gap-2">${list.map((g) => `
+          <div class="glass-sub rounded-xl px-3 py-2 flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <div class="text-xs font-extrabold text-slate-900 dark:text-white truncate">${g.rank === 1 ? '👑' : (medals[g.rank] || '🏅')} ${escapeHtml(g.group_code)}</div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400">${g.active_users || 0} faol talaba</div>
+            </div>
+            <span class="px-2 py-0.5 rounded-md bg-violet-100 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 text-[11px] font-extrabold shrink-0">Ø ${g.points}</span>
+          </div>`).join('')}</div>` : `<div class="text-xs text-slate-500">Kamida 3 ta faol talabali guruh topilmadi.</div>`;
+      }
+
+      el.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-amber-600 dark:text-amber-400">🏆 O‘tgan hafta chempionlari (${escapeHtml(cup.weekId || '')})</div>
+          <div class="flex flex-wrap gap-1">
+            ${tabs.map((t) => `<button type="button" data-hof-tab="${t.id}" class="px-2.5 py-1 rounded-lg text-[11px] font-bold transition ${
+              sp2.hofTab === t.id ? 'bg-amber-500 text-white shadow-sm' : 'glass-sub text-slate-600 dark:text-slate-300'
+            }">${t.label}</button>`).join('')}
+          </div>
+        </div>
+        ${bodyHtml}`;
+
+      el.querySelectorAll('[data-hof-tab]').forEach((b) => {
+        b.addEventListener('click', () => {
+          sp2.hofTab = b.dataset.hofTab;
+          renderWeeklyCupHof();
+        });
+      });
+    }
+
+    function renderLeaderboardV2() {
+      const listEl = document.getElementById('leaderboard-list');
+      const podiumEl = document.getElementById('leaderboard-podium');
+      const myCard = document.getElementById('my-rank-card');
+      const subFiltersEl = document.getElementById('lb-sub-filters');
+      const metricWrap = document.getElementById('lb-metric-wrap');
+
+      // Update tab button styles
+      document.querySelectorAll('.lb-main-tab').forEach((b) => {
+        const active = b.dataset.lbTab === sp2.lbTab;
+        b.className = active
+          ? 'lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition'
+          : 'lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition';
+      });
+      document.querySelectorAll('.lb-period-btn').forEach((b) => {
+        const active = b.dataset.lbPeriod === sp2.lbPeriod;
+        b.className = active
+          ? 'lb-period-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-white shadow-sm transition'
+          : 'lb-period-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition';
+      });
+      document.querySelectorAll('.lb-metric-btn').forEach((b) => {
+        const active = b.dataset.lbMetric === sp2.lbMetric;
+        b.className = active
+          ? 'lb-metric-btn px-2.5 py-1 rounded-md text-[11px] font-bold bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
+          : 'lb-metric-btn px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-600 dark:text-slate-300';
+      });
+
+      // Sub-filters per tab
+      if (sp2.lbTab === 'users') {
+        metricWrap.classList.add('hidden');
+        const opts = [
+          { id: 'group', label: sp2.profile?.group_code ? `Guruhim (${sp2.profile.group_code})` : 'O‘z guruhim' },
+          { id: 'faculty', label: sp2.profile?.faculty_code ? `Yo‘nalishim (${sp2.profile.faculty_code})` : 'O‘z yo‘nalishim' },
+          { id: 'global', label: 'Umumiy Top-30' }
+        ];
+        if (!opts.some((o) => o.id === sp2.lbSub)) sp2.lbSub = 'global';
+        subFiltersEl.innerHTML = opts.map((o) => `
+          <button type="button" data-lb-sub="${o.id}" class="px-3 py-1 rounded-lg text-xs font-bold transition ${
+            sp2.lbSub === o.id
+              ? 'bg-violet-100 dark:bg-violet-950/70 text-violet-700 dark:text-violet-300 border border-violet-300 dark:border-violet-700'
+              : 'glass-sub text-slate-600 dark:text-slate-300'
+          }">${escapeHtml(o.label)}</button>
+        `).join('');
+      } else if (sp2.lbTab === 'groups') {
+        metricWrap.classList.remove('hidden');
+        const opts = [
+          { id: 'global', label: 'Barcha guruhlar' },
+          { id: 'faculty', label: sp2.profile?.faculty_code ? `${sp2.profile.faculty_code} guruhlari` : 'O‘z yo‘nalishim' }
+        ];
+        if (!opts.some((o) => o.id === sp2.lbSub)) sp2.lbSub = 'global';
+        subFiltersEl.innerHTML = opts.map((o) => `
+          <button type="button" data-lb-sub="${o.id}" class="px-3 py-1 rounded-lg text-xs font-bold transition ${
+            sp2.lbSub === o.id
+              ? 'bg-violet-100 dark:bg-violet-950/70 text-violet-700 dark:text-violet-300 border border-violet-300 dark:border-violet-700'
+              : 'glass-sub text-slate-600 dark:text-slate-300'
+          }">${escapeHtml(o.label)}</button>
+        `).join('');
+      } else {
+        metricWrap.classList.remove('hidden');
+        subFiltersEl.innerHTML = `<span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Cyber University · 7 ta yo‘nalish</span>`;
+      }
+
+      subFiltersEl.querySelectorAll('[data-lb-sub]').forEach((b) => {
+        b.addEventListener('click', () => {
+          sp2.lbSub = b.dataset.lbSub;
+          renderLeaderboardV2();
+        });
+      });
+
+      if (state.leaderboardLoading) {
+        podiumEl.classList.add('hidden');
+        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Reyting yuklanmoqda...</div>`;
+        return;
+      }
+      if (!sp2.rankings) {
+        myCard.classList.add('hidden');
+        podiumEl.classList.add('hidden');
+        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">${escapeHtml(state.leaderboardError || "Hozircha natijalar yo‘q.")}</div>`;
+        return;
+      }
+
+      // Personal 3-level Rank Card
+      const me = sp2.myRanks;
+      if (me && me.registered && !isAdmin()) {
+        myCard.classList.remove('hidden');
+        document.getElementById('my-rank-badge').textContent = '#' + (me.ranks?.global || '-');
+        document.getElementById('my-rank-title').textContent = state.user?.name || 'Talaba';
+        document.getElementById('my-rank-sub').textContent = `${me.group} · ${me.faculty} · Hafta: ${sp2.rankings.weekId || ''}`;
+        document.getElementById('my-rank-correct').textContent = me.totalCorrect || 0;
+        document.getElementById('my-rank-weekly').textContent = me.weeklyPoints || 0;
+        document.getElementById('my-rank-streak').textContent = me.streakDays || 0;
+        document.getElementById('my-rank-in-group').textContent = '#' + (me.ranks?.group || '-');
+        document.getElementById('my-rank-in-faculty').textContent = '#' + (me.ranks?.faculty || '-');
+        document.getElementById('my-rank-in-global').textContent = '#' + (me.ranks?.global || '-');
+      } else {
+        myCard.classList.add('hidden');
+      }
+
+      const bucket = sp2.lbPeriod === 'weekly' ? (sp2.rankings.weekly || {}) : (sp2.rankings.overall || {});
+      let rows = [];
+
+      if (sp2.lbTab === 'faculties') {
+        rows = [...(bucket.faculties || [])].sort((a, b) =>
+          sp2.lbMetric === 'avg'
+            ? (Number(b.avg_score) - Number(a.avg_score) || b.total_score - a.total_score)
+            : (b.total_score - a.total_score || Number(b.avg_score) - Number(a.avg_score))
+        );
+      } else if (sp2.lbTab === 'groups') {
+        rows = [...(bucket.groups || [])];
+        if (sp2.lbSub === 'faculty' && sp2.profile?.faculty_code) {
+          rows = rows.filter((g) => g.faculty_code === sp2.profile.faculty_code);
+        }
+        rows.sort((a, b) =>
+          sp2.lbMetric === 'avg'
+            ? (Number(b.avg_score) - Number(a.avg_score) || b.total_score - a.total_score)
+            : (b.total_score - a.total_score || Number(b.avg_score) - Number(a.avg_score))
+        );
+      } else {
+        if (sp2.lbSub === 'group' && sp2.lbPeriod === 'overall' && me?.groupPeers?.length) {
+          rows = me.groupPeers;
+        } else if (sp2.lbSub === 'faculty' && sp2.lbPeriod === 'overall' && me?.facultyTop?.length) {
+          rows = me.facultyTop;
+        } else {
+          rows = [...(bucket.users || [])];
+          if (sp2.lbSub === 'group' && sp2.profile?.group_code) {
+            rows = rows.filter((u) => u.group_code === sp2.profile.group_code);
+          } else if (sp2.lbSub === 'faculty' && sp2.profile?.faculty_code) {
+            rows = rows.filter((u) => u.faculty_code === sp2.profile.faculty_code);
+          }
+        }
+      }
+
+      if (!rows.length) {
+        podiumEl.classList.add('hidden');
+        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Bu bo‘limda hali natijalar yo‘q — birinchi bo‘lib test yeching!</div>`;
+        return;
+      }
+
+      const getScoreVal = (r) => {
+        if (sp2.lbTab === 'users') return r.total_correct || 0;
+        return sp2.lbMetric === 'avg' ? Number(r.avg_score || 0) : (r.total_score || 0);
+      };
+      const formatMedals = (u) => {
+        if (!u) return '';
+        const parts = [];
+        if (u.gold_medals > 0) parts.push(`🥇×${u.gold_medals}`);
+        if (u.silver_medals > 0) parts.push(`🥈×${u.silver_medals}`);
+        if (u.bronze_medals > 0) parts.push(`🥉×${u.bronze_medals}`);
+        if (u.faculty_medals > 0) parts.push(`⭐×${u.faculty_medals}`);
+        return parts.join(' ');
+      };
+
+      // O'tgan hafta chempionlari (Hall of Fame) bloki
+      renderWeeklyCupHof();
+
+      const getTitle = (r) => {
+        if (sp2.lbTab === 'users') {
+          const m = formatMedals(r);
+          return m ? `${r.display_name || 'Talaba'} ${m}` : (r.display_name || 'Talaba');
+        }
+        if (sp2.lbTab === 'faculties') return `${r.code} · ${r.name}`;
+        return r.is_weekly_champion ? `👑 ${r.code}` : r.code;
+      };
+      const getSub = (r) => {
+        if (sp2.lbTab === 'users') {
+          const badge = r.is_ambassador ? ' · ⭐ Ambassador' : '';
+          return `${r.group_code || ''}${r.streak_days ? ' · 🔥 ' + r.streak_days + ' kun' : ''}${badge}`;
+        }
+        const crown = (sp2.lbTab === 'groups' && r.is_weekly_champion) ? '👑 Hafta guruhi · ' : '';
+        return `${crown}${r.active_users || 0} faol talaba · ${sp2.lbMetric === 'avg' ? 'Jami: ' + (r.total_score || 0) : 'O‘rtacha: ' + (r.avg_score || 0)}`;
+      };
+
+      // Top-3 Podium
+      if (rows.length >= 2) {
+        podiumEl.classList.remove('hidden');
+        const orderIdx = rows.length >= 3 ? [1, 0, 2] : [1, 0];
+        const styles = {
+          0: { h: 'pt-6 pb-4', ring: 'border-amber-400 bg-amber-50/70 dark:bg-amber-950/40', medal: '🥇' },
+          1: { h: 'pt-4 pb-3', ring: 'border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-800/60', medal: '🥈' },
+          2: { h: 'pt-3 pb-3', ring: 'border-orange-300 dark:border-orange-800 bg-orange-50/60 dark:bg-orange-950/30', medal: '🥉' }
+        };
+        podiumEl.innerHTML = orderIdx.map((idx) => {
+          const r = rows[idx];
+          const st = styles[idx];
+          return `
+            <div class="glass-card rounded-2xl border ${st.ring} ${st.h} px-2.5 text-center">
+              <div class="text-xl sm:text-2xl mb-1">${st.medal}</div>
+              <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">${escapeHtml(getTitle(r))}</div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(sp2.lbTab === 'users' ? (r.group_code || '') : ((r.active_users || 0) + ' talaba'))}</div>
+              <div class="mt-2 text-sm sm:text-base font-extrabold text-violet-700 dark:text-violet-300">${getScoreVal(r)}</div>
+            </div>`;
+        }).join('');
+      } else {
+        podiumEl.classList.add('hidden');
+      }
+
+      const maxVal = Math.max(1, ...rows.map(getScoreVal));
+      listEl.innerHTML = rows.map((r, i) => {
+        const val = getScoreVal(r);
+        const pct = Math.min(100, Math.round((val / maxVal) * 100));
+        const isMe = (sp2.lbTab === 'users' && state.user && r.uid === state.user.uid)
+          || (sp2.lbTab === 'groups' && sp2.profile?.group_code === r.code)
+          || (sp2.lbTab === 'faculties' && sp2.profile?.faculty_code === r.code);
+        return `
+          <div class="px-4 py-3 flex items-center gap-3 ${isMe ? 'bg-violet-50/75 dark:bg-violet-950/40' : ''}">
+            <div class="w-7 text-center text-xs font-extrabold ${i < 3 ? 'text-violet-600 dark:text-violet-400' : 'text-slate-400'}">#${i + 1}</div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between gap-2">
+                <div class="text-sm font-bold text-slate-900 dark:text-white truncate">${escapeHtml(getTitle(r))}${isMe ? ' <span class="text-[10px] font-extrabold text-violet-600 dark:text-violet-400">(Siz)</span>' : ''}</div>
+                <div class="text-sm font-extrabold text-violet-700 dark:text-violet-300 shrink-0">${val}</div>
+              </div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(getSub(r))}</div>
+              <div class="mt-1.5 w-full h-1.5 bg-slate-200/70 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-violet-600 dark:bg-violet-500 rounded-full" style="width:${pct}%"></div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    document.querySelectorAll('.lb-main-tab').forEach((b) => {
+      b.addEventListener('click', () => {
+        sp2.lbTab = b.dataset.lbTab;
+        sp2.lbSub = sp2.lbTab === 'users' ? 'group' : 'global';
+        renderLeaderboardV2();
+      });
+    });
+    document.querySelectorAll('.lb-period-btn').forEach((b) => {
+      b.addEventListener('click', () => {
+        sp2.lbPeriod = b.dataset.lbPeriod;
+        renderLeaderboardV2();
+      });
+    });
+    document.querySelectorAll('.lb-metric-btn').forEach((b) => {
+      b.addEventListener('click', () => {
+        sp2.lbMetric = b.dataset.lbMetric;
+        renderLeaderboardV2();
+      });
+    });
+
+    loadUniversityConfig();
     applyTheme(lsGet('studyprep_theme') || 'light');
     hydrateFromLocalCache();
     loadCatalogMeta();
@@ -3764,6 +4536,7 @@
         authModal.classList.add('hidden');
         renderAll();
         await loadUserData(state.user);
+        await syncProfileV2();
       } else {
         state.user = null;
         try { localStorage.removeItem('studyprep_user_cache'); } catch (e) {}

@@ -7,8 +7,16 @@ export default async function handler(req, res) {
     const authUser = await verifyFirebaseToken(req);
 
     if (req.method === 'GET') {
-      const rows = await sbRest(`users?uid=eq.${encodeURIComponent(authUser.uid)}&select=*`);
-      return res.status(200).json({ ok: true, user: rows[0] || null });
+      const [rows, progressRows] = await Promise.all([
+        sbRest(`users?uid=eq.${encodeURIComponent(authUser.uid)}&select=*`),
+        sbRest(`topic_progress?uid=eq.${encodeURIComponent(authUser.uid)}&select=topic_id,best_score,sessions_done,answered_ids,wrong_ids,updated_at`)
+      ]);
+      res.setHeader('Cache-Control', 'private, no-store');
+      return res.status(200).json({
+        ok: true,
+        user: rows[0] || null,
+        progress: Array.isArray(progressRows) ? progressRows : []
+      });
     }
 
     if (req.method !== 'POST') {
@@ -19,7 +27,6 @@ export default async function handler(req, res) {
     const existingRows = await sbRest(`users?uid=eq.${encodeURIComponent(authUser.uid)}&select=*`);
     const existing = existingRows[0] || null;
 
-    // Guruh kodi rasmiy jadvalda borligini tekshirish
     let groupRow = null;
     if (groupCode) {
       const gRows = await sbRest(`groups?code=eq.${encodeURIComponent(groupCode)}&is_active=eq.true&select=code,faculty_code,cohort_year`);
@@ -27,7 +34,6 @@ export default async function handler(req, res) {
       if (!groupRow) {
         return res.status(400).json({ ok: false, error: 'Bunday standart guruh topilmadi' });
       }
-      // 30 kunlik almashtirish qulfi
       if (existing && existing.profile_v === 2 && existing.group_code !== groupRow.code) {
         if (existing.group_locked_until && new Date(existing.group_locked_until) > new Date() && !authUser.isAdmin) {
           return res.status(403).json({
@@ -65,6 +71,7 @@ export default async function handler(req, res) {
       body: payload
     });
 
+    res.setHeader('Cache-Control', 'private, no-store');
     res.status(200).json({ ok: true, user: saved[0] });
   } catch (err) {
     res.status(err.status || 500).json({ ok: false, error: err.message });

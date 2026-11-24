@@ -2,12 +2,17 @@
   "regions": ["fra1"],
   "functions": {
     "api/broadcast.js": { "maxDuration": 60 },
+    "api/weekly-finalize.js": { "maxDuration": 60 },
     "api/*.js": { "maxDuration": 15 }
   },
   "crons": [
     {
       "path": "/api/health",
       "schedule": "0 6 */3 * *"
+    },
+    {
+      "path": "/api/weekly-finalize",
+      "schedule": "5 19 * * 0"
     }
   ]
 }
