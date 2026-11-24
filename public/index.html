@@ -275,76 +275,91 @@
       <div id="topics-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </section>
 
-    <!-- VIEW 3: LEADERBOARD (StudyPrep 2.0 Multi-Level) -->
-    <section id="view-leaderboard" class="hidden fade-in space-y-4">
-      <div id="my-rank-card" class="hidden bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl p-5 shadow-sm space-y-3">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <div class="flex items-center gap-3 min-w-0">
-            <div id="my-rank-badge" class="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-base font-extrabold shrink-0">#1</div>
+    <!-- VIEW 3: LEADERBOARD (StudyPrep 2.0 Minimalist) -->
+    <section id="view-leaderboard" class="hidden fade-in space-y-3.5">
+      <div id="my-rank-card" class="hidden bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl p-4 shadow-sm space-y-2.5">
+        <div class="flex flex-wrap items-center justify-between gap-2.5">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div id="my-rank-badge" class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center text-sm font-extrabold shrink-0">—</div>
             <div class="min-w-0">
-              <div id="my-rank-title" class="text-base sm:text-lg font-extrabold truncate"></div>
-              <div id="my-rank-sub" class="text-xs text-violet-100 truncate"></div>
+              <div id="my-rank-title" class="text-sm sm:text-base font-extrabold truncate"></div>
+              <div id="my-rank-sub" class="text-[11px] text-violet-100 truncate"></div>
             </div>
           </div>
-          <div class="flex items-center gap-4 text-center shrink-0">
+          <div class="flex items-center gap-3.5 text-center shrink-0">
             <div>
-              <div id="my-rank-correct" class="text-lg sm:text-xl font-extrabold">0</div>
-              <div class="text-[11px] text-violet-100">Umumiy ball</div>
+              <div id="my-rank-correct" class="text-base sm:text-lg font-extrabold leading-tight">0</div>
+              <div class="text-[10px] text-violet-100">Umumiy</div>
             </div>
             <div>
-              <div id="my-rank-weekly" class="text-lg sm:text-xl font-extrabold">0</div>
-              <div class="text-[11px] text-violet-100">Bu hafta</div>
+              <div id="my-rank-weekly" class="text-base sm:text-lg font-extrabold leading-tight">0</div>
+              <div class="text-[10px] text-violet-100">Bu hafta</div>
             </div>
             <div>
-              <div id="my-rank-streak" class="text-lg sm:text-xl font-extrabold">0</div>
-              <div class="text-[11px] text-violet-100">Streak 🔥</div>
+              <div id="my-rank-streak" class="text-base sm:text-lg font-extrabold leading-tight">0</div>
+              <div class="text-[10px] text-violet-100">Streak 🔥</div>
             </div>
           </div>
         </div>
         <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/15 text-center">
-          <div class="rounded-xl bg-white/10 px-2 py-1.5">
-            <div id="my-rank-in-group" class="text-sm font-extrabold">#-</div>
-            <div class="text-[10px] text-violet-100">O‘z guruhimda</div>
+          <div class="rounded-lg bg-white/10 px-2 py-1">
+            <span id="my-rank-in-group" class="text-xs font-extrabold">—</span>
+            <span class="text-[10px] text-violet-100 ml-1">Guruhda</span>
           </div>
-          <div class="rounded-xl bg-white/10 px-2 py-1.5">
-            <div id="my-rank-in-faculty" class="text-sm font-extrabold">#-</div>
-            <div class="text-[10px] text-violet-100">Yo‘nalishimda</div>
+          <div class="rounded-lg bg-white/10 px-2 py-1">
+            <span id="my-rank-in-faculty" class="text-xs font-extrabold">—</span>
+            <span class="text-[10px] text-violet-100 ml-1">Yo‘nalishda</span>
           </div>
-          <div class="rounded-xl bg-white/10 px-2 py-1.5">
-            <div id="my-rank-in-global" class="text-sm font-extrabold">#-</div>
-            <div class="text-[10px] text-violet-100">Universitetda</div>
+          <div class="rounded-lg bg-white/10 px-2 py-1">
+            <span id="my-rank-in-global" class="text-xs font-extrabold">—</span>
+            <span class="text-[10px] text-violet-100 ml-1">Universitet</span>
           </div>
         </div>
       </div>
 
-      <!-- Period & Main Tabs -->
+      <!-- Minimalist Main Bar -->
       <div class="flex flex-wrap items-center justify-between gap-2">
         <div class="inline-flex p-1 rounded-xl glass-card">
           <button type="button" data-lb-tab="users" class="lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition">Talabalar</button>
           <button type="button" data-lb-tab="groups" class="lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Guruhlar</button>
           <button type="button" data-lb-tab="faculties" class="lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Yo‘nalishlar</button>
         </div>
-        <div class="inline-flex p-1 rounded-xl glass-card">
-          <button type="button" data-lb-period="weekly" class="lb-period-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-white shadow-sm transition">Haftalik kubok</button>
-          <button type="button" data-lb-period="overall" class="lb-period-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Umumiy</button>
+        <div class="flex items-center gap-1.5">
+          <div class="inline-flex p-1 rounded-xl glass-card">
+            <button type="button" data-lb-period="weekly" class="lb-period-btn px-2.5 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-white shadow-sm transition">Haftalik</button>
+            <button type="button" data-lb-period="overall" class="lb-period-btn px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Umumiy</button>
+          </div>
+          <button type="button" id="btn-cup-rules" title="Haftalik kubok qoidalari" class="px-2.5 py-2 rounded-xl glass-card text-xs font-bold text-amber-600 dark:text-amber-400 hover:bg-amber-50/70 dark:hover:bg-amber-950/40 transition">🏆 Qoidalar</button>
         </div>
       </div>
 
-      <!-- Sub-filters (dynamic per tab) -->
-      <div id="lb-sub-bar" class="flex flex-wrap items-center justify-between gap-2">
+      <!-- Sub-filters (ONLY for Talabalar) -->
+      <div id="lb-sub-bar" class="hidden flex items-center justify-between gap-2">
         <div id="lb-sub-filters" class="inline-flex flex-wrap gap-1.5"></div>
-        <div id="lb-metric-wrap" class="hidden inline-flex p-0.5 rounded-lg bg-slate-200/70 dark:bg-slate-800/80">
-          <button type="button" data-lb-metric="total" class="lb-metric-btn px-2.5 py-1 rounded-md text-[11px] font-bold bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm">Umumiy ball</button>
-          <button type="button" data-lb-metric="avg" class="lb-metric-btn px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-600 dark:text-slate-300">O‘rtacha ball</button>
-        </div>
       </div>
 
-      <div id="weekly-cup-hof" class="glass-card rounded-2xl p-4 space-y-3"></div>
+      <!-- Hall of Fame (shown only when past week champions exist) -->
+      <div id="weekly-cup-hof" class="hidden glass-card rounded-2xl p-3.5 space-y-2.5"></div>
 
       <div id="leaderboard-podium" class="hidden grid grid-cols-3 gap-2.5 sm:gap-4 items-end"></div>
 
       <div id="leaderboard-list" class="glass-card rounded-2xl divide-y divide-slate-200/60 dark:divide-slate-800/70 overflow-hidden"></div>
     </section>
+
+    <!-- Cup Rules Popover Modal -->
+    <div id="cup-rules-modal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="glass-card rounded-2xl max-w-md w-full p-5 space-y-3 border border-slate-200/70 dark:border-slate-700/70">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">🏆 Haftalik Kubok qoidalari</h3>
+          <button type="button" id="btn-close-cup-rules" class="w-7 h-7 rounded-lg glass-sub text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs font-bold">✕</button>
+        </div>
+        <div class="space-y-2 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          <p><b class="text-amber-600 dark:text-amber-400">Universitet Top-3:</b> har yakshanba 23:59 da eng yuqori ball olgan 3 talabaga <b>🥇 +100</b>, <b>🥈 +60</b>, <b>🥉 +30</b> bonus ball va doimiy medal beriladi.</p>
+          <p><b class="text-violet-600 dark:text-violet-400">Yo‘nalishlar Top-3:</b> har bir fakultetdan Top-3 talaba (<b>⭐ +25 / +15 / +10</b>) taqdirlanadi. Universitet Top-3 ga kirgan talaba yo‘nalish ro‘yxatida ham o‘z Universitet nishoni bilan ko‘rinadi.</p>
+          <p><b class="text-emerald-600 dark:text-emerald-400">Guruhlar va Yo‘nalishlar:</b> kamida <b>15 ball</b> to‘plagan faol talabalar o‘rtacha balli bo‘yicha baholanadi (harakatsiz akkauntlar ballni tushirmaydi). Kamida 3 faol talabasi bor Top-1 guruhga <b>👑 Hafta guruhi</b> toji beriladi.</p>
+        </div>
+      </div>
+    </div>
 
     <!-- VIEW 4: QUIZ RUNNER -->
     <section id="view-quiz" class="hidden fade-in">
@@ -3902,7 +3917,7 @@
       streakEl.textContent = streak;
       dailyEl.textContent = todaySessions >= 1
         ? `Kunlik maqsad bajarildi ✓ (${todaySessions} sessiya)`
-        : `Kunlik maqsad: 0 / 1 tezkor sessiya (15 savol)`;
+        : `Bugun: 0 / 1 sessiya`;
       if (p?.group_code) {
         const facObj = sp2.config.faculties.find((f) => f.code === p.faculty_code);
         grpEl.textContent = `${p.group_code}${facObj ? ' · ' + facObj.name : ''}`;
@@ -3970,7 +3985,9 @@
       const facObj = sp2.config.faculties.find((f) => f.code === sp2.onbFaculty);
       document.getElementById('onb-step-badge').textContent = '2 / 2-qadam';
       document.getElementById('onb-title').textContent = 'Guruhingizni tanlang';
-      document.getElementById('onb-sub').textContent = 'Guruh kodi avtomatik standart formatda saqlanadi.';
+      const subEl = document.getElementById('onb-sub');
+      subEl.className = 'mt-2 text-xs font-semibold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800/70 rounded-xl px-3 py-2';
+      subEl.textContent = '⚠️ Diqqat: Guruh faqat bir marta tanlanadi va 30 kun davomida o‘zgartirib bo‘lmaydi. O‘z rasmiy guruhingizni aniq belgilang.';
       document.getElementById('btn-onb-back').classList.remove('hidden');
       document.getElementById('onb-step-faculty').classList.add('hidden');
       document.getElementById('onb-step-group').classList.remove('hidden');
@@ -4201,17 +4218,11 @@
       const cup = sp2.rankings?.lastWeekCup || null;
       if (!sp2.hofTab) sp2.hofTab = 'university';
       if (!cup || (!cup.universityTop3?.length && !cup.facultyTop3?.length && !cup.groupsTop3?.length)) {
-        el.innerHTML = `
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <div class="text-xs font-extrabold uppercase tracking-wider text-amber-600 dark:text-amber-400">🏆 Haftalik Kubok mukofotlari</div>
-              <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
-                Har yakshanba 23:59 da: <b>Universitet Top-3</b> (🥇+100 · 🥈+60 · 🥉+30), <b>Yo‘nalishlar Top-3</b> (⭐+25/+15/+10) va <b>Hafta Guruhi</b> (👑 min. 3 faol talaba, o‘rtacha ball) taqdirlanadi.
-              </div>
-            </div>
-          </div>`;
+        el.classList.add('hidden');
+        el.innerHTML = '';
         return;
       }
+      el.classList.remove('hidden');
 
       const tabs = [
         { id: 'university', label: '🏆 Universitet Top-3' },
@@ -4287,11 +4298,20 @@
       const listEl = document.getElementById('leaderboard-list');
       const podiumEl = document.getElementById('leaderboard-podium');
       const myCard = document.getElementById('my-rank-card');
+      const subBarEl = document.getElementById('lb-sub-bar');
       const subFiltersEl = document.getElementById('lb-sub-filters');
-      const metricWrap = document.getElementById('lb-metric-wrap');
 
-      // Update tab button styles
-      document.querySelectorAll('.lb-main-tab').forEach((b) => {
+          document.getElementById('btn-cup-rules')?.addEventListener('click', () => {
+      document.getElementById('cup-rules-modal')?.classList.remove('hidden');
+    });
+    document.getElementById('btn-close-cup-rules')?.addEventListener('click', () => {
+      document.getElementById('cup-rules-modal')?.classList.add('hidden');
+    });
+    document.getElementById('cup-rules-modal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'cup-rules-modal') e.target.classList.add('hidden');
+    });
+
+    document.querySelectorAll('.lb-main-tab').forEach((b) => {
         const active = b.dataset.lbTab === sp2.lbTab;
         b.className = active
           ? 'lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition'
@@ -4300,23 +4320,17 @@
       document.querySelectorAll('.lb-period-btn').forEach((b) => {
         const active = b.dataset.lbPeriod === sp2.lbPeriod;
         b.className = active
-          ? 'lb-period-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-white shadow-sm transition'
-          : 'lb-period-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition';
-      });
-      document.querySelectorAll('.lb-metric-btn').forEach((b) => {
-        const active = b.dataset.lbMetric === sp2.lbMetric;
-        b.className = active
-          ? 'lb-metric-btn px-2.5 py-1 rounded-md text-[11px] font-bold bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-          : 'lb-metric-btn px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-600 dark:text-slate-300';
+          ? 'lb-period-btn px-2.5 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-white shadow-sm transition'
+          : 'lb-period-btn px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition';
       });
 
-      // Sub-filters per tab
+      // Sub-filtr FAQAT Talabalar bo'limida ko'rinadi
       if (sp2.lbTab === 'users') {
-        metricWrap.classList.add('hidden');
+        subBarEl?.classList.remove('hidden');
         const opts = [
-          { id: 'group', label: sp2.profile?.group_code ? `Guruhim (${sp2.profile.group_code})` : 'O‘z guruhim' },
-          { id: 'faculty', label: sp2.profile?.faculty_code ? `Yo‘nalishim (${sp2.profile.faculty_code})` : 'O‘z yo‘nalishim' },
-          { id: 'global', label: 'Umumiy Top-30' }
+          { id: 'global', label: 'Hammasi' },
+          { id: 'faculty', label: 'Yo‘nalishim' },
+          { id: 'group', label: 'Guruhim' }
         ];
         if (!opts.some((o) => o.id === sp2.lbSub)) sp2.lbSub = 'global';
         subFiltersEl.innerHTML = opts.map((o) => `
@@ -4326,31 +4340,16 @@
               : 'glass-sub text-slate-600 dark:text-slate-300'
           }">${escapeHtml(o.label)}</button>
         `).join('');
-      } else if (sp2.lbTab === 'groups') {
-        metricWrap.classList.remove('hidden');
-        const opts = [
-          { id: 'global', label: 'Barcha guruhlar' },
-          { id: 'faculty', label: sp2.profile?.faculty_code ? `${sp2.profile.faculty_code} guruhlari` : 'O‘z yo‘nalishim' }
-        ];
-        if (!opts.some((o) => o.id === sp2.lbSub)) sp2.lbSub = 'global';
-        subFiltersEl.innerHTML = opts.map((o) => `
-          <button type="button" data-lb-sub="${o.id}" class="px-3 py-1 rounded-lg text-xs font-bold transition ${
-            sp2.lbSub === o.id
-              ? 'bg-violet-100 dark:bg-violet-950/70 text-violet-700 dark:text-violet-300 border border-violet-300 dark:border-violet-700'
-              : 'glass-sub text-slate-600 dark:text-slate-300'
-          }">${escapeHtml(o.label)}</button>
-        `).join('');
-      } else {
-        metricWrap.classList.remove('hidden');
-        subFiltersEl.innerHTML = `<span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Cyber University · 7 ta yo‘nalish</span>`;
-      }
-
-      subFiltersEl.querySelectorAll('[data-lb-sub]').forEach((b) => {
-        b.addEventListener('click', () => {
-          sp2.lbSub = b.dataset.lbSub;
-          renderLeaderboardV2();
+        subFiltersEl.querySelectorAll('[data-lb-sub]').forEach((b) => {
+          b.addEventListener('click', () => {
+            sp2.lbSub = b.dataset.lbSub;
+            renderLeaderboardV2();
+          });
         });
-      });
+      } else {
+        subBarEl?.classList.add('hidden');
+        subFiltersEl.innerHTML = '';
+      }
 
       if (state.leaderboardLoading) {
         podiumEl.classList.add('hidden');
@@ -4364,19 +4363,20 @@
         return;
       }
 
-      // Personal 3-level Rank Card
+      // Personal compact Rank Card (0 ball bo'lsa soxta #1 emas, '—' chiqadi)
       const me = sp2.myRanks;
+      const fmtRank = (v) => (v && Number(v) > 0 && Number(me?.totalCorrect || 0) > 0) ? ('#' + v) : '—';
       if (me && me.registered && !isAdmin()) {
         myCard.classList.remove('hidden');
-        document.getElementById('my-rank-badge').textContent = '#' + (me.ranks?.global || '-');
+        document.getElementById('my-rank-badge').textContent = fmtRank(me.ranks?.global);
         document.getElementById('my-rank-title').textContent = state.user?.name || 'Talaba';
-        document.getElementById('my-rank-sub').textContent = `${me.group} · ${me.faculty} · Hafta: ${sp2.rankings.weekId || ''}`;
+        document.getElementById('my-rank-sub').textContent = `${me.group} · ${me.faculty}`;
         document.getElementById('my-rank-correct').textContent = me.totalCorrect || 0;
         document.getElementById('my-rank-weekly').textContent = me.weeklyPoints || 0;
         document.getElementById('my-rank-streak').textContent = me.streakDays || 0;
-        document.getElementById('my-rank-in-group').textContent = '#' + (me.ranks?.group || '-');
-        document.getElementById('my-rank-in-faculty').textContent = '#' + (me.ranks?.faculty || '-');
-        document.getElementById('my-rank-in-global').textContent = '#' + (me.ranks?.global || '-');
+        document.getElementById('my-rank-in-group').textContent = fmtRank(me.ranks?.group);
+        document.getElementById('my-rank-in-faculty').textContent = fmtRank(me.ranks?.faculty);
+        document.getElementById('my-rank-in-global').textContent = fmtRank(me.ranks?.global);
       } else {
         myCard.classList.add('hidden');
       }
@@ -4386,27 +4386,19 @@
 
       if (sp2.lbTab === 'faculties') {
         rows = [...(bucket.faculties || [])].sort((a, b) =>
-          sp2.lbMetric === 'avg'
-            ? (Number(b.avg_score) - Number(a.avg_score) || b.total_score - a.total_score)
-            : (b.total_score - a.total_score || Number(b.avg_score) - Number(a.avg_score))
+          Number(b.avg_score || 0) - Number(a.avg_score || 0) || (b.total_score || 0) - (a.total_score || 0)
         );
       } else if (sp2.lbTab === 'groups') {
-        rows = [...(bucket.groups || [])];
-        if (sp2.lbSub === 'faculty' && sp2.profile?.faculty_code) {
-          rows = rows.filter((g) => g.faculty_code === sp2.profile.faculty_code);
-        }
-        rows.sort((a, b) =>
-          sp2.lbMetric === 'avg'
-            ? (Number(b.avg_score) - Number(a.avg_score) || b.total_score - a.total_score)
-            : (b.total_score - a.total_score || Number(b.avg_score) - Number(a.avg_score))
+        rows = [...(bucket.groups || [])].sort((a, b) =>
+          Number(b.avg_score || 0) - Number(a.avg_score || 0) || (b.total_score || 0) - (a.total_score || 0)
         );
       } else {
         if (sp2.lbSub === 'group' && sp2.lbPeriod === 'overall' && me?.groupPeers?.length) {
-          rows = me.groupPeers;
+          rows = me.groupPeers.filter((u) => (u.total_correct || 0) > 0);
         } else if (sp2.lbSub === 'faculty' && sp2.lbPeriod === 'overall' && me?.facultyTop?.length) {
-          rows = me.facultyTop;
+          rows = me.facultyTop.filter((u) => (u.total_correct || 0) > 0);
         } else {
-          rows = [...(bucket.users || [])];
+          rows = [...(bucket.users || [])].filter((u) => (u.total_correct || 0) > 0);
           if (sp2.lbSub === 'group' && sp2.profile?.group_code) {
             rows = rows.filter((u) => u.group_code === sp2.profile.group_code);
           } else if (sp2.lbSub === 'faculty' && sp2.profile?.faculty_code) {
@@ -4415,16 +4407,14 @@
         }
       }
 
+      renderWeeklyCupHof();
+
       if (!rows.length) {
         podiumEl.classList.add('hidden');
-        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Bu bo‘limda hali natijalar yo‘q — birinchi bo‘lib test yeching!</div>`;
+        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Hozircha natijalar yo‘q — birinchi bo‘lib test yeching!</div>`;
         return;
       }
 
-      const getScoreVal = (r) => {
-        if (sp2.lbTab === 'users') return r.total_correct || 0;
-        return sp2.lbMetric === 'avg' ? Number(r.avg_score || 0) : (r.total_score || 0);
-      };
       const formatMedals = (u) => {
         if (!u) return '';
         const parts = [];
@@ -4435,9 +4425,7 @@
         return parts.join(' ');
       };
 
-      // O'tgan hafta chempionlari (Hall of Fame) bloki
-      renderWeeklyCupHof();
-
+      const getScoreVal = (r) => sp2.lbTab === 'users' ? (r.total_correct || 0) : Number(r.avg_score || 0);
       const getTitle = (r) => {
         if (sp2.lbTab === 'users') {
           const m = formatMedals(r);
@@ -4452,33 +4440,33 @@
           return `${r.group_code || ''}${r.streak_days ? ' · 🔥 ' + r.streak_days + ' kun' : ''}${badge}`;
         }
         const crown = (sp2.lbTab === 'groups' && r.is_weekly_champion) ? '👑 Hafta guruhi · ' : '';
-        return `${crown}${r.active_users || 0} faol talaba · ${sp2.lbMetric === 'avg' ? 'Jami: ' + (r.total_score || 0) : 'O‘rtacha: ' + (r.avg_score || 0)}`;
+        return `${crown}${r.active_users || 0} faol talaba · Jami: ${r.total_score || 0}`;
       };
 
-      // Top-3 Podium
-      if (rows.length >= 2) {
+      // Top-3 Podium: FAQAT balli > 0 bo'lgan kamida 2 ta natija bo'lsagina chiqadi (0 balli podium yo'q!)
+      const positiveRows = rows.filter((r) => getScoreVal(r) > 0);
+      if (positiveRows.length >= 2) {
         podiumEl.classList.remove('hidden');
-        const orderIdx = rows.length >= 3 ? [1, 0, 2] : [1, 0];
+        const orderIdx = positiveRows.length >= 3 ? [1, 0, 2] : [1, 0];
         const styles = {
-          0: { h: 'pt-6 pb-4', ring: 'border-amber-400 bg-amber-50/70 dark:bg-amber-950/40', medal: '🥇' },
-          1: { h: 'pt-4 pb-3', ring: 'border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-800/60', medal: '🥈' },
-          2: { h: 'pt-3 pb-3', ring: 'border-orange-300 dark:border-orange-800 bg-orange-50/60 dark:bg-orange-950/30', medal: '🥉' }
+          0: { h: 'pt-5 pb-3.5', ring: 'border-amber-400 bg-amber-50/70 dark:bg-amber-950/40', medal: '🥇' },
+          1: { h: 'pt-3.5 pb-3', ring: 'border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-800/60', medal: '🥈' },
+          2: { h: 'pt-3 pb-2.5', ring: 'border-orange-300 dark:border-orange-800 bg-orange-50/60 dark:bg-orange-950/30', medal: '🥉' }
         };
         podiumEl.innerHTML = orderIdx.map((idx) => {
-          const r = rows[idx];
+          const r = positiveRows[idx];
           const st = styles[idx];
           return `
             <div class="glass-card rounded-2xl border ${st.ring} ${st.h} px-2.5 text-center">
               <div class="text-xl sm:text-2xl mb-1">${st.medal}</div>
               <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">${escapeHtml(getTitle(r))}</div>
-              <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(sp2.lbTab === 'users' ? (r.group_code || '') : ((r.active_users || 0) + ' talaba'))}</div>
-              <div class="mt-2 text-sm sm:text-base font-extrabold text-violet-700 dark:text-violet-300">${getScoreVal(r)}</div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(sp2.lbTab === 'users' ? (r.group_code || '') : ((r.active_users || 0) + ' faol'))}</div>
+              <div class="mt-1.5 text-sm sm:text-base font-extrabold text-violet-700 dark:text-violet-300">${getScoreVal(r)}</div>
             </div>`;
         }).join('');
       } else {
         podiumEl.classList.add('hidden');
       }
-
       const maxVal = Math.max(1, ...rows.map(getScoreVal));
       listEl.innerHTML = rows.map((r, i) => {
         const val = getScoreVal(r);
