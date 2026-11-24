@@ -157,7 +157,7 @@
             <img id="profile-img" class="hidden w-full h-full object-cover" alt="Avatar">
             <span id="profile-initials">U</span>
           </button>
-          <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 glass-card rounded-2xl shadow-xl p-4 z-50 fade-in">
+          <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-4 z-50 fade-in">
             <div class="flex items-center gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
               <div class="w-10 h-10 rounded-full bg-violet-600 text-white font-bold text-sm flex items-center justify-center overflow-hidden shrink-0">
                 <img id="menu-img" class="hidden w-full h-full object-cover" alt="Avatar">
@@ -226,33 +226,21 @@
     </section>
 
     <!-- VIEW 1: SUBJECTS HOME -->
-    <section id="view-subjects" class="hidden fade-in space-y-5">
-      <div class="grid grid-cols-3 gap-2.5 text-center">
-        <div class="glass-card rounded-2xl px-3 py-3">
-          <div id="hub-stat-subjects" class="text-lg font-extrabold text-slate-900 dark:text-white">0</div>
-          <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Fan</div>
-        </div>
-        <div class="glass-card rounded-2xl px-3 py-3">
-          <div id="hub-stat-questions" class="text-lg font-extrabold text-slate-900 dark:text-white">0</div>
-          <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Savol</div>
-        </div>
-        <div class="glass-card rounded-2xl px-3 py-3">
-          <div id="hub-stat-mastery" class="text-lg font-extrabold text-violet-700 dark:text-violet-300">0%</div>
-          <div class="text-[11px] font-medium text-violet-600 dark:text-violet-400">O‘zlashtirish</div>
-        </div>
-      </div>
-
-      <div id="hub-daily-bar" class="glass-card rounded-2xl px-4 py-3 flex flex-wrap items-center justify-between gap-2.5">
-        <div class="flex items-center gap-3 min-w-0">
-          <div id="hub-streak-pill" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-amber-50/90 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800 shrink-0">
-            🔥 <span id="hub-streak-days">0</span> kun
+    <section id="view-subjects" class="hidden fade-in space-y-4">
+      <div class="glass-card rounded-2xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2.5">
+        <div class="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+          <div title="Fanlar" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 text-xs font-extrabold text-slate-800 dark:text-slate-100">
+            <span>📚</span><span id="hub-stat-subjects">0</span>
           </div>
-          <div class="min-w-0">
-            <div id="hub-daily-label" class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 truncate">Kunlik maqsad: 0 / 1 tezkor sessiya</div>
-            <div id="hub-group-pill" class="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate"></div>
+          <div title="O‘zlashtirish" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-violet-50/90 dark:bg-violet-950/60 text-xs font-extrabold text-violet-700 dark:text-violet-300 border border-violet-200/70 dark:border-violet-800/70">
+            <span>📊</span><span id="hub-stat-mastery">0%</span>
           </div>
+          <div id="hub-streak-pill" title="Streak" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-amber-50/90 dark:bg-amber-950/60 text-xs font-extrabold text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800">
+            <span>🔥</span><span id="hub-streak-days">0</span><span id="hub-daily-done" class="hidden text-emerald-500 ml-0.5">✓</span>
+          </div>
+          <span id="hub-stat-questions" class="hidden">0</span>
         </div>
-        <div class="inline-flex p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700/70 shrink-0">
+        <div class="inline-flex p-0.5 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700/70 shrink-0">
           <button type="button" data-subj-scope="mine" class="subj-scope-btn px-3 py-1 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition">Mening fanlarim</button>
           <button type="button" data-subj-scope="all" class="subj-scope-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Barchasi</button>
         </div>
@@ -312,7 +300,7 @@
           </div>
           <div class="rounded-lg bg-white/10 px-2 py-1">
             <span id="my-rank-in-global" class="text-xs font-extrabold">—</span>
-            <span class="text-[10px] text-violet-100 ml-1">Kursda</span>
+            <span class="text-[10px] text-violet-100 ml-1">Universitet</span>
           </div>
         </div>
       </div>
@@ -325,7 +313,6 @@
           <button type="button" data-lb-tab="faculties" class="lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition">Yo‘nalishlar</button>
         </div>
         <div class="flex items-center gap-1.5">
-          <div id="lb-cohort-wrap" class="hidden inline-flex p-1 rounded-xl glass-card"></div>
           <button type="button" id="btn-cup-rules" title="Haftalik kubok qoidalari" class="px-2.5 py-2 rounded-xl glass-card text-xs font-bold text-amber-600 dark:text-amber-400 hover:bg-amber-50/70 dark:hover:bg-amber-950/40 transition">🏆 Qoidalar</button>
         </div>
       </div>
@@ -344,8 +331,8 @@
     </section>
 
     <!-- Cup Rules Popover Modal -->
-    <div id="cup-rules-modal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div class="glass-card rounded-2xl max-w-md w-full p-5 space-y-3 border border-slate-200/70 dark:border-slate-700/70">
+    <div id="cup-rules-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl max-w-md w-full p-5 space-y-3 border border-slate-200 dark:border-slate-700 shadow-2xl">
         <div class="flex items-center justify-between">
           <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">🏆 Haftalik Kubok qoidalari</h3>
           <button type="button" id="btn-close-cup-rules" class="w-7 h-7 rounded-lg glass-sub text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs font-bold">✕</button>
@@ -422,6 +409,21 @@
 
     <!-- VIEW 5: FULL DEDICATED ADMIN PAGE -->
     <section id="view-admin" class="hidden fade-in space-y-5">
+      <!-- Ambassadorlar (✦ Lead) boshqaruvi -->
+      <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">✦ Ambassadorlar (Lead) boshqaruvi</h3>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">Talabalarga kurs-yo‘nalish lider nishonini berish (masalan: CEN26, SWE26, CYB26)</p>
+          </div>
+          <button id="btn-admin-leads-refresh" type="button" class="px-3 py-1.5 rounded-xl text-xs font-bold glass-sub text-slate-700 dark:text-slate-200 hover:bg-violet-50 dark:hover:bg-violet-950/40">Liderlar ro‘yxati</button>
+        </div>
+        <div class="flex gap-2">
+          <input id="admin-lead-search" type="text" placeholder="Ism, email yoki guruh (masalan CEN26-101)..." class="flex-1 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500">
+          <button id="btn-admin-lead-search" type="button" class="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold shrink-0">Qidirish</button>
+        </div>
+        <div id="admin-leads-list" class="divide-y divide-slate-200/60 dark:divide-slate-800/70 max-h-72 overflow-y-auto"></div>
+      </div>
       <div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-2.5">
           <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50/80 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">Admin</span>
@@ -743,7 +745,7 @@
           Faqat xatolarni qayta ishlash
         </button>
         <button id="btn-qs-quick" type="button" class="hidden w-full py-2.5 rounded-xl text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm">
-          ⚡ Tezkor sessiya (15 savol · 10+5)
+          ⚡ Sprint (15 savol · 15 daq)
         </button>
         <button id="btn-qs-fresh" type="button" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
           Testni boshlash
@@ -853,8 +855,8 @@
   </div>
 
   <!-- Edit Profile Modal -->
-  <div id="edit-profile-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="glass-card rounded-2xl max-w-md w-full p-6 shadow-xl fade-in">
+  <div id="edit-profile-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl fade-in">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Profilni tahrirlash</h3>
         <button id="btn-close-edit-profile" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold">✕</button>
@@ -3906,29 +3908,17 @@
     });
 
     function updateDailyBarUI() {
-      const p = sp2.profile;
       const streakEl = document.getElementById('hub-streak-days');
-      const dailyEl = document.getElementById('hub-daily-label');
-      const grpEl = document.getElementById('hub-group-pill');
-      if (!streakEl || !dailyEl || !grpEl) return;
+      const doneEl = document.getElementById('hub-daily-done');
+      const pillEl = document.getElementById('hub-streak-pill');
+      const p = sp2.profile;
       const streak = p?.streak_days || 0;
       const todaySessions = p?.daily_sessions_today || 0;
-      streakEl.textContent = streak;
-      dailyEl.textContent = todaySessions >= 1
-        ? `Kunlik maqsad bajarildi ✓ (${todaySessions} sessiya)`
-        : `Bugun: 0 / 1 sessiya`;
-      if (p?.group_code) {
-        const facObj = sp2.config.faculties.find((f) => f.code === p.faculty_code);
-        grpEl.textContent = `${p.group_code}${facObj ? ' · ' + facObj.name : ''}`;
-      } else {
-        grpEl.textContent = 'Yo‘nalish va guruh tanlanmagan';
+      if (streakEl) streakEl.textContent = streak;
+      if (doneEl) doneEl.classList.toggle('hidden', todaySessions < 1);
+      if (pillEl) {
+        pillEl.title = todaySessions >= 1 ? `Bugungi Sprint bajarildi (${todaySessions})` : 'Streak';
       }
-      document.querySelectorAll('.subj-scope-btn').forEach((b) => {
-        const active = b.dataset.subjScope === sp2.subjScope;
-        b.className = active
-          ? 'subj-scope-btn px-3 py-1 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition'
-          : 'subj-scope-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition';
-      });
     }
 
     document.querySelectorAll('.subj-scope-btn').forEach((btn) => {
@@ -4194,7 +4184,7 @@
           finished: false,
           isQuickSession: true,
           quickIds,
-          deadlineAt: Date.now() + Math.max(1, quickQs.length) * SEC_PER_QUESTION * 1000,
+          deadlineAt: Date.now() + 15 * 60 * 1000,
           updatedAt: new Date().toISOString()
         };
         state.order = quickIds;
@@ -4209,7 +4199,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } finally {
         btnEl.disabled = false;
-        btnEl.textContent = '⚡ Tezkor sessiya (15 savol · 10+5)';
+        btnEl.textContent = '⚡ Sprint (15 savol · 15 daq)';
       }
     });
 
@@ -4329,7 +4319,6 @@
       const myCard = document.getElementById('my-rank-card');
       const subBarEl = document.getElementById('lb-sub-bar');
       const subFiltersEl = document.getElementById('lb-sub-filters');
-      const cohortWrap = document.getElementById('lb-cohort-wrap');
 
       document.querySelectorAll('.lb-main-tab').forEach((b) => {
         const active = b.dataset.lbTab === sp2.lbTab;
@@ -4338,40 +4327,15 @@
           : 'lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition';
       });
 
-      // Ko'p-kursli tanlov: FAQAT 2+ faol kurs bo'lsa avtomatik chiqadi
-      const activeCohorts = sp2.rankings?.activeCohorts || [];
-      if (cohortWrap) {
-        if (activeCohorts.length > 1) {
-          cohortWrap.classList.remove('hidden');
-          const curCohort = Number(sp2.lbCohort || sp2.rankings?.cohortYear || activeCohorts[0].year_code);
-          cohortWrap.innerHTML = activeCohorts.map((c) => {
-            const active = Number(c.year_code) === curCohort;
-            return `<button type="button" data-lb-cohort="${c.year_code}" class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition ${
-              active ? 'bg-amber-500 text-white shadow-sm' : 'text-slate-600 dark:text-slate-300'
-            }">${escapeHtml(c.course_num ? c.course_num + '-kurs' : c.year_code + '-qabul')}</button>`;
-          }).join('');
-          cohortWrap.querySelectorAll('[data-lb-cohort]').forEach((b) => {
-            b.addEventListener('click', () => {
-              sp2.lbCohort = Number(b.dataset.lbCohort);
-              sp2.rankingsAt = 0;
-              loadLeaderboardV2(true);
-            });
-          });
-        } else {
-          cohortWrap.classList.add('hidden');
-          cohortWrap.innerHTML = '';
-        }
-      }
-
-      // Sub-filtr FAQAT Talabalar bo'limida ko'rinadi
+      // 3-doira sub-filtri FAQAT Talabalar bo'limida (default: Guruhim)
       if (sp2.lbTab === 'users') {
         subBarEl?.classList.remove('hidden');
         const opts = [
-          { id: 'global', label: 'Hammasi' },
+          { id: 'group', label: 'Guruhim' },
           { id: 'faculty', label: 'Yo‘nalishim' },
-          { id: 'group', label: 'Guruhim' }
+          { id: 'global', label: 'Universitet' }
         ];
-        if (!opts.some((o) => o.id === sp2.lbSub)) sp2.lbSub = 'global';
+        if (!opts.some((o) => o.id === sp2.lbSub)) sp2.lbSub = 'group';
         subFiltersEl.innerHTML = opts.map((o) => `
           <button type="button" data-lb-sub="${o.id}" class="px-3 py-1 rounded-lg text-xs font-bold transition ${
             sp2.lbSub === o.id
@@ -4416,14 +4380,32 @@
         return parts.join(' ');
       };
 
-      // Personal Weekly Rank Card (0 ball bo'lsa '—' chiqadi)
+      const renderLeadBadge = (u) => {
+        const lb = u?.lead_badge || (u?.is_ambassador ? (u.faculty_code ? `${u.faculty_code}${u.cohort_year || 26}` : 'Lead') : '');
+        if (!lb) return '';
+        return `<span class="text-[10px] px-1.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 border border-amber-300/60 dark:border-amber-700/60 font-extrabold shrink-0">✦ Lead ${escapeHtml(lb)}</span>`;
+      };
+
+      const renderAvatar = (r, sizeCls = 'w-9 h-9 text-xs') => {
+        if (sp2.lbTab === 'users') {
+          if (r.photo_url) {
+            return `<img src="${escapeHtml(r.photo_url)}" class="${sizeCls} rounded-full object-cover ring-2 ring-white/80 dark:ring-slate-800 shadow-sm shrink-0" alt="">`;
+          }
+          const init = getInitials(r.display_name || 'T', '');
+          return `<div class="${sizeCls} rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-white font-extrabold flex items-center justify-center ring-2 ring-white/80 dark:ring-slate-800 shadow-sm shrink-0">${escapeHtml(init)}</div>`;
+        }
+        const tag = sp2.lbTab === 'faculties' ? (r.faculty_code || r.code || '').slice(0, 3) : (r.faculty_code || r.code || '').slice(0, 3);
+        return `<div class="${sizeCls} rounded-full bg-gradient-to-br from-violet-600/90 to-indigo-600/90 text-white font-extrabold flex items-center justify-center ring-2 ring-white/80 dark:ring-slate-800 shadow-sm shrink-0">${escapeHtml(tag)}</div>`;
+      };
+
+      // Shaxsiy haftalik karta (ortiqcha 2026-W48 / CEN takrorisiz!)
       const me = sp2.myRanks;
       const fmtRank = (v) => (v && Number(v) > 0 && Number(me?.weeklyPoints || 0) > 0) ? ('#' + v) : '—';
       if (me && me.registered && !isAdmin()) {
         myCard.classList.remove('hidden');
         document.getElementById('my-rank-badge').textContent = fmtRank(me.ranks?.global);
         document.getElementById('my-rank-title').textContent = state.user?.name || 'Talaba';
-        document.getElementById('my-rank-sub').textContent = `${me.group} · ${me.faculty} · ${sp2.rankings.weekId || ''}`;
+        document.getElementById('my-rank-sub').textContent = me.group || '';
         document.getElementById('my-rank-weekly').textContent = me.weeklyPoints || 0;
         document.getElementById('my-rank-streak').textContent = me.streakDays || 0;
         document.getElementById('my-rank-medals').textContent = formatMedals(me.medals) || '—';
@@ -4446,18 +4428,12 @@
           Number(b.avg_score || 0) - Number(a.avg_score || 0) || (b.total_score || 0) - (a.total_score || 0)
         );
       } else {
-        const sameCohort = !sp2.lbCohort || Number(sp2.lbCohort) === Number(me?.cohortYear || 26);
-        if (sp2.lbSub === 'group' && sameCohort && me?.groupPeers?.length) {
-          rows = me.groupPeers.filter((u) => (u.total_correct || 0) > 0);
-        } else if (sp2.lbSub === 'faculty' && sameCohort && me?.facultyTop?.length) {
-          rows = me.facultyTop.filter((u) => (u.total_correct || 0) > 0);
+        if (sp2.lbSub === 'group') {
+          rows = (me?.groupPeers || []).filter((u) => (u.total_correct || 0) > 0);
+        } else if (sp2.lbSub === 'faculty') {
+          rows = (me?.facultyTop || []).filter((u) => (u.total_correct || 0) > 0);
         } else {
           rows = [...(bucket.users || [])].filter((u) => (u.total_correct || 0) > 0);
-          if (sp2.lbSub === 'group' && sp2.profile?.group_code) {
-            rows = rows.filter((u) => u.group_code === sp2.profile.group_code);
-          } else if (sp2.lbSub === 'faculty' && sp2.profile?.faculty_code) {
-            rows = rows.filter((u) => u.faculty_code === sp2.profile.faculty_code);
-          }
         }
       }
 
@@ -4465,70 +4441,89 @@
 
       if (!rows.length) {
         podiumEl.classList.add('hidden');
-        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Bu hafta hali natijalar yo‘q — birinchi bo‘lib test yeching!</div>`;
+        listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-500">Bu hafta hali natijalar yo‘q — birinchi bo‘lib Sprint yeching!</div>`;
         return;
       }
 
       const getScoreVal = (r) => sp2.lbTab === 'users' ? (r.total_correct || 0) : Number(r.avg_score || 0);
-      const getTitle = (r) => {
-        if (sp2.lbTab === 'users') {
-          const m = formatMedals(r);
-          return m ? `${r.display_name || 'Talaba'} ${m}` : (r.display_name || 'Talaba');
-        }
+      const getName = (r) => {
+        if (sp2.lbTab === 'users') return r.display_name || 'Talaba';
         if (sp2.lbTab === 'faculties') return `${r.code} · ${r.name}`;
         return r.is_weekly_champion ? `👑 ${r.code}` : r.code;
       };
-      const getSub = (r) => {
-        if (sp2.lbTab === 'users') {
-          const badge = r.is_ambassador ? ' · ⭐ Ambassador' : '';
-          return `${r.group_code || ''}${r.streak_days ? ' · 🔥 ' + r.streak_days + ' kun' : ''}${badge}`;
-        }
-        const crown = (sp2.lbTab === 'groups' && r.is_weekly_champion) ? '👑 Hafta guruhi · ' : '';
-        return `${crown}${r.active_users || 0} faol talaba · Jami: ${r.total_score || 0}`;
-      };
-      // Top-3 Podium: FAQAT balli > 0 bo'lgan kamida 2 ta natija bo'lsagina chiqadi (0 balli podium yo'q!)
+
+      // Top-3 Podium (avvalgi chiroyli avatar + yashil ball ko'rinishi, 2 kishida simmetrik!)
       const positiveRows = rows.filter((r) => getScoreVal(r) > 0);
       if (positiveRows.length >= 2) {
         podiumEl.classList.remove('hidden');
-        const orderIdx = positiveRows.length >= 3 ? [1, 0, 2] : [1, 0];
+        const isTwo = positiveRows.length === 2;
+        podiumEl.className = isTwo
+          ? 'grid grid-cols-2 max-w-md mx-auto gap-3 items-end'
+          : 'grid grid-cols-3 gap-2.5 sm:gap-4 items-end';
+        const orderIdx = isTwo ? [1, 0] : [1, 0, 2];
         const styles = {
-          0: { h: 'pt-5 pb-3.5', ring: 'border-amber-400 bg-amber-50/70 dark:bg-amber-950/40', medal: '🥇' },
-          1: { h: 'pt-3.5 pb-3', ring: 'border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-800/60', medal: '🥈' },
-          2: { h: 'pt-3 pb-2.5', ring: 'border-orange-300 dark:border-orange-800 bg-orange-50/60 dark:bg-orange-950/30', medal: '🥉' }
+          0: { h: 'pt-5 pb-3.5 border-amber-400/80 dark:border-amber-600/80', medal: '🥇' },
+          1: { h: 'pt-3.5 pb-3 border-slate-300/70 dark:border-slate-700', medal: '🥈' },
+          2: { h: 'pt-3 pb-2.5 border-orange-300/80 dark:border-orange-800/80', medal: '🥉' }
         };
         podiumEl.innerHTML = orderIdx.map((idx) => {
           const r = positiveRows[idx];
           const st = styles[idx];
+          const avHtml = renderAvatar(r, 'w-11 h-11 text-sm mx-auto');
+          const subTag = sp2.lbTab === 'users' ? (r.group_code || '') : `${r.active_users || 0} faol`;
           return `
-            <div class="glass-card rounded-2xl border ${st.ring} ${st.h} px-2.5 text-center">
-              <div class="text-xl sm:text-2xl mb-1">${st.medal}</div>
-              <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">${escapeHtml(getTitle(r))}</div>
-              <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(sp2.lbTab === 'users' ? (r.group_code || '') : ((r.active_users || 0) + ' faol'))}</div>
-              <div class="mt-1.5 text-sm sm:text-base font-extrabold text-violet-700 dark:text-violet-300">${getScoreVal(r)}</div>
+            <div class="glass-card rounded-2xl border ${st.h} px-2.5 text-center">
+              <div class="text-xl mb-1.5">${st.medal}</div>
+              ${avHtml}
+              <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate mt-2">${escapeHtml(getName(r))}</div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(subTag)}</div>
+              <div class="text-xs sm:text-sm font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">${getScoreVal(r)} ball</div>
             </div>`;
         }).join('');
       } else {
         podiumEl.classList.add('hidden');
       }
+
+      // Ro'yxat (avvalgi chiroyli avatar + ixcham 200px yashil progress bar + o'ngda yashil ball!)
       const maxVal = Math.max(1, ...rows.map(getScoreVal));
+      const rankMedals = ['🥇', '🥈', '🥉'];
       listEl.innerHTML = rows.map((r, i) => {
         const val = getScoreVal(r);
         const pct = Math.min(100, Math.round((val / maxVal) * 100));
         const isMe = (sp2.lbTab === 'users' && state.user && r.uid === state.user.uid)
           || (sp2.lbTab === 'groups' && sp2.profile?.group_code === r.code)
-          || (sp2.lbTab === 'faculties' && sp2.profile?.faculty_code === r.code);
+          || (sp2.lbTab === 'faculties' && sp2.profile?.faculty_code === (r.faculty_code || r.code));
+        const rankDisplay = (i < 3 && val > 0)
+          ? `<span class="text-lg leading-none">${rankMedals[i]}</span>`
+          : `<span class="text-xs font-extrabold text-slate-500 dark:text-slate-400">#${i + 1}</span>`;
+        const avHtml = renderAvatar(r, 'w-9 h-9 text-xs');
+        const medalsStr = sp2.lbTab === 'users' ? formatMedals(r) : '';
+        const leadHtml = sp2.lbTab === 'users' ? renderLeadBadge(r) : '';
+        const rightSub = sp2.lbTab === 'users'
+          ? (r.streak_days ? `🔥 ${r.streak_days}` : '')
+          : `${r.active_users || 0} faol · ${r.total_score || 0}`;
+
         return `
-          <div class="px-4 py-3 flex items-center gap-3 ${isMe ? 'bg-violet-50/75 dark:bg-violet-950/40' : ''}">
-            <div class="w-7 text-center text-xs font-extrabold ${i < 3 ? 'text-violet-600 dark:text-violet-400' : 'text-slate-400'}">#${i + 1}</div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center justify-between gap-2">
-                <div class="text-sm font-bold text-slate-900 dark:text-white truncate">${escapeHtml(getTitle(r))}${isMe ? ' <span class="text-[10px] font-extrabold text-violet-600 dark:text-violet-400">(Siz)</span>' : ''}</div>
-                <div class="text-sm font-extrabold text-violet-700 dark:text-violet-300 shrink-0">${val}</div>
+          <div class="px-4 py-3.5 flex items-center justify-between gap-3 ${isMe ? 'bg-violet-50/70 dark:bg-violet-950/35' : ''}">
+            <div class="flex items-center gap-3 min-w-0 flex-1">
+              <div class="w-7 text-center shrink-0">${rankDisplay}</div>
+              ${avHtml}
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="font-bold text-sm text-slate-900 dark:text-white truncate">${escapeHtml(getName(r))}</span>
+                  ${isMe ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-violet-600 text-white font-bold shrink-0">Siz</span>' : ''}
+                  ${sp2.lbTab === 'users' && r.group_code ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold shrink-0">${escapeHtml(r.group_code)}</span>` : ''}
+                  ${leadHtml}
+                  ${medalsStr ? `<span class="text-[11px] shrink-0">${medalsStr}</span>` : ''}
+                </div>
+                <div class="w-full max-w-[200px] h-1.5 bg-slate-200/70 dark:bg-slate-800/70 rounded-full overflow-hidden mt-1.5">
+                  <div class="h-full bg-emerald-500 rounded-full" style="width:${pct}%"></div>
+                </div>
               </div>
-              <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(getSub(r))}</div>
-              <div class="mt-1.5 w-full h-1.5 bg-slate-200/70 dark:bg-slate-800 rounded-full overflow-hidden">
-                <div class="h-full bg-violet-600 dark:bg-violet-500 rounded-full" style="width:${pct}%"></div>
-              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">${val} ball</div>
+              ${rightSub ? `<div class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">${escapeHtml(rightSub)}</div>` : ''}
             </div>
           </div>`;
       }).join('');
@@ -4537,9 +4532,89 @@
     document.querySelectorAll('.lb-main-tab').forEach((b) => {
       b.addEventListener('click', () => {
         sp2.lbTab = b.dataset.lbTab;
-        sp2.lbSub = sp2.lbTab === 'users' ? 'global' : 'global';
+        sp2.lbSub = sp2.lbTab === 'users' ? 'group' : 'global';
         renderLeaderboardV2();
       });
+    });
+
+
+    // Admin: Ambassadorlar (✦ Lead) boshqaruvi
+    async function loadAdminLeads(queryStr = '') {
+      const listEl = document.getElementById('admin-leads-list');
+      if (!listEl || !isAdmin()) return;
+      listEl.innerHTML = `<div class="py-4 text-center text-xs text-slate-500">Yuklanmoqda...</div>`;
+      try {
+        const url = queryStr ? `/api/admin-lead?q=${encodeURIComponent(queryStr)}` : '/api/admin-lead';
+        const data = await sp2Fetch(url, { authRequired: true });
+        const users = data.users || [];
+        if (!users.length) {
+          listEl.innerHTML = `<div class="py-4 text-center text-xs text-slate-500">${queryStr ? 'Talaba topilmadi.' : 'Hozircha Lead tayinlanmagan. Yuqoridan talaba qidiring.'}</div>`;
+          return;
+        }
+        listEl.innerHTML = users.map((u) => {
+          const suggested = u.lead_badge || (u.faculty_code ? `${u.faculty_code}${u.cohort_year || 26}` : 'CEN26');
+          return `
+            <div class="py-2.5 flex flex-wrap items-center justify-between gap-2">
+              <div class="min-w-0">
+                <div class="text-xs font-bold text-slate-900 dark:text-white truncate">${escapeHtml(u.display_name || u.email || 'Talaba')} ${u.lead_badge ? `<span class="ml-1 px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 text-[10px] font-extrabold">✦ Lead ${escapeHtml(u.lead_badge)}</span>` : ''}</div>
+                <div class="text-[11px] text-slate-500 truncate">${escapeHtml(u.group_code || 'Guruhsiz')} · ${escapeHtml(u.email || '')}</div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <input type="text" data-lead-input="${escapeHtml(u.uid)}" value="${escapeHtml(suggested)}" placeholder="CEN26" class="w-20 px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold uppercase text-center">
+                <button type="button" data-lead-save="${escapeHtml(u.uid)}" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold">Saqlash</button>
+                ${u.lead_badge ? `<button type="button" data-lead-remove="${escapeHtml(u.uid)}" class="px-2 py-1 rounded-lg bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 text-[11px] font-bold">✕</button>` : ''}
+              </div>
+            </div>`;
+        }).join('');
+
+        listEl.querySelectorAll('[data-lead-save]').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const uid = btn.dataset.leadSave;
+            const inp = listEl.querySelector(`[data-lead-input="${uid}"]`);
+            const badge = (inp?.value || '').trim().toUpperCase();
+            btn.disabled = true;
+            try {
+              await sp2Fetch('/api/admin-lead', { method: 'POST', authRequired: true, body: { uid, leadBadge: badge } });
+              sp2.rankingsAt = 0;
+              loadAdminLeads(document.getElementById('admin-lead-search')?.value.trim() || '');
+            } catch (e) {
+              alert(e.message || 'Xatolik');
+            } finally {
+              btn.disabled = false;
+            }
+          });
+        });
+
+        listEl.querySelectorAll('[data-lead-remove]').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const uid = btn.dataset.leadRemove;
+            btn.disabled = true;
+            try {
+              await sp2Fetch('/api/admin-lead', { method: 'POST', authRequired: true, body: { uid, leadBadge: null } });
+              sp2.rankingsAt = 0;
+              loadAdminLeads(document.getElementById('admin-lead-search')?.value.trim() || '');
+            } catch (e) {
+              alert(e.message || 'Xatolik');
+            } finally {
+              btn.disabled = false;
+            }
+          });
+        });
+      } catch (e) {
+        listEl.innerHTML = `<div class="py-4 text-center text-xs text-rose-500">${escapeHtml(e.message || 'Xatolik')}</div>`;
+      }
+    }
+
+    document.getElementById('btn-admin-lead-search')?.addEventListener('click', () => {
+      loadAdminLeads(document.getElementById('admin-lead-search')?.value.trim() || '');
+    });
+    document.getElementById('admin-lead-search')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') loadAdminLeads(e.target.value.trim());
+    });
+    document.getElementById('btn-admin-leads-refresh')?.addEventListener('click', () => {
+      const inp = document.getElementById('admin-lead-search');
+      if (inp) inp.value = '';
+      loadAdminLeads('');
     });
 
     loadUniversityConfig();
