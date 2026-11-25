@@ -1,12 +1,12 @@
-/* StudyPrep 2.0 — Smooth Metallic Avatar Aura Rings, Shimmer & Celebration Styles */
+/* StudyPrep 2.0 — 3D Studio Trophy Assets, Champion Avatar Aura Rings & Animations */
 @keyframes spAuraSpin {
   0%   { filter: brightness(1) drop-shadow(0 0 6px var(--sp-glow)); }
-  50%  { filter: brightness(1.16) drop-shadow(0 0 11px var(--sp-glow)); }
+  50%  { filter: brightness(1.18) drop-shadow(0 0 12px var(--sp-glow)); }
   100% { filter: brightness(1) drop-shadow(0 0 6px var(--sp-glow)); }
 }
 @keyframes spFloat {
   0%, 100% { transform: translateY(0px) scale(1); }
-  50%      { transform: translateY(-5px) scale(1.03); }
+  50%      { transform: translateY(-6px) scale(1.04); }
 }
 @keyframes spPopIn {
   0%   { opacity: 0; transform: scale(0.86) translateY(14px); }
@@ -23,37 +23,40 @@
   flex-shrink: 0;
 }
 .sp-aura-gold {
-  --sp-glow: rgba(245, 196, 81, 0.72);
+  --sp-glow: rgba(245, 196, 81, 0.78);
   background: conic-gradient(from 0deg, #FDE68A, #F59E0B, #FEF3C7, #D97706, #FDE68A);
   animation: spAuraSpin 3.4s ease-in-out infinite;
 }
 .sp-aura-silver {
-  --sp-glow: rgba(203, 213, 225, 0.65);
+  --sp-glow: rgba(203, 213, 225, 0.72);
   background: conic-gradient(from 0deg, #F8FAFC, #94A3B8, #E2E8F0, #64748B, #F8FAFC);
   animation: spAuraSpin 3.8s ease-in-out infinite;
 }
 .sp-aura-bronze {
-  --sp-glow: rgba(234, 154, 102, 0.62);
+  --sp-glow: rgba(234, 154, 102, 0.68);
   background: conic-gradient(from 0deg, #FED7AA, #C26D3D, #FFEDD5, #9A4A22, #FED7AA);
   animation: spAuraSpin 4s ease-in-out infinite;
 }
 .sp-aura-crown-pip {
   position: absolute;
-  top: -7px;
+  top: -11px;
   left: 50%;
   transform: translateX(-50%);
-  width: 15px;
-  height: 11px;
+  width: 20px;
+  height: 20px;
   pointer-events: none;
-  filter: drop-shadow(0 1px 3px rgba(245, 158, 11, 0.7));
+  filter: drop-shadow(0 2px 5px rgba(245, 158, 11, 0.8));
 }
-.sp-badge-svg {
+.sp-trophy-img {
   display: inline-block;
+  object-fit: contain;
   vertical-align: middle;
   flex-shrink: 0;
+  user-select: none;
+  pointer-events: none;
 }
 .sp-trophy-float {
-  animation: spFloat 3.2s ease-in-out infinite;
+  animation: spFloat 3.4s ease-in-out infinite;
 }
 .sp-celebrate-card {
   animation: spPopIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;

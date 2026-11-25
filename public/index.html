@@ -4534,11 +4534,11 @@
       const positiveRows = rows.filter((r) => getScoreVal(r) > 0);
       if (positiveRows.length >= 1) {
         podiumEl.classList.remove('hidden');
-        podiumEl.className = 'grid grid-cols-3 gap-2.5 sm:gap-4 items-end pt-3';
+        podiumEl.className = 'grid grid-cols-3 gap-2.5 sm:gap-4 items-end pt-2';
         const slots = [
-          { idx: 1, h: 'pt-4 pb-3 border-slate-300/70 dark:border-slate-700', size: 44, glow: 'drop-shadow(0 6px 14px rgba(148,163,184,0.45))', emptyLbl: '2-o‘rin bo‘sh' },
-          { idx: 0, h: 'pt-5 pb-4 border-amber-400/80 dark:border-amber-500/80 shadow-lg shadow-amber-500/15', size: 58, glow: 'drop-shadow(0 8px 18px rgba(245,196,81,0.55))', emptyLbl: '1-o‘rin' },
-          { idx: 2, h: 'pt-3.5 pb-2.5 border-orange-300/70 dark:border-orange-800/70', size: 40, glow: 'drop-shadow(0 6px 14px rgba(234,140,85,0.45))', emptyLbl: '3-o‘rin bo‘sh' }
+          { idx: 1, h: 'pt-4 pb-3 border-slate-300/70 dark:border-slate-700', size: 74, glow: 'drop-shadow(0 10px 22px rgba(148,163,184,0.55))', emptyLbl: '2-o‘rin bo‘sh' },
+          { idx: 0, h: 'pt-5 pb-4 border-amber-400/85 dark:border-amber-500/85 shadow-xl shadow-amber-500/15', size: 96, glow: 'drop-shadow(0 12px 28px rgba(245,196,81,0.68))', emptyLbl: '1-o‘rin' },
+          { idx: 2, h: 'pt-3.5 pb-2.5 border-orange-300/70 dark:border-orange-800/70', size: 68, glow: 'drop-shadow(0 10px 20px rgba(234,140,85,0.52))', emptyLbl: '3-o‘rin bo‘sh' }
         ];
         podiumEl.innerHTML = slots.map((sl) => {
           const r = positiveRows[sl.idx];
@@ -4578,8 +4578,9 @@
         const isMe = (sp2.lbTab === 'users' && state.user && r.uid === state.user.uid)
           || (sp2.lbTab === 'groups' && sp2.profile?.group_code === r.code)
           || (sp2.lbTab === 'faculties' && (`${sp2.profile?.faculty_code || ''}${sp2.profile?.cohort_year || 26}` === r.code));
+        const rankColors = ['text-amber-500 dark:text-amber-300', 'text-slate-500 dark:text-slate-300', 'text-orange-500 dark:text-orange-300'];
         const rankDisplay = (i < 3 && val > 0)
-          ? `<span class="inline-flex items-center justify-center">${getCategoryRewardSvg(i, 21)}</span>`
+          ? `<span class="text-sm font-extrabold ${rankColors[i]}">#${i + 1}</span>`
           : `<span class="text-xs font-extrabold text-slate-500 dark:text-slate-400">#${i + 1}</span>`;
         const avHtml = renderAvatar(r, 'w-9 h-9 text-xs');
         const medalsStr = sp2.lbTab === 'users' ? formatMedals(r) : '';
