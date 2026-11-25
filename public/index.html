@@ -509,9 +509,33 @@
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Fan ID (lotincha)</label>
             <input id="adm-subj-id" type="text" required placeholder="comp-arch" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm font-mono">
           </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Kod</label>
+              <input id="adm-subj-code" type="text" required placeholder="IT · 1-sem" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Semestr (1–8)</label>
+              <select id="adm-subj-semester" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
+                <option value="1">1-semestr</option><option value="2">2-semestr</option>
+                <option value="3">3-semestr</option><option value="4">4-semestr</option>
+                <option value="5">5-semestr</option><option value="6">6-semestr</option>
+                <option value="7">7-semestr</option><option value="8">8-semestr</option>
+              </select>
+            </div>
+          </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Kod / Kurs</label>
-            <input id="adm-subj-code" type="text" required placeholder="IT · 1-kurs" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-sm">
+            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Yo‘nalishlar</label>
+            <div class="flex flex-wrap gap-1.5" id="adm-subj-facs-wrap">
+              <label class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold cursor-pointer"><input type="checkbox" class="adm-subj-fac" value="ALL" checked> ALL</label>
+              <label class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold cursor-pointer"><input type="checkbox" class="adm-subj-fac" value="CYB"> CYB</label>
+              <label class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold cursor-pointer"><input type="checkbox" class="adm-subj-fac" value="CEN"> CEN</label>
+              <label class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold cursor-pointer"><input type="checkbox" class="adm-subj-fac" value="INS"> INS</label>
+              <label class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold cursor-pointer"><input type="checkbox" class="adm-subj-fac" value="SWE"> SWE</label>
+              <label class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold cursor-pointer"><input type="checkbox" class="adm-subj-fac" value="ECO"> ECO</label>
+              <label class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold cursor-pointer"><input type="checkbox" class="adm-subj-fac" value="MNG"> MNG</label>
+              <label class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold cursor-pointer"><input type="checkbox" class="adm-subj-fac" value="LAW"> LAW</label>
+            </div>
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Qisqa tavsif</label>
@@ -1369,6 +1393,7 @@
           });
           if (res.user) {
             sp2.profile = res.user;
+            lsSet('studyprep_profile_v2_cache', JSON.stringify(sp2.profile));
             sp2.rankingsAt = 0;
             updateDailyBarUI();
           }
@@ -1576,8 +1601,13 @@
       let totalQ = 0;
       let totalCorrect = 0;
       const myFac = sp2.profile?.faculty_code || null;
+      const activeSem = Number(sp2.subjSemester || 1);
       const visibleSubjects = (sp2.subjScope === 'mine' && myFac)
-        ? state.subjects.filter((s) => !Array.isArray(s.faculties) || !s.faculties.length || s.faculties.includes('ALL') || s.faculties.includes(myFac))
+        ? state.subjects.filter((s) => {
+            const semOk = Number(s.semester || 1) === activeSem;
+            const facOk = !Array.isArray(s.faculties) || !s.faculties.length || s.faculties.includes('ALL') || s.faculties.includes(myFac);
+            return semOk && facOk;
+          })
         : state.subjects;
       grid.innerHTML = visibleSubjects.map((subj) => {
         const subjMetas = state.topicMetas.filter((t) => t.subjectId === subj.id);
@@ -2505,11 +2535,14 @@
       if (!isAdmin()) return;
       const sid = document.getElementById('adm-subj-id').value.trim();
       const existing = state.subjects.find((x) => x.id === sid);
+      const selectedFacs = [...document.querySelectorAll('.adm-subj-fac:checked')].map((c) => c.value);
       const subj = {
         id: sid,
         code: document.getElementById('adm-subj-code').value.trim(),
         title: document.getElementById('adm-subj-title').value.trim(),
         desc: document.getElementById('adm-subj-desc').value.trim(),
+        semester: Number(document.getElementById('adm-subj-semester')?.value || 1),
+        faculties: selectedFacs.length ? selectedFacs : ['ALL'],
         order: existing ? existing.order : state.subjects.length + 1
       };
       try {
@@ -2574,6 +2607,10 @@
         document.getElementById('adm-subj-code').value = s.code || '';
         document.getElementById('adm-subj-title').value = s.title || '';
         document.getElementById('adm-subj-desc').value = s.desc || '';
+        const semSel = document.getElementById('adm-subj-semester');
+        if (semSel) semSel.value = String(s.semester || 1);
+        const curFacs = Array.isArray(s.faculties) && s.faculties.length ? s.faculties : ['ALL'];
+        document.querySelectorAll('.adm-subj-fac').forEach((cb) => { cb.checked = curFacs.includes(cb.value); });
         document.getElementById('subj-form-title').textContent = 'Fanni tahrirlash';
         document.getElementById('btn-subj-cancel').classList.remove('hidden');
       } else if (delBtn) {
@@ -3226,6 +3263,7 @@
           body: { displayName: newName, groupCode: newGroup }
         });
         sp2.profile = res.user;
+            lsSet('studyprep_profile_v2_cache', JSON.stringify(sp2.profile));
         state.user.name = res.user.display_name;
         state.user.group = res.user.group_code;
         state.user.faculty = res.user.faculty_code;
@@ -3893,7 +3931,8 @@
 
     const sp2 = {
       config: FALLBACK_UNI_CONFIG,
-      profile: null,
+      profile: (() => { try { return JSON.parse(lsGet('studyprep_profile_v2_cache') || 'null'); } catch { return null; } })(),
+      subjSemester: Number(lsGet('studyprep_subj_sem') || 1),
       subjScope: lsGet('studyprep_subj_scope') || 'mine',
       lbTab: 'users',       // users | groups | faculties
       lbPeriod: 'weekly',   // weekly | overall
@@ -3983,10 +4022,14 @@
       const pillEl = document.getElementById('hub-streak-pill');
       const iconEl = document.getElementById('hub-streak-icon');
       const p = sp2.profile;
-      const streak = p?.streak_days || 0;
-      const todaySessions = p?.daily_sessions_today || 0;
+      const getUzDay = (offset = 0) => new Date(Date.now() + 5 * 3600 * 1000 + offset * 86400 * 1000).toISOString().slice(0, 10);
+      const todayUz = getUzDay(0);
+      const yesterdayUz = getUzDay(-1);
+      const lastDay = p?.last_active_day || '';
+      const todaySessions = (lastDay === todayUz) ? Number(p?.daily_sessions_today || 0) : 0;
       const lit = todaySessions >= 1;
-      if (streakEl) streakEl.textContent = streak;
+      const effectiveStreak = (lastDay === todayUz || lastDay === yesterdayUz) ? Number(p?.streak_days || 0) : 0;
+      if (streakEl) streakEl.textContent = effectiveStreak;
       if (pillEl) {
         pillEl.className = lit
           ? 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/25 text-amber-600 dark:text-amber-300 border border-amber-400/75 text-sm font-extrabold shadow-sm shadow-orange-500/20 transition-all'
@@ -4155,6 +4198,7 @@
           }
         });
         sp2.profile = res.user;
+            lsSet('studyprep_profile_v2_cache', JSON.stringify(sp2.profile));
         state.user.group = res.user.group_code;
         state.user.faculty = res.user.faculty_code;
         lsSet('studyprep_user_cache', JSON.stringify(state.user));
@@ -4179,6 +4223,7 @@
       try {
         const data = await sp2Fetch('/api/profile', { authRequired: true });
         sp2.profile = data.user || null;
+        if (sp2.profile) lsSet('studyprep_profile_v2_cache', JSON.stringify(sp2.profile));
         if (sp2.profile) {
           state.lifetimeAnswered = Number(sp2.profile.lifetime_answered || 0);
           state.lifetimeCorrect = Number(sp2.profile.lifetime_correct || 0);
@@ -4781,9 +4826,12 @@
       if (e.target.id === 'hof-modal') e.target.classList.add('hidden');
     });
 
+
+
     loadUniversityConfig();
     applyTheme(lsGet('studyprep_theme') || 'light');
     hydrateFromLocalCache();
+    updateDailyBarUI();
     loadCatalogMeta();
     subscribeAnnouncements();
     onAuthStateChanged(auth, async (fbUser) => {
