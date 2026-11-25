@@ -71,3 +71,13 @@
   font-weight: 800;
   letter-spacing: 0.01em;
 }
+
+/* Podium ustidagi katta 3D mukofot o'lchamlari (index.html ga tegmasdan boshqariladi) */
+#leaderboard-podium > div:nth-child(2) .sp-trophy-img { width: 132px !important; height: 132px !important; }
+#leaderboard-podium > div:nth-child(1) .sp-trophy-img { width: 96px !important; height: 96px !important; }
+#leaderboard-podium > div:nth-child(3) .sp-trophy-img { width: 86px !important; height: 86px !important; }
+@media (max-width: 640px) {
+  #leaderboard-podium > div:nth-child(2) .sp-trophy-img { width: 94px !important; height: 94px !important; }
+  #leaderboard-podium > div:nth-child(1) .sp-trophy-img { width: 70px !important; height: 70px !important; }
+  #leaderboard-podium > div:nth-child(3) .sp-trophy-img { width: 64px !important; height: 64px !important; }
+}
