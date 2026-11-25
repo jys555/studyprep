@@ -20,7 +20,38 @@ export default async function handler(req, res) {
     if (facultyCode) query += `&faculty_code=eq.${encodeURIComponent(facultyCode)}`;
     if (groupCode) query += `&group_code=eq.${encodeURIComponent(groupCode)}`;
 
-    const recipients = await sbRest(query);
+    const userRows = await sbRest(query);
+    const map = new Map();
+
+    for (const u of (userRows || [])) {
+      const cid = String(u.tg_chat_id || '').trim();
+      if (!cid) continue;
+      map.set(cid, {
+        tg_chat_id: cid,
+        display_name: u.display_name || 'Talaba',
+        group_code: u.group_code || '-'
+      });
+    }
+
+    // Agar "Barchasi" (filtrsiz) tanlangan bo'lsa, bot_subscribers jadvalidagi barcha eski/yangi /start bosganlarni ham qo'shamiz
+    if (!facultyCode && !groupCode) {
+      try {
+        const subRows = await sbRest('bot_subscribers?select=chat_id,first_name,username&limit=5000');
+        for (const s of (subRows || [])) {
+          const cid = String(s.chat_id || '').trim();
+          if (!cid || map.has(cid)) continue;
+          map.set(cid, {
+            tg_chat_id: cid,
+            display_name: s.first_name || (s.username ? '@' + s.username : 'Obunachi'),
+            group_code: s.username ? '@' + s.username : 'bot'
+          });
+        }
+      } catch (_) {
+        // bot_subscribers jadvali hali yaratilmagan bo'lsa ham users bilan ishlayveradi
+      }
+    }
+
+    const recipients = Array.from(map.values());
 
     if (action === 'list') {
       return res.status(200).json({
@@ -34,7 +65,7 @@ export default async function handler(req, res) {
 
     let sent = 0;
     const failed = [];
-    const CHUNK = 25; // Telegram 30 msg/s limitidan pastda xavfsiz jo'natish
+    const CHUNK = 25;
 
     for (let i = 0; i < recipients.length; i += CHUNK) {
       const slice = recipients.slice(i, i + CHUNK);
