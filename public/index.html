@@ -696,33 +696,34 @@
             </label>
             <label class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 cursor-pointer">
               <input id="ann-send-tg" type="checkbox" class="w-4 h-4 rounded text-sky-600 focus:ring-sky-500">
-              Telegram botga ham yuborish (Worker orqali)
+              Telegram botga ham yuborish
             </label>
           </div>
           <div id="ann-worker-wrap" class="hidden space-y-2.5">
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Vercel API Broadcast URL</label>
-              <div class="flex gap-2">
-                <input id="ann-worker-url" type="url" placeholder="https://studyprep-api.vercel.app/api/broadcast" class="flex-1 min-w-0 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500">
-                <button id="btn-check-tg-audience" type="button" class="shrink-0 px-3 py-2 rounded-xl text-xs font-bold bg-sky-600 hover:bg-sky-700 text-white transition">Tekshirish</button>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Yo‘nalish (ixtiyoriy)</label>
+                <select id="ann-tg-faculty" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-xs font-semibold">
+                  <option value="">Barchasi</option>
+                  <option value="CYB">CYB</option><option value="CEN">CEN</option>
+                  <option value="INS">INS</option><option value="SWE">SWE</option>
+                  <option value="ECO">ECO</option><option value="MNG">MNG</option>
+                  <option value="LAW">LAW</option>
+                </select>
               </div>
-              <p class="mt-1 text-[11px] text-slate-500 dark:text-slate-400">BOT_TOKEN faqat Worker ichida saqlanadi, sayt kodiga yozilmaydi.</p>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Guruh (ixtiyoriy)</label>
+                <div class="flex gap-1.5">
+                  <input id="ann-tg-group" type="text" placeholder="CEN26-101" class="w-full min-w-0 px-2.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-xs font-semibold uppercase">
+                  <button id="btn-check-tg-audience" type="button" class="shrink-0 px-3 py-2 rounded-xl text-xs font-bold bg-sky-600 hover:bg-sky-700 text-white transition">Soni</button>
+                </div>
+              </div>
             </div>
-            <div id="ann-audience-box" class="hidden rounded-xl border border-sky-200 dark:border-sky-800/70 bg-sky-50/70 dark:bg-sky-950/40 p-3 text-xs space-y-1"></div>
+            <div id="ann-audience-box" class="hidden rounded-xl border border-sky-200 dark:border-sky-800/70 bg-sky-50/70 dark:bg-sky-950/40 p-2.5 text-xs"></div>
           </div>
           <button id="btn-submit-announcement" type="submit" class="w-full py-2.5 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white transition shadow-sm">
             Xabarni yuborish
           </button>
-          <div id="ann-tg-progress-wrap" class="hidden rounded-xl border border-violet-200 dark:border-violet-800/70 bg-violet-50/70 dark:bg-violet-950/40 p-3 space-y-2">
-            <div class="flex items-center justify-between text-xs font-bold text-slate-800 dark:text-slate-100">
-              <span id="ann-tg-progress-label">Tayyorlanmoqda...</span>
-              <span id="ann-tg-progress-pct">0%</span>
-            </div>
-            <div class="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-              <div id="ann-tg-progress-bar" class="h-full bg-violet-600 transition-all duration-300" style="width:0%"></div>
-            </div>
-            <div id="ann-tg-progress-counts" class="text-[11px] text-slate-600 dark:text-slate-300"></div>
-          </div>
         </form>
         <div class="lg:col-span-3 space-y-5">
           <!-- Telegram Broadcast Delivery Report (Persistent - Failed/Blocked Focus) -->
@@ -3589,8 +3590,7 @@
 
     const annTgChk = document.getElementById('ann-send-tg');
     const annWorkerWrap = document.getElementById('ann-worker-wrap');
-    const annWorkerInput = document.getElementById('ann-worker-url');
-    annWorkerInput.value = lsGet('studyprep_tg_worker_url') || "";
+
     annTgChk.addEventListener('change', () => {
       annWorkerWrap.classList.toggle('hidden', !annTgChk.checked);
     });
@@ -3602,13 +3602,9 @@
     function renderTgAudienceStats(stats) {
       const box = document.getElementById('ann-audience-box');
       if (!box || !stats) return;
+      const scope = stats.groupCode || stats.facultyCode || 'Barcha foydalanuvchilar';
       box.classList.remove('hidden');
-      box.innerHTML = `
-        <div class="font-bold text-sky-800 dark:text-sky-200">Telegram auditoriya tarkibi:</div>
-        <div class="text-slate-700 dark:text-slate-300">• Jami <b>users</b> bazasida: <b>${stats.usersTotal || 0}</b> ta (Telegram ID bor: <b>${stats.usersWithTg || 0}</b>, brauzerdan kirgan / TG yo'q: <b>${stats.usersWithoutTg || 0}</b>)</div>
-        <div class="text-slate-700 dark:text-slate-300">• Botda <b>/start</b> bosganlar (<code>bot_subscribers</code>): <b>${stats.botSubscribersTotal || 0}</b> ta</div>
-        <div class="font-bold text-emerald-700 dark:text-emerald-300 pt-0.5">→ Xabar yuboriladigan unikal Telegram ID: ${stats.uniqueTargets || 0} ta</div>
-      `;
+      box.innerHTML = `<div class="font-bold text-emerald-700 dark:text-emerald-300">→ ${escapeHtml(scope)}: <b>${stats.reachable || 0}</b> ta Telegram obunachiga yuboriladi</div>`;
     }
 
     function renderTgDeliveryReport() {
@@ -3677,30 +3673,23 @@
 
     document.getElementById('btn-check-tg-audience')?.addEventListener('click', async () => {
       if (!isAdmin()) return;
-      const workerUrl = annWorkerInput.value.trim();
-      if (!workerUrl) {
-        showAdminMsg("Avval Vercel API Broadcast URL ni kiriting.", false);
-        return;
-      }
+      const facultyCode = document.getElementById('ann-tg-faculty')?.value || null;
+      const groupCode = (document.getElementById('ann-tg-group')?.value || '').trim().toUpperCase() || null;
       const b = document.getElementById('btn-check-tg-audience');
       b.disabled = true;
-      b.textContent = "Yuklanmoqda...";
+      b.textContent = '...';
       try {
-        lsSet('studyprep_tg_worker_url', workerUrl);
-        const idToken = await auth.currentUser.getIdToken();
-        const res = await fetch(workerUrl, {
+        const data = await sp2Fetch('/api/broadcast', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + idToken },
-          body: JSON.stringify({ action: 'list' })
+          authRequired: true,
+          body: { action: 'list', facultyCode, groupCode }
         });
-        const data = await res.json();
-        if (!res.ok || !data.ok) throw new Error(data.error || "Tekshirib bo'lmadi");
         renderTgAudienceStats(data.stats);
       } catch (err) {
         showAdminMsg("Xatolik: " + (err.message || err), false);
       } finally {
         b.disabled = false;
-        b.textContent = "Tekshirish";
+        b.textContent = 'Soni';
       }
     });
 
@@ -3741,13 +3730,8 @@
       const body = document.getElementById('ann-body').value.trim();
       const sendSite = document.getElementById('ann-send-site').checked;
       const sendTg = annTgChk.checked;
-      const workerUrl = annWorkerInput.value.trim();
       if (!sendSite && !sendTg) {
         showAdminMsg("Kamida bitta manzilni tanlang (Sayt yoki Telegram bot).", false);
-        return;
-      }
-      if (sendTg && !workerUrl) {
-        showAdminMsg("Telegram botga yuborish uchun Vercel API Broadcast URL ni kiriting.", false);
         return;
       }
       const btn = document.getElementById('btn-submit-announcement');
@@ -3758,116 +3742,36 @@
         if (sendSite) {
           const id = "ann_" + Date.now();
           await setDoc(doc(db, 'announcements', id), {
-            id,
-            title,
-            body,
-            createdAtMs: Date.now(),
-            createdAt: serverTimestamp(),
-            author: state.user.email
+            id, title, body, createdAtMs: Date.now(), createdAt: serverTimestamp(), author: state.user.email
           });
           parts.push("Saytga joylandi");
           await loadAnnouncements(true);
         }
         if (sendTg) {
-          lsSet('studyprep_tg_worker_url', workerUrl);
-          const idToken = await auth.currentUser.getIdToken();
-          const authHeaders = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + idToken
-          };
-          const progWrap = document.getElementById('ann-tg-progress-wrap');
-          const progLabel = document.getElementById('ann-tg-progress-label');
-          const progPct = document.getElementById('ann-tg-progress-pct');
-          const progBar = document.getElementById('ann-tg-progress-bar');
-          const progCounts = document.getElementById('ann-tg-progress-counts');
-          progWrap.classList.remove('hidden');
-          progLabel.textContent = "Obunachilar ro'yxati olinmoqda...";
-          progPct.textContent = "0%";
-          progBar.style.width = "0%";
-          progCounts.textContent = "";
-
-          btn.textContent = "Obunachilar yuklanmoqda...";
-          const listRes = await fetch(workerUrl, {
+          const facultyCode = document.getElementById('ann-tg-faculty')?.value || null;
+          const groupCode = (document.getElementById('ann-tg-group')?.value || '').trim().toUpperCase() || null;
+          const res = await sp2Fetch('/api/broadcast', {
             method: 'POST',
-            headers: authHeaders,
-            body: JSON.stringify({ action: 'list' })
+            authRequired: true,
+            body: { action: 'send', title, text: body, facultyCode, groupCode }
           });
-          const listData = await listRes.json();
-          if (!listRes.ok || !listData.ok) throw new Error(listData.error || "Obunachilar ro'yxatini olib bo'lmadi");
-          renderTgAudienceStats(listData.stats);
-
-          const allRecipients = Array.isArray(listData.recipients)
-            ? listData.recipients
-            : (Array.isArray(listData.chatIds) ? listData.chatIds.map((id) => ({ chatId: String(id), name: 'ID ' + id, username: '' })) : []);
-
-          const BATCH_SIZE = 35;
-          const totalBatches = Math.max(1, Math.ceil(allRecipients.length / BATCH_SIZE));
-          let totalSent = 0, totalBlocked = 0, totalFailed = 0, done = 0;
-          const allResults = [];
-
-          for (let i = 0; i < allRecipients.length; i += BATCH_SIZE) {
-            const batchNum = Math.floor(i / BATCH_SIZE) + 1;
-            const chunk = allRecipients.slice(i, i + BATCH_SIZE);
-            const pctBefore = allRecipients.length ? Math.round((done / allRecipients.length) * 100) : 0;
-            btn.textContent = `Yuborilmoqda: ${done}/${allRecipients.length} (${batchNum}/${totalBatches}-partiya)`;
-            progLabel.textContent = `${batchNum}/${totalBatches}-partiya yuborilmoqda (${done}/${allRecipients.length})`;
-            progPct.textContent = pctBefore + '%';
-            progBar.style.width = pctBefore + '%';
-
-            let bData = null;
-            let lastErr = null;
-            for (let attempt = 0; attempt < 2; attempt++) {
-              try {
-                const bRes = await fetch(workerUrl, {
-                  method: 'POST',
-                  headers: authHeaders,
-                  body: JSON.stringify({ title, body, recipients: chunk })
-                });
-                const parsed = await bRes.json();
-                if (!bRes.ok || !parsed.ok) throw new Error(parsed.error || "Worker yuborish xatoligi");
-                bData = parsed;
-                break;
-              } catch (e) {
-                lastErr = e;
-                if (attempt === 0) await new Promise((r) => setTimeout(r, 1200));
-              }
-            }
-            if (!bData) {
-              for (const r of chunk) {
-                totalFailed++;
-                allResults.push({
-                  chatId: r.chatId,
-                  name: r.name,
-                  username: r.username,
-                  status: 'failed',
-                  reason: 'Partiya xatosi: ' + (lastErr?.message || 'Tarmoq uzildi')
-                });
-              }
-            } else {
-              totalSent += Number(bData.sent || 0);
-              totalBlocked += Number(bData.blocked || 0);
-              totalFailed += Number(bData.failed || 0);
-              if (Array.isArray(bData.results)) {
-                allResults.push(...bData.results);
-              }
-            }
-            done += chunk.length;
-            const pctAfter = allRecipients.length ? Math.round((done / allRecipients.length) * 100) : 100;
-            progPct.textContent = pctAfter + '%';
-            progBar.style.width = pctAfter + '%';
-            progCounts.textContent = `Yetib bordi: ${totalSent} · Bloklangan: ${totalBlocked} · Xato: ${totalFailed}`;
-          }
-
-          progLabel.textContent = `Yakunlandi (${done}/${allRecipients.length})`;
+          const failedList = (res.failed || []).map((f) => ({
+            chatId: f.chatId || '',
+            name: f.name || '',
+            username: f.group || '',
+            status: /blocked|deactivated|not found/i.test(f.reason || '') ? 'blocked' : 'failed',
+            reason: f.reason || ''
+          }));
+          const blockedCount = failedList.filter((x) => x.status === 'blocked').length;
           lastTgDeliveryReport = {
-            total: allRecipients.length,
-            sent: totalSent,
-            blocked: totalBlocked,
-            failed: totalFailed,
-            results: allResults
+            total: res.total || 0,
+            sent: res.sent || 0,
+            blocked: blockedCount,
+            failed: Math.max(0, (res.failedCount || 0) - blockedCount),
+            results: failedList
           };
           renderTgDeliveryReport();
-          parts.push(`Telegram bot: ${totalSent}/${allRecipients.length} yuborildi (blok: ${totalBlocked}, xato: ${totalFailed})`);
+          parts.push(`Telegram bot: ${res.sent || 0}/${res.total || 0} yuborildi`);
         }
         document.getElementById('ann-title').value = "";
         document.getElementById('ann-body').value = "";
