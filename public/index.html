@@ -276,49 +276,9 @@
       <div id="topics-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </section>
 
-    <!-- VIEW 3: LEADERBOARD (StudyPrep 2.0 Weekly-Only & Multi-Cohort) -->
+    <!-- VIEW 3: LEADERBOARD (Podium-First & Category Reward SVGs) -->
     <section id="view-leaderboard" class="hidden fade-in space-y-3.5">
-      <div id="my-rank-card" class="hidden bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl p-4 shadow-sm space-y-2.5">
-        <div class="flex flex-wrap items-center justify-between gap-2.5">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div id="my-rank-badge" class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center text-sm font-extrabold shrink-0">—</div>
-            <div class="min-w-0">
-              <div class="flex items-center gap-2 min-w-0"><div id="my-rank-title" class="text-sm sm:text-base font-extrabold truncate"></div><span id="my-cyber-rank" class="sp-rank-pill bg-white/15 text-violet-100 border border-white/20 shrink-0">Yangi</span></div>
-              <div id="my-rank-sub" class="text-[11px] text-violet-100 truncate"></div>
-            </div>
-          </div>
-          <div class="flex items-center gap-4 text-center shrink-0">
-            <div>
-              <div id="my-rank-weekly" class="text-base sm:text-lg font-extrabold leading-tight">0</div>
-              <div class="text-[10px] text-violet-100">Bu hafta</div>
-            </div>
-            <div>
-              <div id="my-rank-streak" class="text-base sm:text-lg font-extrabold leading-tight">0</div>
-              <div class="text-[10px] text-violet-100">Streak 🔥</div>
-            </div>
-            <div>
-              <div id="my-rank-medals" class="text-sm sm:text-base font-extrabold leading-tight">—</div>
-              <div class="text-[10px] text-violet-100">Medallar</div>
-            </div>
-          </div>
-        </div>
-        <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/15 text-center">
-          <div class="rounded-lg bg-white/10 px-2 py-1">
-            <span id="my-rank-in-group" class="text-xs font-extrabold">—</span>
-            <span class="text-[10px] text-violet-100 ml-1">Guruhda</span>
-          </div>
-          <div class="rounded-lg bg-white/10 px-2 py-1">
-            <span id="my-rank-in-faculty" class="text-xs font-extrabold">—</span>
-            <span class="text-[10px] text-violet-100 ml-1">Yo‘nalishda</span>
-          </div>
-          <div class="rounded-lg bg-white/10 px-2 py-1">
-            <span id="my-rank-in-global" class="text-xs font-extrabold">—</span>
-            <span class="text-[10px] text-violet-100 ml-1">Universitet</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Minimalist Weekly-Only Main Bar -->
+      <!-- Top Controls Bar -->
       <div class="flex flex-wrap items-center justify-between gap-2">
         <div class="inline-flex p-1 rounded-xl glass-card">
           <button type="button" data-lb-tab="users" class="lb-main-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-violet-600 text-white shadow-sm transition">Talabalar</button>
@@ -336,8 +296,32 @@
         <div id="lb-sub-filters" class="inline-flex flex-wrap gap-1.5"></div>
       </div>
 
-      <div id="leaderboard-podium" class="hidden grid grid-cols-3 gap-2.5 sm:gap-4 items-end"></div>
+      <!-- HERO PODIUM AT THE TOP (with large Category-Specific Reward SVGs!) -->
+      <div id="leaderboard-podium" class="hidden grid grid-cols-3 gap-2.5 sm:gap-4 items-end pt-1"></div>
 
+      <!-- Compact Personal Rank Strip (between Podium & List) -->
+      <div id="my-rank-card" class="hidden bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl px-4 py-3 shadow-sm flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div id="my-rank-badge" class="w-9 h-9 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center text-xs font-extrabold shrink-0">—</div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 min-w-0">
+              <div id="my-rank-title" class="text-sm font-extrabold truncate"></div>
+              <span id="my-cyber-rank" class="sp-rank-pill bg-white/15 text-violet-100 border border-white/20 shrink-0">Yangi</span>
+            </div>
+            <div id="my-rank-sub" class="text-[11px] text-violet-100 truncate"></div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 sm:gap-3 flex-wrap text-xs">
+          <span class="px-2 py-1 rounded-lg bg-white/15 font-extrabold"><span id="my-rank-weekly">0</span> ball</span>
+          <span class="px-2 py-1 rounded-lg bg-white/15 font-extrabold">🔥 <span id="my-rank-streak">0</span></span>
+          <span class="hidden sm:inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-[11px] font-bold">Guruh <b id="my-rank-in-group">—</b></span>
+          <span class="hidden sm:inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-[11px] font-bold">Yo‘nalish <b id="my-rank-in-faculty">—</b></span>
+          <span class="hidden sm:inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-[11px] font-bold">Uni <b id="my-rank-in-global">—</b></span>
+          <span id="my-rank-medals" class="inline-flex items-center gap-1"></span>
+        </div>
+      </div>
+
+      <!-- Ranked List -->
       <div id="leaderboard-list" class="glass-card rounded-2xl divide-y divide-slate-200/60 dark:divide-slate-800/70 overflow-hidden"></div>
     </section>
 
@@ -1426,6 +1410,16 @@
         state.timerInterval = null;
       }
       state.timerDeadlineAt = 0;
+      // Joriy sahifani URL hash'da saqlash (refreshda shu sahifada qolishi uchun)
+      if (state.user) {
+        let targetHash = '#subjects';
+        if (state.view === 'leaderboard') targetHash = '#leaderboard';
+        else if (state.view === 'admin') targetHash = '#admin';
+        else if (state.view === 'topics' && state.activeSubjectId) targetHash = '#topics/' + encodeURIComponent(state.activeSubjectId);
+        if (state.view !== 'quiz' && window.location.hash !== targetHash) {
+          try { history.replaceState(null, '', targetHash); } catch (_) {}
+        }
+      }
       updateFloatingTimerVisibility();
     }
 
@@ -2156,7 +2150,8 @@
         renderTopics();
       } else if (state.view === 'leaderboard') {
         document.getElementById('view-leaderboard').classList.remove('hidden');
-        renderLeaderboard();
+        if (!sp2.rankings && !state.leaderboardLoading) loadLeaderboardV2(false);
+        else renderLeaderboardV2();
       } else if (state.view === 'quiz') {
         document.getElementById('view-quiz').classList.remove('hidden');
         renderQuiz();
@@ -4239,7 +4234,7 @@
         document.getElementById('quiz-start-modal').classList.add('hidden');
         state.view = 'quiz';
         renderAll();
-        startTimer(sprintDeadline);
+        startTimerFromDeadline(sprintDeadline);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } finally {
         btnEl.disabled = false;
@@ -4519,38 +4514,64 @@
         return r.code;
       };
 
-      // Top-3 Podium (standart 3 ustunli podium)
+      // Kategoriya bo'yicha aniq SVG mukofot ikonkasini tanlash (oddiy emoji o'rniga!)
+      const tierByIdx = ['gold', 'silver', 'bronze'];
+      const getCategoryRewardSvg = (idx, size = 34) => {
+        const tier = tierByIdx[idx] || 'bronze';
+        if (!R) return ['🥇', '🥈', '🥉'][idx] || `#${idx + 1}`;
+        if (sp2.lbTab === 'groups') {
+          return idx === 0 ? R.svgGroupCup(size) : `<span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold ${idx === 1 ? 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200' : 'bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300'}">#${idx + 1}</span>`;
+        }
+        if (sp2.lbTab === 'faculties') {
+          return idx === 0 ? R.svgFacultyCup(size) : `<span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-extrabold ${idx === 1 ? 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200' : 'bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300'}">#${idx + 1}</span>`;
+        }
+        if (sp2.lbSub === 'group') return R.svgStar(tier, size);
+        if (sp2.lbSub === 'faculty') return R.svgMedal(tier, size);
+        return R.svgCrown(tier, size);
+      };
+
+      // HERO PODIUM: kamida 1 ta faol natija bo'lsa darhol kategoriya mukofoti (Yulduz / Medal / Toj / Kubok) bilan chiqadi!
       const positiveRows = rows.filter((r) => getScoreVal(r) > 0);
-      if (positiveRows.length >= 2) {
+      if (positiveRows.length >= 1) {
         podiumEl.classList.remove('hidden');
-        podiumEl.className = 'grid grid-cols-3 gap-2.5 sm:gap-4 items-end';
-        const orderIdx = positiveRows.length >= 3 ? [1, 0, 2] : [1, 0];
-        const styles = {
-          0: { h: 'pt-5 pb-3.5 border-amber-400/80 dark:border-amber-600/80', medal: '🥇' },
-          1: { h: 'pt-3.5 pb-3 border-slate-300/70 dark:border-slate-700', medal: '🥈' },
-          2: { h: 'pt-3 pb-2.5 border-orange-300/80 dark:border-orange-800/80', medal: '🥉' }
-        };
-        podiumEl.innerHTML = orderIdx.map((idx) => {
-          const r = positiveRows[idx];
-          const st = styles[idx];
-          const avHtml = renderAvatar(r, 'w-11 h-11 text-sm mx-auto');
+        podiumEl.className = 'grid grid-cols-3 gap-2.5 sm:gap-4 items-end pt-3';
+        const slots = [
+          { idx: 1, h: 'pt-4 pb-3 border-slate-300/70 dark:border-slate-700', size: 44, glow: 'drop-shadow(0 6px 14px rgba(148,163,184,0.45))', emptyLbl: '2-o‘rin bo‘sh' },
+          { idx: 0, h: 'pt-5 pb-4 border-amber-400/80 dark:border-amber-500/80 shadow-lg shadow-amber-500/15', size: 58, glow: 'drop-shadow(0 8px 18px rgba(245,196,81,0.55))', emptyLbl: '1-o‘rin' },
+          { idx: 2, h: 'pt-3.5 pb-2.5 border-orange-300/70 dark:border-orange-800/70', size: 40, glow: 'drop-shadow(0 6px 14px rgba(234,140,85,0.45))', emptyLbl: '3-o‘rin bo‘sh' }
+        ];
+        podiumEl.innerHTML = slots.map((sl) => {
+          const r = positiveRows[sl.idx];
+          const rewardSvg = getCategoryRewardSvg(sl.idx, sl.size);
+          if (!r) {
+            return `
+              <div class="flex flex-col items-center">
+                <div class="mb-2 grayscale opacity-40">${rewardSvg}</div>
+                <div class="w-full glass-card rounded-2xl border border-dashed border-slate-300/50 dark:border-slate-800 ${sl.h} px-2.5 text-center opacity-55">
+                  <div class="w-10 h-10 rounded-full border border-dashed border-slate-400/50 mx-auto flex items-center justify-center text-xs font-bold text-slate-400">#${sl.idx + 1}</div>
+                  <div class="text-[11px] font-semibold text-slate-400 mt-2">${sl.emptyLbl}</div>
+                </div>
+              </div>`;
+          }
+          const avHtml = renderAvatar(r, sl.idx === 0 ? 'w-12 h-12 text-sm mx-auto' : 'w-10 h-10 text-xs mx-auto');
           const subTag = sp2.lbTab === 'users' ? (r.group_code || '') : `${r.active_users || 0} faol`;
           return `
-            <div class="glass-card rounded-2xl border ${st.h} px-2.5 text-center">
-              <div class="text-xl mb-1.5">${st.medal}</div>
-              ${avHtml}
-              <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate mt-2">${escapeHtml(getName(r))}</div>
-              <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(subTag)}</div>
-              <div class="text-xs sm:text-sm font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">${getScoreVal(r)} ball</div>
+            <div class="flex flex-col items-center">
+              <div class="mb-2 ${sl.idx === 0 ? 'sp-trophy-float' : ''}" style="filter:${sl.glow}">${rewardSvg}</div>
+              <div class="w-full glass-card rounded-2xl border ${sl.h} px-2.5 text-center">
+                <div class="flex justify-center">${avHtml}</div>
+                <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate mt-2">${escapeHtml(getName(r))}</div>
+                <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">${escapeHtml(subTag)}</div>
+                <div class="text-xs sm:text-sm font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">${getScoreVal(r)} ball</div>
+              </div>
             </div>`;
         }).join('');
       } else {
         podiumEl.classList.add('hidden');
       }
 
-      // Ro'yxat (avvalgi chiroyli avatar + ixcham 200px yashil progress bar + o'ngda yashil ball!)
+      // Ro'yxat (kategoriya SVG nishoni + avatar + ixcham yashil progress bar + o'ngda yashil ball)
       const maxVal = Math.max(1, ...rows.map(getScoreVal));
-      const rankMedals = ['🥇', '🥈', '🥉'];
       listEl.innerHTML = rows.map((r, i) => {
         const val = getScoreVal(r);
         const pct = Math.min(100, Math.round((val / maxVal) * 100));
@@ -4558,7 +4579,7 @@
           || (sp2.lbTab === 'groups' && sp2.profile?.group_code === r.code)
           || (sp2.lbTab === 'faculties' && (`${sp2.profile?.faculty_code || ''}${sp2.profile?.cohort_year || 26}` === r.code));
         const rankDisplay = (i < 3 && val > 0)
-          ? `<span class="text-lg leading-none">${rankMedals[i]}</span>`
+          ? `<span class="inline-flex items-center justify-center">${getCategoryRewardSvg(i, 21)}</span>`
           : `<span class="text-xs font-extrabold text-slate-500 dark:text-slate-400">#${i + 1}</span>`;
         const avHtml = renderAvatar(r, 'w-9 h-9 text-xs');
         const medalsStr = sp2.lbTab === 'users' ? formatMedals(r) : '';
@@ -4736,6 +4757,23 @@
     applyTheme(lsGet('studyprep_theme') || 'light');
     hydrateFromLocalCache();
     updateDailyBarUI();
+
+    // Sahifa refresh bo'lganda avvalgi bo'limni URL hash'dan tiklash
+    (function restoreViewFromHash() {
+      const h = (window.location.hash || '').replace(/^#/, '');
+      if (h === 'leaderboard') {
+        state.view = 'leaderboard';
+      } else if (h === 'admin') {
+        state.view = 'admin';
+      } else if (h.startsWith('topics/')) {
+        const sid = decodeURIComponent(h.slice(7));
+        if (sid) {
+          state.activeSubjectId = sid;
+          state.view = 'topics';
+        }
+      }
+    })();
+
     loadCatalogMeta();
     subscribeAnnouncements();
     onAuthStateChanged(auth, async (fbUser) => {
