@@ -326,26 +326,26 @@
     </section>
 
     <!-- Cup Rules Popover Modal -->
-    <div id="cup-rules-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4">
+    <div id="cup-rules-modal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-md flex items-center justify-center p-4">
       <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl max-w-md w-full p-5 space-y-3 border border-slate-200 dark:border-slate-700 shadow-2xl">
         <div class="flex items-center justify-between">
-          <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">🏆 Haftalik Kubok qoidalari</h3>
+          <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">🏆 Qoidalar</h3>
           <button type="button" id="btn-close-cup-rules" class="w-7 h-7 rounded-lg glass-sub text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs font-bold">✕</button>
         </div>
-        <div class="space-y-2.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-          <div class="p-3 rounded-xl bg-slate-100/80 dark:bg-slate-800/70 space-y-1.5">
-            <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">Reyting qanday hisoblanadi?</div>
-            <p>• <b>Talabalar:</b> har bir to‘g‘ri javob = <b>+1 ball</b> (joriy hafta yig‘indisi).</p>
-            <p>• <b>Guruhlar &amp; Yo‘nalishlar:</b> kamida <b>15 ball</b> to‘plagan faol talabalarning <b>o‘rtacha balli</b> (harakatsiz akkauntlar o‘rtachani tushirmaydi).</p>
-            <p>• <b>Haftalik tsikl:</b> har <b>dushanba 00:00</b> da ballar 0 dan boshlanadi — yutilgan mukofotlar, <b>Cyber Unvon</b> va <b>🔥 Streak</b> abadiy saqlanadi.</p>
+        <div class="space-y-2 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          <div class="p-2.5 rounded-xl bg-slate-100/80 dark:bg-slate-800/70 space-y-1">
+            <p>• <b>Ball:</b> 1 to‘g‘ri javob = <b>1 ball</b>. Har <b>dushanba 00:00</b> da 0 dan boshlanadi.</p>
+            <p>• <b>Guruh &amp; Yo‘nalish:</b> kamida <b>15 ball</b> olgan faol talabalar o‘rtachasi (kubok uchun min. 3 faol).</p>
+            <p>• <b>🔥 Streak:</b> har kuni kamida 1 sessiya ishlasangiz yonadi; 1 kun o‘tkazib yuborilsa 0 ga tushadi.</p>
           </div>
-          <div class="space-y-1.5">
-            <div class="text-[11px] font-extrabold uppercase tracking-wider text-amber-500">Haftalik mukofotlar (yakshanba 23:59)</div>
-            <p><b class="text-amber-500">Universitet Top-3:</b> <b>Imperator Toji</b> + 7 kunlik <b>Oltin / Kumush / Bronza Avatar Halqasi</b>.</p>
-            <p><b class="text-violet-500 dark:text-violet-400">Yo‘nalish Top-3 (CEN26, CYB26...):</b> <b>Metall Lenta-Medal</b> (Universitet Top-3 g‘olibi bu yerda ham o‘z Toji bilan ko‘rinadi).</p>
-            <p><b class="text-sky-500 dark:text-sky-400">Guruh Top-3:</b> har guruhning eng faol 3 talabasiga <b>Kristall Yulduz</b>.</p>
-            <p><b class="text-emerald-600 dark:text-emerald-400">Hafta Guruhi &amp; Yo‘nalishi (#1, min. 3 faol):</b> <b>Zumrad Guruh Kubogi</b> va <b>Binafsha Yo‘nalish Kubogi</b>.</p>
+          <div class="p-2.5 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-800/40 space-y-1">
+            <div class="text-[11px] font-extrabold text-amber-600 dark:text-amber-400">Haftalik mukofotlar (yakshanba 23:59):</div>
+            <p>• <b>Guruh Top-3</b> → Kristall Yulduz</p>
+            <p>• <b>Yo‘nalish Top-3</b> → Metall Medal (1 / 2 / 3)</p>
+            <p>• <b>Universitet Top-3</b> → Imperator Toji + 7 kunlik Avatar Halqasi</p>
+            <p>• <b>Hafta Guruhi &amp; Yo‘nalishi (#1)</b> → Zumrad / Binafsha Kubok</p>
           </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400">Yutilgan mukofotlar profilda abadiy saqlanadi va <b>Cyber Unvon</b>ingizni ko‘taradi.</p>
         </div>
       </div>
     </div>
@@ -4463,7 +4463,10 @@
         document.getElementById('my-rank-title').textContent = state.user?.name || 'Talaba';
         document.getElementById('my-rank-sub').textContent = me.group || '';
         document.getElementById('my-rank-weekly').textContent = me.weeklyPoints || 0;
-        document.getElementById('my-rank-streak').textContent = me.streakDays || 0;
+        const uzDay = (off = 0) => new Date(Date.now() + 5 * 3600 * 1000 + off * 86400 * 1000).toISOString().slice(0, 10);
+        const ld = sp2.profile?.last_active_day || '';
+        const liveSt = (!ld || ld === uzDay(0) || ld === uzDay(-1)) ? (me.streakDays || 0) : 0;
+        document.getElementById('my-rank-streak').textContent = liveSt;
         document.getElementById('my-rank-medals').innerHTML = formatMedals(me.medals) || '—';
         const rankPill = document.getElementById('my-cyber-rank');
         if (rankPill && R) {
@@ -4740,6 +4743,17 @@
       sp2Fetch('/api/profile', { method: 'POST', authRequired: true, body: { ackReward: true } }).catch(() => {});
     });
 
+
+    
+    document.getElementById('btn-cup-rules')?.addEventListener('click', () => {
+      document.getElementById('cup-rules-modal')?.classList.remove('hidden');
+    });
+    document.getElementById('btn-close-cup-rules')?.addEventListener('click', () => {
+      document.getElementById('cup-rules-modal')?.classList.add('hidden');
+    });
+    document.getElementById('cup-rules-modal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'cup-rules-modal') e.target.classList.add('hidden');
+    });
 
     document.getElementById('btn-open-hof')?.addEventListener('click', () => {
       renderWeeklyCupHof();
